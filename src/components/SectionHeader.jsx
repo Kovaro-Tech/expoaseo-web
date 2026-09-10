@@ -1,11 +1,11 @@
 import './SectionHeader.css'
 
-export default function SectionHeader({ eyebrow, title, text, align = 'left' }) {
+export default function SectionHeader({ label, title, text }) {
   return (
-    <header className={`section-header section-header--${align}`}>
-      {eyebrow && <span className="eyebrow">{eyebrow}</span>}
-      <h2 className="section-header__title">{title}</h2>
-      {text && <p className="lead section-header__text">{text}</p>}
+    <header className="sec-head">
+      {label && <p className="label">{label}</p>}
+      <h2 className="sec-head__title">{title}</h2>
+      {text && <p className="lead sec-head__text">{text}</p>}
     </header>
   )
 }

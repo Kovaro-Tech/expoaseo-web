@@ -4,9 +4,11 @@
  * Datos proporcionados directamente por la clienta.
  * Los precios son referenciales y así se comunican en la web.
  *
- * Estructura pensada para migrar a una API más adelante:
- * todos los campos son serializables (los iconos son claves de string,
- * ver src/lib/icons.js).
+ * Estructura pensada para migrar a una API más adelante: todos los campos son
+ * serializables.
+ *
+ * `badge` marca el servicio destacado de cada categoría: es el que se presenta
+ * como bloque principal en la sección de servicios.
  */
 
 export const serviceCategories = [
@@ -14,7 +16,6 @@ export const serviceCategories = [
     id: 'hogar',
     label: 'Hogares',
     shortLabel: 'Hogar',
-    icon: 'Home',
     title: 'Limpieza para hogares',
     description:
       'Casas y departamentos: mantenimiento periódico, limpiezas profundas y entrega de obra.',
@@ -63,7 +64,6 @@ export const serviceCategories = [
     id: 'institucional',
     label: 'Empresas e instituciones',
     shortLabel: 'Empresas',
-    icon: 'Building2',
     title: 'Limpieza institucional',
     description:
       'Oficinas, agencias y áreas de atención al público con estándares constantes de higiene.',
@@ -101,7 +101,6 @@ export const serviceCategories = [
     id: 'tapiceria',
     label: 'Muebles y tapicería',
     shortLabel: 'Muebles',
-    icon: 'Sofa',
     title: 'Limpieza y sanitización de tapicería',
     description:
       'Lavado y desinfección de muebles a domicilio, con secado y sin dañar la tela.',

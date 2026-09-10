@@ -1,21 +1,33 @@
+.faq__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.faq__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .faq__list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 780px;
-  margin-inline: auto;
+  border-top: 1px solid var(--line);
 }
 
-.faq__help {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  margin-top: 28px;
-  text-align: center;
-}
+@media (min-width: 900px) {
+  .faq__inner {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 80px;
+  }
 
-.faq__help p {
-  font-size: 0.95rem;
-  color: var(--ink-500);
+  .faq__intro {
+    flex: 0 1 32%;
+    position: sticky;
+    top: calc(var(--nav-h) + 48px);
+  }
+
+  .faq__list {
+    flex: 1 1 60%;
+  }
 }

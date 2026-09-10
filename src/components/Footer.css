@@ -20,11 +20,7 @@
 
 .footer__tagline {
   font-size: 0.93rem;
-  max-width: 38ch;
-}
-
-.footer__cta {
-  margin-top: 2px;
+  max-width: 34ch;
 }
 
 .footer__col {
@@ -78,7 +74,7 @@
   align-items: center;
   gap: 5px;
   padding: 7px 13px;
-  border-radius: var(--r-full);
+  border-radius: var(--r-sm);
   font-size: 0.84rem;
   font-weight: 600;
   color: #fff;

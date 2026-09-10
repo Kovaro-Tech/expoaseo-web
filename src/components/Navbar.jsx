@@ -7,7 +7,6 @@ import './Navbar.css'
 
 const navLinks = [
   { href: '#servicios', label: 'Servicios' },
-  { href: '#como-funciona', label: 'Cómo funciona' },
   { href: '#por-que', label: 'Por qué EXPOASEO' },
   { href: '#faq', label: 'Preguntas' },
 ]
@@ -57,6 +56,17 @@ export default function Navbar() {
             Solicitar limpieza
           </a>
 
+          {/* CTA persistente en móvil: sustituye al antiguo botón flotante. */}
+          <a
+            className="navbar__cta-mini"
+            href={buildWhatsAppUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Solicitar limpieza por WhatsApp"
+          >
+            <WhatsAppIcon size={20} />
+          </a>
+
           <button
             type="button"
             className="navbar__toggle"
@@ -70,11 +80,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div
-        id="menu-movil"
-        className={`navbar__mobile${menuOpen ? ' navbar__mobile--open' : ''}`}
-        hidden={!menuOpen}
-      >
+      <div id="menu-movil" className="navbar__mobile" hidden={!menuOpen}>
         <nav className="navbar__mobile-links" aria-label="Navegación móvil">
           {navLinks.map((link) => (
             <a
@@ -87,16 +93,6 @@ export default function Navbar() {
             </a>
           ))}
         </nav>
-        <a
-          className="btn btn--primary btn--block"
-          href={buildWhatsAppUrl()}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => setMenuOpen(false)}
-        >
-          <WhatsAppIcon size={20} />
-          Solicitar limpieza
-        </a>
       </div>
     </header>
   )

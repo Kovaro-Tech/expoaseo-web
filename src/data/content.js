@@ -1,135 +1,91 @@
 /**
- * Textos de secciones (confianza, pasos, beneficios, FAQ).
- * Separado de services.js para que la clienta pueda ajustar copy sin tocar precios.
+ * Textos de secciones. Separado de services.js para que se pueda ajustar copy
+ * sin tocar precios.
  *
- * ► Evitamos cifras que no podemos comprobar (años, número de clientes).
- *   Si la clienta confirma datos duros, se agregan aquí.
+ * ► No usamos cifras que no podamos comprobar (años, número de clientes).
  */
 
-export const trustHighlights = [
+/** Índice editorial del bloque manifiesto. Cada fila abre su categoría. */
+export const serviceIndex = [
   {
-    id: 'personal',
-    icon: 'Users',
-    title: 'Personal capacitado',
-    text: 'Equipo propio, supervisado y con protocolos de trabajo.',
+    id: 'hogar',
+    number: '01',
+    title: 'Tu hogar',
+    text: 'Mantenimiento, limpieza profunda y entrega de obra.',
+  },
+  {
+    id: 'institucional',
+    number: '02',
+    title: 'Tu negocio',
+    text: 'Oficinas, agencias y puntos de atención al público.',
+  },
+  {
+    id: 'tapiceria',
+    number: '03',
+    title: 'Tus muebles',
+    text: 'Lavado y sanitización de tapicería a domicilio.',
+  },
+]
+
+/** Atributos de la sección "Por qué EXPOASEO". Máximo cuatro. */
+export const pillars = [
+  {
+    id: 'equipo',
+    title: 'Equipo capacitado',
+    text: 'Personal propio, supervisado y con protocolos definidos para cada tipo de espacio.',
   },
   {
     id: 'insumos',
-    icon: 'SprayCan',
-    title: 'Insumos incluidos',
-    text: 'Productos y equipos profesionales, sin costo adicional.',
+    title: 'Insumos adecuados',
+    text: 'Llegamos con productos y equipos elegidos según la superficie y el tipo de tela.',
   },
   {
-    id: 'precios',
-    icon: 'Receipt',
-    title: 'Precios claros',
-    text: 'Rangos publicados y valor confirmado antes de empezar.',
+    id: 'horarios',
+    title: 'Horarios coordinados',
+    text: 'Jornadas de 4 u 8 horas acordadas contigo antes de que el equipo salga.',
   },
   {
-    id: 'respuesta',
-    icon: 'MessageCircle',
-    title: 'Respuesta rápida',
-    text: 'Cotizamos por WhatsApp, sin formularios eternos.',
+    id: 'alcance',
+    title: 'Hogares y empresas',
+    text: 'Desde un juego de sala hasta el mantenimiento mensual de varios puntos de atención.',
   },
 ]
 
-/** Chips cortos que acompañan al hero. */
-export const heroBadges = [
-  'Hogares y departamentos',
-  'Oficinas e instituciones',
-  'Muebles y tapicería',
-]
-
-export const steps = [
-  {
-    id: 'paso-1',
-    number: '01',
-    icon: 'ClipboardList',
-    title: 'Elige el servicio',
-    text: 'Revisa las opciones para hogar, empresa o tapicería y su precio referencial.',
-  },
-  {
-    id: 'paso-2',
-    number: '02',
-    icon: 'MessageCircle',
-    title: 'Cuéntanos qué necesitas',
-    text: 'Escríbenos por WhatsApp con el tamaño del espacio y la fecha que tienes en mente.',
-  },
-  {
-    id: 'paso-3',
-    number: '03',
-    icon: 'CalendarCheck',
-    title: 'Coordinamos tu limpieza',
-    text: 'Confirmamos valor final, horario y enviamos al equipo con todo lo necesario.',
-  },
-]
-
-export const benefits = [
-  {
-    id: 'empresa-formal',
-    icon: 'BadgeCheck',
-    title: 'Empresa legalmente constituida',
-    text: 'EXPOASEO SERVICIOS GENERALES CIA LTDA: contrato, respaldo y facturación para hogares y empresas.',
-  },
-  {
-    id: 'protocolos',
-    icon: 'ShieldCheck',
-    title: 'Protocolos de higiene reales',
-    text: 'Limpieza y desinfección con productos adecuados para cada superficie y tipo de tela.',
-  },
-  {
-    id: 'tiempo',
-    icon: 'Timer',
-    title: 'Cumplimos el horario acordado',
-    text: 'Jornadas definidas de 4 u 8 horas: sabes exactamente cuánto dura el servicio.',
-  },
-  {
-    id: 'escala',
-    icon: 'Building2',
-    title: 'Del departamento a la red de agencias',
-    text: 'Mismo estándar para una sala de estar o para el mantenimiento mensual de varios puntos.',
-  },
-]
-
-/**
- * FAQ. Las respuestas marcadas con ► deben validarse con la clienta.
- */
 export const faqs = [
   {
     id: 'faq-solicitar',
     question: '¿Cómo solicito una limpieza?',
     answer:
-      'Elige el servicio que necesitas, toca el botón de WhatsApp y llega un mensaje ya escrito a nuestro chat. Ahí confirmamos detalles, valor y fecha.',
+      'Eliges el servicio y nos escribes por WhatsApp. Ahí confirmamos el valor, la fecha y el horario.',
   },
   {
     id: 'faq-precios',
     question: '¿Los precios publicados son fijos?',
     answer:
-      'Son rangos referenciales. El valor final depende del tamaño del espacio, su estado y la frecuencia del servicio; siempre te lo confirmamos antes de agendar.',
+      'Son rangos referenciales. El valor final depende del tamaño del espacio, su estado y la frecuencia, y te lo confirmamos antes de agendar.',
   },
   {
     id: 'faq-insumos',
-    question: '¿Debo poner yo los productos de limpieza?',
-    answer:
-      'No. Nuestro equipo llega con insumos y equipos profesionales incluidos en el precio.',
+    question: '¿Debo proporcionar los productos?',
+    answer: 'No. Los insumos y equipos van incluidos en el precio del servicio.',
   },
   {
     id: 'faq-muebles',
     question: '¿La limpieza de muebles es a domicilio?',
     answer:
-      'Sí. Lavamos y desinfectamos sillones, salas y sillas de comedor en tu propio espacio, sin necesidad de trasladar los muebles.',
+      'Sí. Lavamos y desinfectamos sillones, salas y sillas de comedor en tu espacio, sin trasladar los muebles.',
   },
   {
     id: 'faq-empresas',
     question: '¿Atienden empresas e instituciones?',
     answer:
-      'Sí. Trabajamos limpieza institucional por metraje y mantenimiento mensual de cajeros o fichas SOS, con planes continuos.',
+      'Sí. Trabajamos limpieza institucional por metraje y mantenimiento mensual de cajeros o fichas SOS.',
   },
   {
     id: 'faq-anticipacion',
-    question: '¿Con cuánta anticipación debo agendar?',
+    question: '¿Con cuánta anticipación debo coordinar?',
     // ► Confirmar con la clienta el tiempo real de respuesta.
     answer:
-      'Mientras antes nos escribas, más opciones de horario tendrás. Escríbenos por WhatsApp y te indicamos la disponibilidad más cercana.',
+      'Mientras antes escribas, más horarios disponibles tendrás. Consúltanos y te indicamos la fecha más cercana.',
   },
 ]

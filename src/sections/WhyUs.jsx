@@ -1,32 +1,32 @@
-import SectionHeader from '../components/SectionHeader'
-import { benefits } from '../data/content'
-import { getIcon } from '../lib/icons'
+import { pillars } from '../data/content'
 import './WhyUs.css'
 
 export default function WhyUs() {
   return (
-    <section className="section why" id="por-que">
+    <section className="section section--alt why" id="por-que">
       <div className="container why__inner">
-        <SectionHeader
-          eyebrow="Por qué EXPOASEO"
-          title="Una empresa, no un servicio improvisado"
-          text="Detrás de cada limpieza hay una compañía constituida, con equipo propio y procesos definidos."
-        />
+        <div className="why__intro">
+          <p className="label">Por qué EXPOASEO</p>
+          <h2 className="why__title">
+            La limpieza también puede sentirse profesional.
+          </h2>
+          <p className="lead why__lead">
+            Equipo, procesos y atención pensados para que sepas quién entra a tu
+            espacio y qué puedes esperar del servicio.
+          </p>
+        </div>
 
-        <ul className="why__grid">
-          {benefits.map((benefit) => {
-            const Icon = getIcon(benefit.icon)
-            return (
-              <li className="why__item" key={benefit.id}>
-                <span className="why__icon">
-                  <Icon size={21} strokeWidth={1.9} />
-                </span>
-                <h3 className="why__title">{benefit.title}</h3>
-                <p className="why__text">{benefit.text}</p>
-              </li>
-            )
-          })}
-        </ul>
+        <ol className="why__list">
+          {pillars.map((pillar, index) => (
+            <li className="why__item" key={pillar.id}>
+              <span className="why__num">{String(index + 1).padStart(2, '0')}</span>
+              <div className="why__body">
+                <h3 className="why__name">{pillar.title}</h3>
+                <p className="why__text">{pillar.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   )

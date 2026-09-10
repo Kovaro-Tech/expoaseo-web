@@ -1,104 +1,41 @@
-.request__panel {
-  position: relative;
-  overflow: hidden;
+.request {
+  padding-block: 72px;
+  background: var(--surface-dark);
+}
+
+.request__inner {
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  padding: 30px 22px;
-  border-radius: var(--r-xl);
-  background:
-    radial-gradient(90% 70% at 100% 0%, rgba(var(--brand-rgb), 0.55), transparent 62%),
-    linear-gradient(155deg, var(--ink-900), var(--brand-800));
-}
-
-.request__panel::after {
-  content: '';
-  position: absolute;
-  left: -80px;
-  bottom: -120px;
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.28), transparent 70%);
-  pointer-events: none;
-}
-
-.request__copy {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.request__eyebrow {
-  color: var(--brand-200);
+  gap: 34px;
 }
 
 .request__title {
   color: #fff;
-  font-size: clamp(1.55rem, 4.6vw, 2.3rem);
-}
-
-.request__text {
-  color: rgba(255, 255, 255, 0.76);
-  font-size: 1rem;
-  max-width: 46ch;
-}
-
-.request__list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 4px;
-}
-
-.request__list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 0.93rem;
-  color: rgba(255, 255, 255, 0.88);
-}
-
-.request__check {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  flex: none;
-  margin-top: 2px;
-  border-radius: var(--r-full);
-  color: var(--ink-900);
-  background: var(--accent-500);
-}
-
-.request__form {
-  position: relative;
-  z-index: 1;
+  max-width: 12ch;
 }
 
 @media (min-width: 768px) {
-  .request__panel {
-    padding: 46px 40px;
+  .request {
+    padding-block: 110px;
   }
 }
 
-@media (min-width: 960px) {
-  .request__panel {
+@media (min-width: 900px) {
+  .request__inner {
     flex-direction: row;
-    align-items: center;
-    gap: 56px;
-    padding: 56px 52px;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 80px;
   }
 
-  .request__copy {
-    flex: 1 1 48%;
+  .request__title {
+    flex: 0 1 34%;
+    position: sticky;
+    top: calc(var(--nav-h) + 40px);
   }
 
-  .request__form {
+  .request__inner .selector {
     flex: 1 1 52%;
-    max-width: 480px;
+    max-width: 560px;
   }
 }

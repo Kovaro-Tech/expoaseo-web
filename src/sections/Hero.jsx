@@ -1,31 +1,32 @@
-import { ArrowDown, ShieldCheck, Sparkles, Timer } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import WhatsAppIcon from '../components/WhatsAppIcon'
 import { businessMedia } from '../config/business'
-import { heroBadges } from '../data/content'
+import { getCategoryById } from '../data/services'
 import { buildWhatsAppUrl } from '../lib/whatsapp'
 import './Hero.css'
+
+/* El servicio que se muestra en la ficha sale del catálogo real, para que
+   nunca quede desincronizado con los precios. */
+const home = getCategoryById('hogar')
+const featured = home.services.find((service) => service.badge) ?? home.services[0]
+const duration = featured.meta?.find((item) => item.label === 'Duración')?.value
 
 export default function Hero() {
   return (
     <section className="hero" id="inicio">
-      <div className="hero__glow" aria-hidden="true" />
-
       <div className="container hero__inner">
-        <div className="hero__content">
-          <span className="hero__eyebrow">
-            <Sparkles size={15} strokeWidth={2.4} />
-            Servicios profesionales de limpieza
-          </span>
+        <div className="hero__copy">
+          <p className="label">Servicios profesionales de limpieza</p>
 
           <h1 className="hero__title">
             Tu espacio impecable.
             <br />
-            <span className="hero__title-accent">Tu tiempo, para ti.</span>
+            <span>Tu tiempo, para ti.</span>
           </h1>
 
-          <p className="lead hero__text">
-            Limpieza profesional para hogares, oficinas e instituciones. Elige el
-            servicio, escríbenos por WhatsApp y nosotros nos encargamos del resto.
+          <p className="lead hero__lead">
+            Limpieza para hogares, oficinas e instituciones. Tú nos dices qué
+            necesitas; nosotros te decimos cuánto, cuándo y cómo.
           </p>
 
           <div className="hero__actions">
@@ -38,57 +39,40 @@ export default function Hero() {
               <WhatsAppIcon size={20} />
               Solicitar limpieza
             </a>
-            <a className="btn btn--ghost" href="#servicios">
+            <a className="link-arrow" href="#servicios">
               Ver servicios
-              <ArrowDown size={18} />
+              <ArrowRight size={17} />
             </a>
           </div>
-
-          <ul className="hero__badges">
-            {heroBadges.map((badge) => (
-              <li key={badge} className="hero__badge">
-                {badge}
-              </li>
-            ))}
-          </ul>
         </div>
 
-        {/* Composición visual. Si se carga businessMedia.heroImage, se usa la foto real. */}
-        <div className="hero__visual" aria-hidden="true">
-          {businessMedia.heroImage ? (
-            <img className="hero__photo" src={businessMedia.heroImage} alt="" />
-          ) : (
-            <div className="hero__mock">
-              <div className="hero__mock-card">
-                <span className="hero__mock-label">Servicio solicitado</span>
-                <strong className="hero__mock-title">Jornada Completa para Hogares</strong>
-                <div className="hero__mock-row">
-                  <span>
-                    <Timer size={15} /> 8 horas
-                  </span>
-                  <span className="hero__mock-price">$45 – $60</span>
-                </div>
-                <div className="hero__mock-bar">
-                  <span />
-                </div>
-                <div className="hero__mock-status">
-                  <WhatsAppIcon size={16} />
-                  Coordinado por WhatsApp
-                </div>
-              </div>
+        <div className="hero__visual">
+          {/* Marco de imagen: usa la foto real cuando exista businessMedia.heroImage. */}
+          <div className="hero__frame">
+            {businessMedia.heroImage && (
+              <img className="hero__photo" src={businessMedia.heroImage} alt="" />
+            )}
+          </div>
 
-              <div className="hero__chip hero__chip--one">
-                <ShieldCheck size={17} />
-                Insumos incluidos
-              </div>
-
-              <div className="hero__chip hero__chip--two">
-                <Sparkles size={17} />
-                Equipo capacitado
-              </div>
-            </div>
-          )}
+          <figure className="hero__ficha">
+            <figcaption>Servicio solicitado</figcaption>
+            <p className="hero__ficha-name">
+              {featured.name} · {home.label}
+            </p>
+            <p className="hero__ficha-meta">
+              {duration && <span>{duration}</span>}
+              <strong>{featured.price}</strong>
+            </p>
+          </figure>
         </div>
+      </div>
+
+      <div className="container">
+        <ul className="hero__lines">
+          <li>Hogares</li>
+          <li>Empresas</li>
+          <li>Tapicería</li>
+        </ul>
       </div>
     </section>
   )

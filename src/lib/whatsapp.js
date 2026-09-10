@@ -20,6 +20,16 @@ export function messageForCategory(category) {
   return `Hola EXPOASEO 👋, quisiera recibir información sobre el servicio de ${category.whatsappTopic}.`
 }
 
+/**
+ * Mensaje del selector: categoría + el detalle libre que escribió el usuario.
+ * El salto de línea se conserva dentro de WhatsApp.
+ */
+export function messageForRequest(category, details) {
+  const base = messageForCategory(category)
+  const extra = String(details || '').trim()
+  return extra ? `${base}\n\n${extra}` : base
+}
+
 /** Mensaje para un servicio puntual del catálogo. */
 export function messageForService(category, service) {
   if (!service) return messageForCategory(category)

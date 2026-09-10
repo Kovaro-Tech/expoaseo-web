@@ -1,15 +1,5 @@
 .faq-item {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  transition:
-    border-color 0.2s var(--ease),
-    box-shadow 0.2s var(--ease);
-}
-
-.faq-item--open {
-  border-color: var(--brand-200);
-  box-shadow: var(--shadow-md);
+  border-bottom: 1px solid var(--line);
 }
 
 .faq-item__heading {
@@ -21,45 +11,51 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 24px;
   width: 100%;
-  min-height: 62px;
-  padding: 16px 18px;
+  min-height: 64px;
+  padding: 18px 0;
   text-align: left;
-  font-size: 1rem;
+  font-size: 1.02rem;
   font-weight: 700;
+  letter-spacing: -0.015em;
   color: var(--ink-900);
+  transition: color 0.2s var(--ease);
 }
 
-.faq-item__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
+.faq-item__trigger:hover {
+  color: var(--brand-600);
+}
+
+/* Signo +/− dibujado con dos filetes: sin icono ni círculo. */
+.faq-item__sign {
+  position: relative;
+  width: 14px;
+  height: 14px;
   flex: none;
-  border-radius: var(--r-full);
-  color: var(--brand-700);
-  background: var(--brand-100);
+}
+
+.faq-item__sign::before,
+.faq-item__sign::after {
+  content: '';
+  position: absolute;
+  inset: 50% 0 auto 0;
+  height: 1.5px;
+  background: var(--ink-900);
   transition: transform 0.25s var(--ease);
 }
 
-.faq-item--open .faq-item__icon {
-  transform: rotate(45deg);
-  color: #fff;
-  background: var(--brand-600);
+.faq-item__sign::after {
+  transform: rotate(90deg);
+}
+
+.faq-item--open .faq-item__sign::after {
+  transform: rotate(0deg);
 }
 
 .faq-item__panel {
-  padding: 0 18px 18px;
-  font-size: 0.95rem;
+  padding: 0 0 22px;
+  max-width: 60ch;
+  font-size: 0.96rem;
   color: var(--ink-500);
-  animation: faq-open 0.22s var(--ease);
-}
-
-@keyframes faq-open {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
 }

@@ -1,4 +1,3 @@
-import { Plus } from 'lucide-react'
 import './FaqItem.css'
 
 export default function FaqItem({ faq, open, onToggle }) {
@@ -15,9 +14,7 @@ export default function FaqItem({ faq, open, onToggle }) {
           onClick={onToggle}
         >
           <span>{faq.question}</span>
-          <span className="faq-item__icon" aria-hidden="true">
-            <Plus size={18} strokeWidth={2.4} />
-          </span>
+          <span className="faq-item__sign" aria-hidden="true" />
         </button>
       </h3>
 

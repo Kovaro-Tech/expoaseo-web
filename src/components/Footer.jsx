@@ -1,9 +1,7 @@
 import { ArrowUpRight, Clock, Mail, MapPin, Phone } from 'lucide-react'
 import Logo from './Logo'
-import WhatsAppIcon from './WhatsAppIcon'
 import { businessConfig } from '../config/business'
 import { serviceCategories } from '../data/services'
-import { buildWhatsAppUrl } from '../lib/whatsapp'
 import './Footer.css'
 
 const socialLinks = [
@@ -24,15 +22,6 @@ export default function Footer() {
           <p className="footer__tagline">
             Servicios profesionales de limpieza para hogares, oficinas e instituciones.
           </p>
-          <a
-            className="btn btn--whatsapp btn--sm footer__cta"
-            href={buildWhatsAppUrl()}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <WhatsAppIcon size={17} />
-            Escríbenos por WhatsApp
-          </a>
         </div>
 
         <nav className="footer__col" aria-label="Servicios">
@@ -40,7 +29,7 @@ export default function Footer() {
           <ul className="footer__list">
             {serviceCategories.map((category) => (
               <li key={category.id}>
-                <a href="#servicios">{category.label}</a>
+                <a href={`#servicios-${category.id}`}>{category.label}</a>
               </li>
             ))}
           </ul>
@@ -50,13 +39,13 @@ export default function Footer() {
           <h3 className="footer__title">La empresa</h3>
           <ul className="footer__list">
             <li>
-              <a href="#como-funciona">Cómo funciona</a>
-            </li>
-            <li>
               <a href="#por-que">Por qué EXPOASEO</a>
             </li>
             <li>
               <a href="#faq">Preguntas frecuentes</a>
+            </li>
+            <li>
+              <a href="#solicitar">Solicitar limpieza</a>
             </li>
           </ul>
         </nav>
