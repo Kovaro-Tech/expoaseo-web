@@ -44,19 +44,6 @@
 
 .hero__frame {
   aspect-ratio: 16 / 11;
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  /* Campo de color de marca mientras no haya fotografía.
-     Al cargar businessMedia.heroImage, la foto lo cubre por completo. */
-  background:
-    linear-gradient(210deg, rgba(255, 255, 255, 0.22), transparent 45%),
-    linear-gradient(150deg, var(--brand-700), var(--brand-500) 60%, var(--brand-400));
-}
-
-.hero__photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .hero__ficha {

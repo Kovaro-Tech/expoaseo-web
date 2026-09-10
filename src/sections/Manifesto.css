@@ -1,3 +1,8 @@
+/* Bloque de respiro: algo más de aire abajo, antes del catálogo. */
+.section.manifesto {
+  padding-block: 56px 64px;
+}
+
 .manifesto__statement {
   display: flex;
   flex-direction: column;
@@ -93,6 +98,12 @@
 .manifesto__index a:hover .manifesto__arrow {
   color: var(--brand-600);
   transform: translateX(5px);
+}
+
+@media (min-width: 768px) {
+  .section.manifesto {
+    padding-block: 76px 96px;
+  }
 }
 
 @media (min-width: 900px) {

@@ -1,5 +1,5 @@
 .request {
-  padding-block: 72px;
+  padding-block: 64px;
   background: var(--surface-dark);
 }
 
@@ -16,7 +16,7 @@
 
 @media (min-width: 768px) {
   .request {
-    padding-block: 110px;
+    padding-block: 96px;
   }
 }
 

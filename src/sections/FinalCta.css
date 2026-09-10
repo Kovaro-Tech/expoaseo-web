@@ -1,26 +1,34 @@
+/* Cierre en banda de color y centrado: deliberadamente opuesto al hero
+   (claro, alineado a la izquierda, con dos acciones). */
+.section.closing {
+  padding-block: 64px;
+  background: linear-gradient(160deg, var(--brand-700), var(--brand-600));
+}
+
 .closing__inner {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 32px;
-  padding-top: 44px;
-  border-top: 2px solid var(--ink-900);
+  align-items: center;
+  gap: 28px;
+  text-align: center;
 }
 
 .closing__title {
-  font-size: clamp(2rem, 7vw, 3.6rem);
+  color: #fff;
+  font-size: clamp(1.9rem, 6.4vw, 3.2rem);
 }
 
 .closing__title span {
-  color: var(--brand-600);
+  color: var(--brand-200);
 }
 
-@media (min-width: 860px) {
-  .closing__inner {
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 56px;
-    padding-top: 56px;
+.closing__aside {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+@media (min-width: 768px) {
+  .section.closing {
+    padding-block: 88px;
   }
 }

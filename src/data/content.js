@@ -32,17 +32,17 @@ export const pillars = [
   {
     id: 'equipo',
     title: 'Equipo capacitado',
-    text: 'Personal propio, supervisado y con protocolos definidos para cada tipo de espacio.',
+    text: 'Personal propio y supervisado, con protocolos para cada tipo de espacio.',
   },
   {
     id: 'insumos',
     title: 'Insumos adecuados',
-    text: 'Llegamos con productos y equipos elegidos según la superficie y el tipo de tela.',
+    text: 'Llegamos con los productos y equipos que cada superficie necesita.',
   },
   {
     id: 'horarios',
     title: 'Horarios coordinados',
-    text: 'Jornadas de 4 u 8 horas acordadas contigo antes de que el equipo salga.',
+    text: 'Jornadas de 4 u 8 horas, acordadas contigo antes de empezar.',
   },
   {
     id: 'alcance',
@@ -86,6 +86,6 @@ export const faqs = [
     question: '¿Con cuánta anticipación debo coordinar?',
     // ► Confirmar con la clienta el tiempo real de respuesta.
     answer:
-      'Mientras antes escribas, más horarios disponibles tendrás. Consúltanos y te indicamos la fecha más cercana.',
+      'Depende de la agenda de la semana. Escríbenos y te decimos la fecha más cercana disponible.',
   },
 ]

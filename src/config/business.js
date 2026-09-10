@@ -31,13 +31,35 @@ export const businessConfig = {
 }
 
 /**
- * Imágenes. Los archivos van en /public/images y se referencian
- * como "/images/archivo.png".
+ * Imágenes del sitio — punto único de cambio.
  *
- * heroImage: si se deja vacío, el hero muestra una composición gráfica propia
- * (sin fotos genéricas de stock).
+ * Los archivos van en /public/images y se referencian como
+ * "/images/archivo.jpg". Cualquier valor vacío se sustituye automáticamente
+ * por un campo de color de marca: nunca se rompe el diseño.
+ *
+ * Añadir una foto = escribir una ruta aquí. No hay que tocar ningún componente.
+ *
+ * Proporciones recomendadas:
+ *   heroImage        4:3 apaisada   (mín. 1200×900)
+ *   homeImage        2:1 apaisada   (mín. 1400×700)
+ *   businessImage    2:1 apaisada   (mín. 1400×700)
+ *   upholsteryImage  2:1 apaisada   (mín. 1400×700)
  */
 export const businessMedia = {
   logo: '/images/logo.png',
-  heroImage: '', // ← foto real del equipo trabajando (opcional)
+
+  heroImage: '', // portada
+  homeImage: '', // categoría Hogares
+  businessImage: '', // categoría Empresas e instituciones
+  upholsteryImage: '', // categoría Muebles y tapicería
+}
+
+/**
+ * Imagen que acompaña a cada categoría de servicio.
+ * La clave es el `id` de la categoría en src/data/services.js.
+ */
+export const categoryImages = {
+  hogar: businessMedia.homeImage,
+  institucional: businessMedia.businessImage,
+  tapiceria: businessMedia.upholsteryImage,
 }

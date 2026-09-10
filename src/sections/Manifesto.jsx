@@ -15,8 +15,7 @@ export default function Manifesto() {
           <div className="manifesto__aside">
             <p>
               Una casa recién limpia se nota apenas abres la puerta. Una oficina
-              también. Nosotros nos ocupamos de esa parte para que tú te ocupes del
-              resto.
+              también. De eso nos ocupamos.
             </p>
             <p className="manifesto__signature">
               EXPOASEO Servicios Generales Cía. Ltda.

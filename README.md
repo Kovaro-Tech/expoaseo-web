@@ -88,8 +88,15 @@ sección de servicios ya posicionada en esa categoría. Los usa el índice
 ## Pendientes con la clienta
 
 - Número de WhatsApp, correo, redes y horario de atención.
-- **Fotografía del hero**: el marco ya está listo (`businessMedia.heroImage`,
-  formato apaisado ~4:3). Mientras no exista, se muestra un campo de color de
-  marca. Es la mejora visual pendiente más grande.
+- **Fotografías** (mejora visual pendiente más grande). Todas se cargan desde
+  `businessMedia` en `src/config/business.js`, sin tocar componentes. Mientras
+  falten, cada marco muestra un campo de color de marca:
+
+  | Clave             | Dónde aparece           | Proporción | Mínimo    |
+  | ----------------- | ----------------------- | ---------- | --------- |
+  | `heroImage`       | Portada                 | 4:3        | 1200×900  |
+  | `homeImage`       | Categoría Hogares       | 2:1        | 1400×700  |
+  | `businessImage`   | Categoría Empresas      | 2:1        | 1400×700  |
+  | `upholsteryImage` | Categoría Tapicería     | 2:1        | 1400×700  |
 - Imagen para compartir en redes (`og:image`, 1200×630) con URL absoluta.
 - Validar la respuesta de la FAQ sobre tiempos de agendamiento.

@@ -131,13 +131,15 @@ p {
   padding-inline: var(--gutter);
 }
 
+/* Ritmo vertical: este es el valor base. Cada sección ajusta su propio
+   padding en su .css cuando lo necesita — no hay una regla fija. */
 .section {
-  padding-block: 72px;
+  padding-block: 56px;
 }
 
 @media (min-width: 768px) {
   .section {
-    padding-block: 120px;
+    padding-block: 76px;
   }
 }
 
@@ -178,6 +180,37 @@ p {
   .lead {
     font-size: 1.15rem;
   }
+}
+
+/* ------------------------------------------------------------- imágenes -- */
+/* Marco de imagen. Sin foto muestra un campo de color de marca; al cargar la
+   imagen en businessMedia, la foto lo cubre. La proporción la fija el contexto. */
+
+.media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  background: linear-gradient(
+    150deg,
+    var(--brand-700),
+    var(--brand-500) 60%,
+    var(--brand-400)
+  );
+}
+
+.media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(210deg, rgba(255, 255, 255, 0.2), transparent 48%);
+}
+
+.media img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* ---------------------------------------------------------------- botones - */

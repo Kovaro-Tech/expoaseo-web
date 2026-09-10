@@ -48,7 +48,7 @@ export default function ServiceSelector() {
           rows={2}
           value={details}
           onChange={(event) => setDetails(event.target.value)}
-          placeholder="Departamento de 90 m², este sábado por la mañana"
+          placeholder="Ej. Departamento de 90 m², sábado por la mañana"
         />
       </div>
 

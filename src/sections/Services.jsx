@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import SectionHeader from '../components/SectionHeader'
 import ServiceRow from '../components/ServiceRow'
+import { categoryImages } from '../config/business'
 import { pricingDisclaimer, serviceCategories } from '../data/services'
 import { buildWhatsAppUrl, messageForService } from '../lib/whatsapp'
 import './Services.css'
@@ -70,7 +71,20 @@ export default function Services() {
           aria-labelledby={`tab-${active.id}`}
           key={active.id}
         >
-          <p className="services__intro">{active.description}</p>
+          {/* Cada categoría trae su propia imagen y su propio tono: es lo que
+              hace que cambiar de pestaña se sienta distinto. */}
+          <div className="services__lead">
+            <div className={`media services__banner services__banner--${active.id}`}>
+              {categoryImages[active.id] && (
+                <img src={categoryImages[active.id]} alt={active.title} />
+              )}
+            </div>
+
+            <div className="services__lead-text">
+              <h3 className="services__lead-title">{active.title}</h3>
+              <p className="services__lead-desc">{active.description}</p>
+            </div>
+          </div>
 
           {featured && (
             <a

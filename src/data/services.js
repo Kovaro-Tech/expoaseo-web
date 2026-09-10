@@ -66,7 +66,7 @@ export const serviceCategories = [
     shortLabel: 'Empresas',
     title: 'Limpieza institucional',
     description:
-      'Oficinas, agencias y áreas de atención al público con estándares constantes de higiene.',
+      'Oficinas, agencias y áreas de atención al público, con limpieza continua.',
     whatsappTopic: 'limpieza institucional para empresas',
     services: [
       {
@@ -103,7 +103,7 @@ export const serviceCategories = [
     shortLabel: 'Muebles',
     title: 'Limpieza y sanitización de tapicería',
     description:
-      'Lavado y desinfección de muebles a domicilio, con secado y sin dañar la tela.',
+      'Lavado y desinfección de tapicería en tu propio espacio, sin trasladar los muebles.',
     whatsappTopic: 'limpieza y sanitización de muebles y tapicería',
     services: [
       {
@@ -154,7 +154,7 @@ export const serviceCategories = [
 
 /** Nota legal/comercial que acompaña a los precios. */
 export const pricingDisclaimer =
-  'Precios referenciales. El valor final se confirma por WhatsApp según el tamaño, el estado del espacio y la frecuencia del servicio.'
+  'Precios referenciales. Confirmamos el valor final por WhatsApp antes de agendar.'
 
 export function getCategoryById(id) {
   return serviceCategories.find((category) => category.id === id)

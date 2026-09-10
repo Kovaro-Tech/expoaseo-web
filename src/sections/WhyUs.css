@@ -1,3 +1,14 @@
+/* Fondo teñido: el aire va por dentro del bloque de color. */
+.section.why {
+  padding-block: 64px;
+}
+
+@media (min-width: 768px) {
+  .section.why {
+    padding-block: 88px;
+  }
+}
+
 .why__inner {
   display: flex;
   flex-direction: column;

@@ -26,7 +26,7 @@ export default function Hero() {
 
           <p className="lead hero__lead">
             Limpieza para hogares, oficinas e instituciones. Tú nos dices qué
-            necesitas; nosotros te decimos cuánto, cuándo y cómo.
+            necesitas. Nosotros te decimos cuánto, cuándo y cómo.
           </p>
 
           <div className="hero__actions">
@@ -47,10 +47,12 @@ export default function Hero() {
         </div>
 
         <div className="hero__visual">
-          {/* Marco de imagen: usa la foto real cuando exista businessMedia.heroImage. */}
-          <div className="hero__frame">
+          <div className="media hero__frame">
             {businessMedia.heroImage && (
-              <img className="hero__photo" src={businessMedia.heroImage} alt="" />
+              <img
+                src={businessMedia.heroImage}
+                alt="Equipo de EXPOASEO durante un servicio de limpieza"
+              />
             )}
           </div>
 
