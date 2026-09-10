@@ -1,0 +1,73 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* El logo es horizontal (≈3.1:1) e incluye la bajada "SERVICIOS GENERALES",
+   por eso necesita algo más de altura que un isotipo cuadrado. */
+.logo__img {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+}
+
+@media (min-width: 768px) {
+  .logo__img {
+    height: 48px;
+  }
+}
+
+/* --------------------------------------------------------------- fallback */
+/* Solo se muestra si /images/logo.png no carga. */
+
+.logo__wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 1.22rem;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: var(--brand-600);
+}
+
+.logo__accent {
+  color: var(--brand-800);
+}
+
+.logo__dot {
+  width: 11px;
+  height: 11px;
+  border-radius: var(--r-full);
+  background: var(--accent-500);
+  box-shadow: 0 0 0 4px var(--accent-100);
+}
+
+/* ------------------------------------------- variante para fondos oscuros */
+/* El logo es azul sobre transparente: sobre el navy del footer no tendría
+   contraste, así que lo montamos sobre una placa blanca. */
+
+.logo--light .logo__img {
+  height: 34px;
+  padding: 9px 13px;
+  background: #fff;
+  border-radius: 14px;
+  box-sizing: content-box;
+}
+
+@media (min-width: 768px) {
+  .logo--light .logo__img {
+    height: 38px;
+  }
+}
+
+.logo--light .logo__wordmark {
+  color: #fff;
+}
+
+.logo--light .logo__accent {
+  color: var(--brand-200);
+}
+
+.logo--light .logo__dot {
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.12);
+}

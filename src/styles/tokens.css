@@ -1,0 +1,84 @@
+/**
+ * Design tokens — derivados del logo oficial de EXPOASEO.
+ *
+ * Colores exactos del logo (public/images/logo.png):
+ *   Azul wordmark  #0F75BC  → --brand-600
+ *   Verde escoba   #8CC63F  → --accent-500
+ *   Verde oscuro   #6EBE44  → --accent-600
+ *   Gris bajada    #818285  → --ink-400
+ *
+ * Todo el sitio lee estos tokens: no hay colores literales en los componentes.
+ */
+
+:root {
+  /* Marca — azul del logo */
+  --brand-800: #073f68;
+  --brand-700: #0b5388;
+  --brand-600: #0f75bc; /* color exacto del logo */
+  --brand-500: #1d8ad6;
+  --brand-400: #4fa8e4;
+  --brand-200: #b9dcf5;
+  --brand-100: #e3f0fb;
+  --brand-50: #f2f8fd;
+  --brand-rgb: 15, 117, 188;
+
+  /* Acento — verde de la escoba */
+  --accent-700: #4f9127;
+  --accent-600: #6ebe44; /* verde secundario del logo */
+  --accent-500: #8cc63f; /* color exacto del logo */
+  --accent-200: #d7edb4;
+  --accent-100: #eef8dd;
+  --accent-50: #f7fcef;
+  --accent-rgb: 140, 198, 63;
+
+  /* Neutros (azulados, para armonizar con el azul de marca) */
+  --ink-900: #0e2438;
+  --ink-800: #1b3a54;
+  --ink-600: #41566b;
+  --ink-500: #62768a;
+  --ink-400: #818285; /* gris exacto de la bajada del logo */
+  --line: #e2e9f0;
+  --line-strong: #cddae6;
+
+  /* Superficies */
+  --bg: #f7f9fc;
+  --surface: #ffffff;
+  --surface-2: #eff4f9;
+  --surface-dark: #0e2438;
+
+  /* WhatsApp (color oficial — reservado para los botones que abren el chat) */
+  --wa: #25d366;
+  --wa-dark: #1da851;
+
+  /* Tipografía */
+  --font-sans:
+    'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* Radios */
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --r-xl: 30px;
+  --r-full: 999px;
+
+  /* Sombras */
+  --shadow-sm: 0 1px 2px rgba(14, 36, 56, 0.05);
+  --shadow-md: 0 8px 24px -12px rgba(14, 36, 56, 0.2);
+  --shadow-lg: 0 24px 60px -28px rgba(14, 36, 56, 0.3);
+  --shadow-brand: 0 16px 36px -18px rgba(var(--brand-rgb), 0.6);
+
+  /* Layout */
+  --container: 1160px;
+  --gutter: 20px;
+  --nav-h: 72px;
+
+  /* Transiciones */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 32px;
+    --nav-h: 84px;
+  }
+}

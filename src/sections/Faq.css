@@ -1,0 +1,21 @@
+.faq__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 780px;
+  margin-inline: auto;
+}
+
+.faq__help {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+  text-align: center;
+}
+
+.faq__help p {
+  font-size: 0.95rem;
+  color: var(--ink-500);
+}
