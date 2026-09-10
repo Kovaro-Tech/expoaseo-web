@@ -7,8 +7,8 @@
   padding: 30px 22px;
   border-radius: var(--r-xl);
   background:
-    radial-gradient(90% 70% at 100% 0%, rgba(43, 191, 178, 0.35), transparent 60%),
-    linear-gradient(155deg, var(--ink-900), #0d332d);
+    radial-gradient(90% 70% at 100% 0%, rgba(var(--brand-rgb), 0.55), transparent 62%),
+    linear-gradient(155deg, var(--ink-900), var(--brand-800));
 }
 
 .request__panel::after {
@@ -19,7 +19,7 @@
   width: 320px;
   height: 320px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(10, 160, 149, 0.35), transparent 70%);
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.28), transparent 70%);
   pointer-events: none;
 }
 
@@ -71,7 +71,7 @@
   margin-top: 2px;
   border-radius: var(--r-full);
   color: var(--ink-900);
-  background: var(--brand-200);
+  background: var(--accent-500);
 }
 
 .request__form {

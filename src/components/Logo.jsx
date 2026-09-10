@@ -17,7 +17,10 @@ export default function Logo({ variant = 'default' }) {
         <img
           className="logo__img"
           src={businessMedia.logo}
-          alt="EXPOASEO"
+          alt="EXPOASEO — Servicios Generales Cía. Ltda."
+          width="2259"
+          height="719"
+          decoding="async"
           onError={() => setImageFailed(true)}
         />
       ) : (

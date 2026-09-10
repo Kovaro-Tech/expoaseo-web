@@ -14,7 +14,7 @@
   width: 460px;
   height: 460px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(43, 191, 178, 0.28), transparent 68%);
+  background: radial-gradient(circle, rgba(var(--brand-rgb), 0.22), transparent 68%);
   filter: blur(10px);
   pointer-events: none;
 }
@@ -52,7 +52,7 @@
 }
 
 .hero__title-accent {
-  background: linear-gradient(100deg, var(--brand-600), var(--brand-400));
+  background: linear-gradient(100deg, var(--brand-700), var(--brand-500));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -105,8 +105,12 @@
   position: relative;
   padding: 26px 18px 34px;
   border-radius: var(--r-xl);
-  background:
-    linear-gradient(150deg, var(--brand-600), var(--brand-400) 55%, #6fd8c8 100%);
+  background: linear-gradient(
+    150deg,
+    var(--brand-700),
+    var(--brand-500) 52%,
+    var(--brand-400) 100%
+  );
   box-shadow: var(--shadow-lg);
 }
 
@@ -184,7 +188,7 @@
   width: 72%;
   height: 100%;
   border-radius: var(--r-full);
-  background: linear-gradient(90deg, var(--brand-500), var(--brand-400));
+  background: linear-gradient(90deg, var(--brand-600), var(--accent-500));
 }
 
 .hero__mock-status {
@@ -217,7 +221,7 @@
 }
 
 .hero__chip svg {
-  color: var(--brand-500);
+  color: var(--accent-600);
 }
 
 .hero__chip--one {

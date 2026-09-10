@@ -48,7 +48,7 @@ export default function Navbar() {
 
         <div className="navbar__actions">
           <a
-            className="btn btn--whatsapp btn--sm navbar__cta"
+            className="btn btn--primary btn--sm navbar__cta"
             href={buildWhatsAppUrl()}
             target="_blank"
             rel="noopener noreferrer"
@@ -88,7 +88,7 @@ export default function Navbar() {
           ))}
         </nav>
         <a
-          className="btn btn--whatsapp btn--block"
+          className="btn btn--primary btn--block"
           href={buildWhatsAppUrl()}
           target="_blank"
           rel="noopener noreferrer"

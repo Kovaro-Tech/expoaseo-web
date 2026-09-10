@@ -31,9 +31,11 @@ export const businessConfig = {
 }
 
 /**
- * Imágenes opcionales. Si se deja vacío, el sitio muestra una composición
- * gráfica propia (sin fotos genéricas de stock).
- * Colocar los archivos en /public y referenciarlos como "/hero.jpg".
+ * Imágenes. Los archivos van en /public/images y se referencian
+ * como "/images/archivo.png".
+ *
+ * heroImage: si se deja vacío, el hero muestra una composición gráfica propia
+ * (sin fotos genéricas de stock).
  */
 export const businessMedia = {
   logo: '/images/logo.png',
