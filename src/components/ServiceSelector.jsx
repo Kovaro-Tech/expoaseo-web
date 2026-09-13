@@ -1,50 +1,75 @@
 import { useId, useState } from 'react'
 import WhatsAppIcon from './WhatsAppIcon'
 import { serviceCategories } from '../data/services'
-import { buildWhatsAppUrl, messageForRequest } from '../lib/whatsapp'
+import { quoteUrl } from '../lib/whatsapp'
 import './ServiceSelector.css'
 
+const ANY_SERVICE = ''
+
 /**
- * Selector previo a WhatsApp: categoría + detalle libre opcional.
- * El mensaje se arma en el cliente; no requiere backend.
+ * Solicitud de cotización: categoría → servicio (opcional) → detalle (opcional).
+ * Todo el texto del mensaje sale de src/config/whatsapp.js.
  */
 export default function ServiceSelector() {
-  const [selectedId, setSelectedId] = useState(serviceCategories[0].id)
+  const [categoryId, setCategoryId] = useState(serviceCategories[0].id)
+  const [serviceId, setServiceId] = useState(ANY_SERVICE)
   const [details, setDetails] = useState('')
-  const detailsId = useId()
 
-  const selected = serviceCategories.find((category) => category.id === selectedId)
+  const serviceFieldId = useId()
+  const detailsFieldId = useId()
+
+  const category = serviceCategories.find((item) => item.id === categoryId)
+  const service = category.services.find((item) => item.id === serviceId)
+
+  const selectCategory = (id) => {
+    setCategoryId(id)
+    setServiceId(ANY_SERVICE) // el servicio anterior ya no pertenece a esta categoría
+  }
 
   return (
     <div className="selector">
-      <div
-        className="selector__options"
-        role="radiogroup"
-        aria-label="Tipo de servicio"
-      >
-        {serviceCategories.map((category) => {
-          const active = category.id === selectedId
-          return (
-            <button
-              key={category.id}
-              type="button"
-              role="radio"
-              aria-checked={active}
-              className="selector__option"
-              onClick={() => setSelectedId(category.id)}
-            >
-              {category.shortLabel}
-            </button>
-          )
-        })}
+      {/* Botones de alternancia con aria-pressed: son navegables con Tab.
+          No usamos role="radio" para no prometer navegación con flechas. */}
+      <div className="selector__options" role="group" aria-label="Tipo de servicio">
+        {serviceCategories.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            aria-pressed={item.id === categoryId}
+            className="selector__option"
+            onClick={() => selectCategory(item.id)}
+          >
+            {item.shortLabel}
+          </button>
+        ))}
       </div>
 
       <div className="selector__field">
-        <label htmlFor={detailsId}>
+        <label htmlFor={serviceFieldId}>
+          ¿Qué servicio? <span>(opcional)</span>
+        </label>
+        <div className="selector__select">
+          <select
+            id={serviceFieldId}
+            value={serviceId}
+            onChange={(event) => setServiceId(event.target.value)}
+          >
+            <option value={ANY_SERVICE}>Todavía no lo sé</option>
+            {category.services.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name} · {item.price}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div className="selector__field">
+        <label htmlFor={detailsFieldId}>
           Cuéntanos un poco más <span>(opcional)</span>
         </label>
         <textarea
-          id={detailsId}
+          id={detailsFieldId}
           rows={2}
           value={details}
           onChange={(event) => setDetails(event.target.value)}
@@ -54,12 +79,12 @@ export default function ServiceSelector() {
 
       <a
         className="btn btn--whatsapp btn--lg selector__cta"
-        href={buildWhatsAppUrl(messageForRequest(selected, details))}
+        href={quoteUrl({ category, service, details })}
         target="_blank"
         rel="noopener noreferrer"
       >
         <WhatsAppIcon size={20} />
-        Continuar por WhatsApp
+        Enviar solicitud
       </a>
     </div>
   )

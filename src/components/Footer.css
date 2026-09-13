@@ -4,11 +4,18 @@
   background: var(--surface-dark);
 }
 
+/* Dos columnas ya en móvil: apilar los cuatro bloques hacía un footer
+   interminable en pantallas pequeñas. */
 .footer__inner {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 34px;
-  padding-bottom: 36px;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px 20px;
+  padding-bottom: 32px;
+}
+
+.footer__brand,
+.footer__col--contact {
+  grid-column: 1 / -1;
 }
 
 .footer__brand {
@@ -40,16 +47,23 @@
 .footer__list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 2px;
   font-size: 0.93rem;
 }
 
+/* Objetivo táctil: los enlaces del footer eran demasiado finos para el dedo. */
 .footer__list a {
+  display: inline-block;
+  padding-block: 8px;
   transition: color 0.2s var(--ease);
 }
 
 .footer__list a:hover {
   color: #fff;
+}
+
+.footer__list--contact {
+  gap: 6px;
 }
 
 .footer__list--contact li {
@@ -102,15 +116,6 @@
 }
 
 @media (min-width: 640px) {
-  .footer__inner {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 34px 24px;
-  }
-
-  .footer__brand {
-    grid-column: 1 / -1;
-  }
-
   .footer__bottom {
     flex-direction: row;
     align-items: center;
@@ -129,7 +134,8 @@
     padding-bottom: 48px;
   }
 
-  .footer__brand {
+  .footer__brand,
+  .footer__col--contact {
     grid-column: auto;
   }
 }

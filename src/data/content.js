@@ -5,29 +5,7 @@
  * ► No usamos cifras que no podamos comprobar (años, número de clientes).
  */
 
-/** Índice editorial del bloque manifiesto. Cada fila abre su categoría. */
-export const serviceIndex = [
-  {
-    id: 'hogar',
-    number: '01',
-    title: 'Tu hogar',
-    text: 'Mantenimiento, limpieza profunda y entrega de obra.',
-  },
-  {
-    id: 'institucional',
-    number: '02',
-    title: 'Tu negocio',
-    text: 'Oficinas, agencias y puntos de atención al público.',
-  },
-  {
-    id: 'tapiceria',
-    number: '03',
-    title: 'Tus muebles',
-    text: 'Lavado y sanitización de tapicería a domicilio.',
-  },
-]
-
-/** Atributos de la sección "Por qué EXPOASEO". Máximo cuatro. */
+/** Bloque "Cómo trabajamos", dentro de la sección de confianza. Máximo cuatro. */
 export const pillars = [
   {
     id: 'equipo',
@@ -80,6 +58,12 @@ export const faqs = [
     question: '¿Atienden empresas e instituciones?',
     answer:
       'Sí. Trabajamos limpieza institucional por metraje y mantenimiento mensual de cajeros o fichas SOS.',
+  },
+  {
+    id: 'faq-zona',
+    question: '¿A qué zonas llegan?',
+    answer:
+      'Trabajamos en Loja y la provincia. Si tu dirección queda fuera, escríbenos igual y te decimos si podemos llegar.',
   },
   {
     id: 'faq-anticipacion',

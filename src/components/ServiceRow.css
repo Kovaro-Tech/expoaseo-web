@@ -2,21 +2,23 @@
   border-bottom: 1px solid var(--line);
 }
 
+/* A 320 px el nombre y el precio comparten línea con muy poco margen:
+   por eso el hueco es corto y el precio no baja de 1rem. */
 .row__link {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
-  gap: 6px 20px;
+  gap: 6px 14px;
   padding: 20px 0;
 }
 
 .row__name {
-  font-size: 1.05rem;
+  font-size: 1rem;
   transition: color 0.2s var(--ease);
 }
 
 .row__price {
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--ink-900);

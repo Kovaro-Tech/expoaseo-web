@@ -1,22 +1,48 @@
+/* Bloque azul profundo: la herramienta principal de la web. */
 .request {
-  padding-block: 64px;
-  background: var(--surface-dark);
+  position: relative;
+  overflow: hidden;
+  padding-block: 56px;
+  background:
+    radial-gradient(120% 80% at 85% 0%, rgba(15, 117, 188, 0.55), transparent 62%),
+    linear-gradient(165deg, #0b2033, var(--ink-900) 55%, #071a2b);
 }
 
 .request__inner {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 34px;
+  gap: 32px;
+}
+
+.request__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.request__label {
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .request__title {
   color: #fff;
-  max-width: 12ch;
+  font-size: clamp(1.7rem, 6.2vw, 3rem);
+}
+
+.request__text {
+  max-width: 34ch;
+  font-size: 1.02rem;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 @media (min-width: 768px) {
   .request {
     padding-block: 96px;
+  }
+
+  .request__text {
+    font-size: 1.15rem;
   }
 }
 
@@ -28,14 +54,18 @@
     gap: 80px;
   }
 
-  .request__title {
-    flex: 0 1 34%;
+  .request__copy {
+    flex: 0 1 36%;
     position: sticky;
-    top: calc(var(--nav-h) + 40px);
+    top: calc(var(--nav-h) + 48px);
+  }
+
+  .request__title {
+    max-width: 12ch;
   }
 
   .request__inner .selector {
-    flex: 1 1 52%;
+    flex: 1 1 54%;
     max-width: 560px;
   }
 }

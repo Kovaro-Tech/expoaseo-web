@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import Logo from './Logo'
 import WhatsAppIcon from './WhatsAppIcon'
-import { buildWhatsAppUrl } from '../lib/whatsapp'
+import { generalUrl } from '../lib/whatsapp'
 import './Navbar.css'
 
+/* El orden sigue al de la página. */
 const navLinks = [
+  { href: '#trayectoria', label: 'Trayectoria' },
   { href: '#servicios', label: 'Servicios' },
-  { href: '#por-que', label: 'Por qué EXPOASEO' },
+  { href: '#confianza', label: 'Confianza' },
   { href: '#faq', label: 'Preguntas' },
 ]
 
@@ -16,7 +18,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
+    const onScroll = () => setScrolled(window.scrollY > 60)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -30,11 +32,20 @@ export default function Navbar() {
     }
   }, [menuOpen])
 
+  /* Arriba del todo el navbar flota sobre el vídeo del hero: fondo
+     transparente y logo sobre placa blanca, porque el azul del logo no
+     contrasta con el velo oscuro. Al desplazarse vuelve a la versión clara. */
+  const overHero = !scrolled && !menuOpen
+
   return (
-    <header className={`navbar${scrolled ? ' navbar--scrolled' : ''}`}>
+    <header
+      className={`navbar${scrolled ? ' navbar--scrolled' : ''}${
+        overHero ? ' navbar--over-hero' : ''
+      }`}
+    >
       <div className="container navbar__inner">
         <a className="navbar__brand" href="#inicio" onClick={() => setMenuOpen(false)}>
-          <Logo />
+          <Logo variant={overHero ? 'light' : 'default'} />
         </a>
 
         <nav className="navbar__links" aria-label="Navegación principal">
@@ -48,21 +59,21 @@ export default function Navbar() {
         <div className="navbar__actions">
           <a
             className="btn btn--primary btn--sm navbar__cta"
-            href={buildWhatsAppUrl()}
+            href={generalUrl()}
             target="_blank"
             rel="noopener noreferrer"
           >
             <WhatsAppIcon size={18} />
-            Solicitar limpieza
+            Escríbenos
           </a>
 
           {/* CTA persistente en móvil: sustituye al antiguo botón flotante. */}
           <a
             className="navbar__cta-mini"
-            href={buildWhatsAppUrl()}
+            href={generalUrl()}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Solicitar limpieza por WhatsApp"
+            aria-label="Escribirnos por WhatsApp"
           >
             <WhatsAppIcon size={20} />
           </a>

@@ -1,37 +1,55 @@
 import { businessConfig } from '../config/business'
-
-/** true cuando ya cargamos el número real en business.js */
-export const isWhatsAppConfigured = Boolean(businessConfig.whatsapp)
+import { whatsappMessage } from '../config/whatsapp'
 
 /**
- * Construye el enlace de WhatsApp con el mensaje ya escrito.
- * Si aún no hay número configurado, abre WhatsApp con el texto listo
- * para que el usuario elija el contacto (modo demo).
+ * Enlace de WhatsApp con el mensaje ya escrito.
+ * Si businessConfig.whatsapp quedara vacío, abre WhatsApp con el texto listo
+ * para que el usuario elija el contacto, en lugar de romper el enlace.
  */
 export function buildWhatsAppUrl(message) {
   const phone = String(businessConfig.whatsapp || '').replace(/\D/g, '')
-  const text = encodeURIComponent(message || businessConfig.defaultMessage)
+  const text = encodeURIComponent(message || buildGeneralMessage())
   return phone ? `https://wa.me/${phone}?text=${text}` : `https://wa.me/?text=${text}`
 }
 
-/** Mensaje para una categoría completa (Hogar / Empresa / Muebles). */
-export function messageForCategory(category) {
-  if (!category) return businessConfig.defaultMessage
-  return `Hola EXPOASEO 👋, quisiera recibir información sobre el servicio de ${category.whatsappTopic}.`
+/** Une los bloques que existan, separados por línea en blanco. */
+function joinBlocks(blocks) {
+  return blocks.filter(Boolean).join('\n\n')
+}
+
+export function buildGeneralMessage() {
+  const { greeting, intro, closing } = whatsappMessage.general
+  return joinBlocks([greeting, intro, closing])
 }
 
 /**
- * Mensaje del selector: categoría + el detalle libre que escribió el usuario.
- * El salto de línea se conserva dentro de WhatsApp.
+ * Mensaje de cotización. Solo se escriben las líneas con valor:
+ * un servicio sin duración o sin precio no deja huecos.
  */
-export function messageForRequest(category, details) {
-  const base = messageForCategory(category)
-  const extra = String(details || '').trim()
-  return extra ? `${base}\n\n${extra}` : base
+export function buildQuoteMessage({ category, service, details } = {}) {
+  const { greeting, intro, fields, labels, closing } = whatsappMessage.quote
+
+  const values = {
+    category: category ? (category.whatsappTopic ?? category.label) : '',
+    service: service?.name ?? '',
+    price: service?.price ?? '',
+    duration: service?.duration ?? '',
+    details: String(details || '').trim(),
+  }
+
+  const lines = fields
+    .filter((field) => values[field])
+    .map((field) => `${labels[field]}: ${values[field]}`)
+
+  return joinBlocks([greeting, intro, lines.join('\n'), closing])
 }
 
-/** Mensaje para un servicio puntual del catálogo. */
-export function messageForService(category, service) {
-  if (!service) return messageForCategory(category)
-  return `Hola EXPOASEO 👋, me interesa el servicio "${service.name}" (${category.label}) — ${service.price}. ¿Me pueden dar más información?`
+/** Enlace listo para los CTA de cotización. */
+export function quoteUrl(selection) {
+  return buildWhatsAppUrl(buildQuoteMessage(selection))
+}
+
+/** Enlace listo para los CTA de contacto general. */
+export function generalUrl() {
+  return buildWhatsAppUrl(buildGeneralMessage())
 }

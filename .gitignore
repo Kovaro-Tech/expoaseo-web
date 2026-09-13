@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Másteres de vídeo sin comprimir (~93 MB). Se conservan en local y en el
+# Drive del cliente; lo que se publica son las versiones de public/videos/.
+assets-source/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

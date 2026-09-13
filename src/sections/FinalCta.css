@@ -1,11 +1,33 @@
-/* Cierre en banda de color y centrado: deliberadamente opuesto al hero
-   (claro, alineado a la izquierda, con dos acciones). */
+/* Cierre sobre fotografía real bajo un velo azul profundo: cierra con
+   trabajo propio, no con otra banda plana de color. */
 .section.closing {
-  padding-block: 64px;
-  background: linear-gradient(160deg, var(--brand-700), var(--brand-600));
+  position: relative;
+  overflow: hidden;
+  padding-block: 72px;
+  background: var(--surface-dark);
+}
+
+.closing__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  filter: grayscale(1);
+}
+
+.closing__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(90% 70% at 50% 0%, rgba(15, 117, 188, 0.42), transparent 70%),
+    linear-gradient(rgba(9, 25, 40, 0.9), rgba(9, 25, 40, 0.94));
 }
 
 .closing__inner {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,21 +36,19 @@
 }
 
 .closing__title {
+  max-width: 16ch;
   color: #fff;
-  font-size: clamp(1.9rem, 6.4vw, 3.2rem);
-}
-
-.closing__title span {
-  color: var(--brand-200);
+  font-size: clamp(1.8rem, 6.6vw, 3.4rem);
 }
 
 .closing__aside {
-  font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.72);
 }
 
 @media (min-width: 768px) {
   .section.closing {
-    padding-block: 88px;
+    padding-block: 110px;
   }
 }

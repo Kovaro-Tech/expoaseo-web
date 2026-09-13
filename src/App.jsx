@@ -1,12 +1,12 @@
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
+import Clients from './sections/Clients'
+import Experience from './sections/Experience'
 import Faq from './sections/Faq'
 import FinalCta from './sections/FinalCta'
 import Hero from './sections/Hero'
-import Manifesto from './sections/Manifesto'
 import RequestCta from './sections/RequestCta'
 import Services from './sections/Services'
-import WhyUs from './sections/WhyUs'
 
 export default function App() {
   return (
@@ -15,10 +15,11 @@ export default function App() {
 
       <main>
         <Hero />
-        <Manifesto />
+        {/* La prueba real va inmediatamente después de la portada. */}
+        <Experience />
         <Services />
         <RequestCta />
-        <WhyUs />
+        <Clients />
         <Faq />
         <FinalCta />
       </main>

@@ -1,0 +1,142 @@
+.section.exp {
+  padding-block: 56px;
+}
+
+/* ---------------------------------------------------------------- cifra -- */
+
+.exp__top {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.exp__count {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--ink-900);
+}
+
+.exp__number {
+  font-family: var(--font-display);
+  font-size: clamp(4.4rem, 24vw, 9rem);
+  font-weight: 600;
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  color: var(--ink-900);
+}
+
+.exp__unit {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-700);
+}
+
+.exp__title {
+  font-size: clamp(1.6rem, 5.6vw, 2.8rem);
+}
+
+.exp__text {
+  margin-top: 12px;
+  max-width: 48ch;
+  font-size: 1rem;
+  color: var(--ink-500);
+}
+
+/* -------------------------------------------------------------- galería -- */
+
+.exp__gallery {
+  display: grid;
+  gap: 12px;
+}
+
+/* El recorte no es decorativo: mantiene fuera de cuadro la marca de fecha y
+   coordenadas que traen incrustadas dos de las fotografías. */
+.exp__photo {
+  aspect-ratio: var(--ratio-mobile);
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
+
+.exp__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center var(--focus);
+}
+
+/* La cuarta solo aparece en desktop: al estar en display:none no se descarga. */
+.exp__photo--d {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .section.exp {
+    padding-block: 88px;
+  }
+
+  .exp__top {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 48px;
+    margin-bottom: 40px;
+  }
+
+  .exp__count {
+    flex: none;
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .exp__number {
+    font-size: clamp(6rem, 11vw, 9.5rem);
+  }
+
+  .exp__copy {
+    flex: 1 1 auto;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--ink-900);
+  }
+
+  .exp__title {
+    max-width: 22ch;
+  }
+}
+
+@media (min-width: 900px) {
+  /* Composición asimétrica: principal grande, vertical de apoyo a toda la
+     altura y una banda panorámica que cierra a ras con la fila. */
+  .exp__gallery {
+    grid-template-columns: 58fr 42fr;
+    gap: 12px;
+  }
+
+  .exp__photo {
+    aspect-ratio: var(--ratio);
+  }
+
+  .exp__photo--a {
+    grid-area: 1 / 1;
+  }
+
+  .exp__photo--b {
+    grid-area: 1 / 2;
+    aspect-ratio: auto;
+    height: 100%;
+  }
+
+  .exp__photo--c {
+    grid-area: 2 / 1;
+  }
+
+  .exp__photo--d {
+    display: block;
+    grid-area: 2 / 2;
+    align-self: end;
+  }
+}

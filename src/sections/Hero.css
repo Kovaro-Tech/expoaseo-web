@@ -1,173 +1,165 @@
+/* Portada a sangre: el navbar se superpone al vídeo/póster. */
+
 .hero {
-  padding-block: 40px 0;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  /* La altura queda reservada desde el primer pintado: el vídeo entra dentro
+     de una caja que ya existe, así que no mueve nada. */
+  min-height: 82svh;
+  padding-top: calc(var(--nav-h) + 40px);
+  padding-bottom: max(40px, calc(env(safe-area-inset-bottom) + 20px));
+  overflow: hidden;
+  background: var(--surface-dark);
+}
+
+.hero__media {
+  position: absolute;
+  inset: 0;
+}
+
+/* Póster y vídeo ocupan exactamente el mismo hueco, uno encima del otro. */
+.hero__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--focus-mobile, center);
+}
+
+.hero__video {
+  opacity: 0;
+  transition: opacity 240ms var(--ease);
+}
+
+/* Solo aparece cuando el vídeo está reproduciéndose de verdad. */
+.hero__video.is-playing {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__video {
+    transition: none;
+  }
+}
+
+/* Velo azul: denso donde va el texto, ligero donde debe notarse el movimiento.
+   En móvil hay menos sitio, así que la mitad inferior carga más. */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(9, 25, 40, 0.5) 0%, rgba(9, 25, 40, 0) 24%),
+    linear-gradient(
+      to top,
+      rgba(9, 25, 40, 0.95) 0%,
+      rgba(9, 25, 40, 0.88) 32%,
+      rgba(9, 25, 40, 0.52) 66%,
+      rgba(9, 25, 40, 0.26) 100%
+    );
 }
 
 .hero__inner {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-.hero__copy {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
+  gap: 18px;
 }
 
-.hero__title {
-  margin-top: 4px;
-}
-
-.hero__title span {
-  color: var(--brand-600);
-}
-
-.hero__lead {
-  max-width: 46ch;
-}
-
-.hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 14px 28px;
-  margin-top: 4px;
-}
-
-/* ------------------------------------------------------- marco de imagen - */
-
-.hero__visual {
-  position: relative;
-  padding-bottom: 42px;
-}
-
-.hero__frame {
-  aspect-ratio: 16 / 11;
-}
-
-.hero__ficha {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 0;
-  max-width: 320px;
-  padding: 16px 18px;
-  background: var(--surface);
-  border-radius: var(--r-md);
-  box-shadow: var(--shadow-lg);
-}
-
-.hero__ficha figcaption {
+.hero__eyebrow {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.7rem;
+  gap: 12px;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--ink-400);
+  color: rgba(255, 255, 255, 0.72);
 }
 
-.hero__ficha figcaption::before {
+.hero__eyebrow::before {
   content: '';
-  width: 7px;
-  height: 7px;
-  border-radius: var(--r-full);
+  width: 28px;
+  height: 2px;
   background: var(--accent-500);
 }
 
-.hero__ficha-name {
-  margin-top: 8px;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  color: var(--ink-900);
-  line-height: 1.3;
+.hero__title {
+  color: #fff;
+  font-size: clamp(2rem, 8.4vw, 4.6rem);
+  line-height: 1.03;
+  letter-spacing: -0.025em;
+  text-shadow: 0 2px 24px rgba(9, 25, 40, 0.45);
 }
 
-.hero__ficha-meta {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
+.hero__lead {
+  max-width: 42ch;
+  font-size: 1.02rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.hero__cta {
+  margin-top: 6px;
+}
+
+/* Línea de autoridad: los nombres pesan más que cualquier adjetivo. */
+.hero__authority {
   margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid var(--line);
-  font-size: 0.85rem;
-  color: var(--ink-400);
-}
-
-.hero__ficha-meta strong {
-  font-size: 1.05rem;
-  color: var(--ink-900);
-}
-
-/* ------------------------------------------------------- líneas de oferta - */
-
-.hero__lines {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 26px;
-  margin-top: 44px;
   padding-top: 18px;
-  border-top: 1px solid var(--line);
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--ink-500);
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  width: 100%;
+  max-width: 40ch;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.82);
 }
-
-.hero__lines li {
-  display: flex;
-  align-items: center;
-  gap: 26px;
-}
-
-.hero__lines li + li::before {
-  content: '';
-  width: 1px;
-  height: 13px;
-  background: var(--line-strong);
-}
-
-/* ------------------------------------------------------------ breakpoints */
 
 @media (min-width: 768px) {
   .hero {
-    padding-block: 56px 0;
+    min-height: 86vh;
+    max-height: 940px;
+    padding-bottom: 64px;
   }
 
-  .hero__ficha {
-    left: 24px;
-    padding: 20px 22px;
+  .hero__layer {
+    object-position: var(--focus-desktop, center);
   }
-}
 
-@media (min-width: 960px) {
-  .hero {
-    padding-block: 72px 0;
+  /* En horizontal el velo se apoya a la izquierda, bajo el copy, y suelta la
+     derecha para que el movimiento del vídeo se vea. */
+  .hero__scrim {
+    background:
+      linear-gradient(to bottom, rgba(9, 25, 40, 0.45) 0%, rgba(9, 25, 40, 0) 20%),
+      linear-gradient(
+        100deg,
+        rgba(9, 25, 40, 0.9) 0%,
+        rgba(9, 25, 40, 0.74) 38%,
+        rgba(9, 25, 40, 0.34) 70%,
+        rgba(9, 25, 40, 0.22) 100%
+      ),
+      linear-gradient(to top, rgba(9, 25, 40, 0.62), rgba(9, 25, 40, 0) 48%);
   }
 
   .hero__inner {
-    flex-direction: row;
-    align-items: center;
-    gap: 64px;
+    gap: 22px;
   }
 
-  .hero__copy {
-    flex: 1 1 52%;
+  .hero__title {
+    max-width: 15ch;
   }
 
-  .hero__visual {
-    flex: 1 1 48%;
+  .hero__lead {
+    font-size: 1.2rem;
   }
 
-  .hero__frame {
-    aspect-ratio: 4 / 3.4;
-  }
-
-  .hero__lines {
-    margin-top: 64px;
-    font-size: 0.95rem;
+  .hero__authority {
+    max-width: none;
+    font-size: 0.78rem;
   }
 }

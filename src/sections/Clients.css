@@ -1,0 +1,171 @@
+.section.clients {
+  padding-block: 56px;
+  background: var(--surface-2);
+}
+
+.clients__title {
+  max-width: 20ch;
+  font-size: clamp(1.45rem, 4.6vw, 2.2rem);
+  margin-bottom: 26px;
+}
+
+/* Rejilla tipográfica sobria: los nombres son la prueba, no hacen falta cajas. */
+.clients__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid var(--line-strong);
+}
+
+.clients__list li {
+  display: flex;
+  align-items: center;
+  min-height: 58px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.clients__list span {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--ink-800);
+}
+
+.clients__list img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ------------------------------------------------------ certificaciones -- */
+
+.clients__subtitle {
+  font-size: 0.95rem;
+  color: var(--ink-500);
+  margin-bottom: 14px;
+}
+
+.clients__certs {
+  border-top: 1px solid var(--line-strong);
+}
+
+.clients__certs li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.clients__cert-name {
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+.clients__cert-meta {
+  font-size: 0.85rem;
+  color: var(--ink-400);
+}
+
+/* ---------------------------------------------------- cómo trabajamos ---- */
+
+.clients__how {
+  margin-top: 48px;
+  padding-top: 40px;
+  border-top: 2px solid var(--ink-900);
+}
+
+.clients__how-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.clients__how-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  font-size: clamp(1.4rem, 4.6vw, 2.1rem);
+  line-height: 1.12;
+}
+
+.clients__pillars {
+  display: grid;
+  gap: 0;
+}
+
+.clients__pillars li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: 16px;
+  padding: 20px 0;
+  border-top: 1px solid var(--line-strong);
+}
+
+.clients__pillar-num {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--accent-600);
+}
+
+.clients__pillar-name {
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+
+.clients__pillar-text {
+  font-size: 0.94rem;
+  color: var(--ink-500);
+  max-width: 52ch;
+}
+
+/* ------------------------------------------------------------ desktop ---- */
+
+@media (min-width: 560px) {
+  .clients__list {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 32px;
+  }
+}
+
+@media (min-width: 768px) {
+  .section.clients {
+    padding-block: 88px;
+  }
+
+  .clients__how {
+    margin-top: 64px;
+    padding-top: 52px;
+  }
+}
+
+@media (min-width: 960px) {
+  .clients__list {
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 48px;
+  }
+
+  .clients__how {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 64px;
+    align-items: start;
+  }
+
+  .clients__how-intro {
+    margin-bottom: 0;
+    position: sticky;
+    top: calc(var(--nav-h) + 40px);
+  }
+
+  .clients__pillars li {
+    grid-template-columns: 3.5rem 1fr;
+    gap: 20px;
+    padding: 22px 0;
+  }
+}

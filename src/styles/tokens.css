@@ -35,8 +35,11 @@
   --ink-900: #0e2438;
   --ink-800: #1b3a54;
   --ink-600: #41566b;
-  --ink-500: #62768a;
-  --ink-400: #818285; /* gris exacto de la bajada del logo */
+  /* ink-500 e ink-400 llevan texto pequeño: sus valores están elegidos para
+     superar 4.5:1 sobre --bg y --surface-2 (WCAG AA). No aclararlos. */
+  --ink-500: #4f6273;
+  --ink-400: #636f79;
+  --logo-gray: #818285; /* gris exacto de la bajada del logo, como referencia */
   --line: #e2e9f0;
   --line-strong: #cddae6;
 
@@ -71,7 +74,7 @@
   /* Layout */
   --container: 1160px;
   --gutter: 20px;
-  --nav-h: 72px;
+  --nav-h: 64px;
 
   /* Transiciones */
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -80,6 +83,6 @@
 @media (min-width: 768px) {
   :root {
     --gutter: 32px;
-    --nav-h: 84px;
+    --nav-h: 80px;
   }
 }

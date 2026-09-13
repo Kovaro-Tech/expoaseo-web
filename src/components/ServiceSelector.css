@@ -3,22 +3,24 @@
 .selector {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 24px;
 }
 
 .selector__options {
   display: flex;
-  gap: 26px;
+  gap: 8px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-/* Control, no titular: Plus Jakarta Sans. */
+/* Control, no titular: Plus Jakarta Sans. Objetivo táctil de 48 px. */
 .selector__option {
-  padding: 0 0 14px;
-  font-size: clamp(1.05rem, 4.4vw, 1.35rem);
+  flex: 1;
+  min-height: 48px;
+  padding: 10px 6px 14px;
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: -0.015em;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.58);
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
   transition:
@@ -27,15 +29,15 @@
 }
 
 .selector__option:hover {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.85);
 }
 
-.selector__option[aria-checked='true'] {
+.selector__option[aria-pressed='true'] {
   color: #fff;
   border-bottom-color: var(--accent-500);
 }
 
-/* -------------------------------------------------------------- detalle - */
+/* ---------------------------------------------------------------- campos - */
 
 .selector__field {
   display: flex;
@@ -44,48 +46,84 @@
 }
 
 .selector__field label {
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .selector__field label span {
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.55);
 }
 
-.selector__field textarea {
-  min-height: 76px;
-}
-
+.selector__field select,
 .selector__field textarea {
   width: 100%;
+  min-height: 52px;
   padding: 14px 16px;
-  resize: vertical;
   color: #fff;
   font-size: 1rem;
   line-height: 1.5;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--r-md);
   transition:
     border-color 0.2s var(--ease),
     background-color 0.2s var(--ease);
 }
 
-.selector__field textarea::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+.selector__field textarea {
+  min-height: 78px;
+  resize: vertical;
 }
 
+.selector__field textarea::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.selector__field select:focus,
 .selector__field textarea:focus {
   outline: none;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.14);
   border-color: var(--accent-500);
 }
 
+.selector__field select:focus-visible,
 .selector__field textarea:focus-visible {
   outline: 2px solid var(--accent-500);
   outline-offset: 2px;
+}
+
+/* El desplegable del sistema se pinta con el tema del SO: forzamos
+   texto oscuro sobre blanco para que sea legible en todas las plataformas. */
+.selector__field option {
+  color: var(--ink-900);
+  background: #fff;
+}
+
+/* Flecha propia: los select nativos no son estilizables de forma consistente. */
+.selector__select {
+  position: relative;
+}
+
+.selector__select::after {
+  content: '';
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  margin-top: -6px;
+  border-right: 2px solid rgba(255, 255, 255, 0.6);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+.selector__field select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 44px;
 }
 
 .selector__cta {
@@ -93,6 +131,16 @@
 }
 
 @media (min-width: 560px) {
+  .selector__options {
+    gap: 26px;
+  }
+
+  .selector__option {
+    flex: 0 0 auto;
+    padding-inline: 0;
+    font-size: 1.1rem;
+  }
+
   .selector__cta {
     align-self: flex-start;
   }

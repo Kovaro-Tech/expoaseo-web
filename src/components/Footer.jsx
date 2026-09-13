@@ -1,13 +1,13 @@
 import { ArrowUpRight, Clock, Mail, MapPin, Phone } from 'lucide-react'
 import Logo from './Logo'
-import { businessConfig } from '../config/business'
+import { businessConfig, formatBusinessHours } from '../config/business'
 import { serviceCategories } from '../data/services'
 import './Footer.css'
 
 const socialLinks = [
   { key: 'instagram', label: 'Instagram' },
-  { key: 'facebook', label: 'Facebook' },
   { key: 'tiktok', label: 'TikTok' },
+  { key: 'facebook', label: 'Facebook' },
 ]
 
 export default function Footer() {
@@ -20,7 +20,8 @@ export default function Footer() {
         <div className="footer__brand">
           <Logo variant="light" />
           <p className="footer__tagline">
-            Servicios profesionales de limpieza para hogares, oficinas e instituciones.
+            Limpieza profesional en {businessConfig.serviceArea}.{' '}
+            {businessConfig.yearsExperience} años de experiencia.
           </p>
         </div>
 
@@ -39,7 +40,10 @@ export default function Footer() {
           <h3 className="footer__title">La empresa</h3>
           <ul className="footer__list">
             <li>
-              <a href="#por-que">Por qué EXPOASEO</a>
+              <a href="#trayectoria">Trayectoria</a>
+            </li>
+            <li>
+              <a href="#confianza">Confianza</a>
             </li>
             <li>
               <a href="#faq">Preguntas frecuentes</a>
@@ -50,13 +54,13 @@ export default function Footer() {
           </ul>
         </nav>
 
-        <div className="footer__col">
+        <div className="footer__col footer__col--contact">
           <h3 className="footer__title">Contacto</h3>
           <ul className="footer__list footer__list--contact">
-            {businessConfig.phoneDisplay && (
+            {businessConfig.phone && (
               <li>
                 <Phone size={15} />
-                {businessConfig.phoneDisplay}
+                <a href={`tel:+${businessConfig.whatsapp}`}>{businessConfig.phone}</a>
               </li>
             )}
             {businessConfig.email && (
@@ -67,11 +71,11 @@ export default function Footer() {
             )}
             <li>
               <MapPin size={15} />
-              {businessConfig.location}
+              {businessConfig.serviceArea}
             </li>
             <li>
               <Clock size={15} />
-              {businessConfig.schedule}
+              {formatBusinessHours()}
             </li>
           </ul>
 

@@ -1,33 +1,42 @@
 /**
  * Configuración central del negocio.
+ * Datos confirmados por la clienta. Ningún componente los hardcodea.
  *
- * ► TODO CLIENTE: reemplazar los valores vacíos cuando tengamos la información
- *   definitiva. Ningún componente hardcodea estos datos.
- *
- * whatsapp: número en formato internacional SIN "+" ni espacios.
- *           Ejemplo Ecuador: "593987654321"
- *           Si queda vacío, los botones abren WhatsApp igual y el usuario
- *           elige el contacto (útil para demos), pero NO publicar así.
+ * whatsapp: formato internacional SIN "+" ni espacios (Ecuador = 593 + número
+ *           sin el 0 inicial). 0989869808 → 593989869808
  */
 export const businessConfig = {
   name: 'EXPOASEO',
   legalName: 'EXPOASEO SERVICIOS GENERALES CIA LTDA',
   tagline: 'Servicios profesionales de limpieza',
 
-  whatsapp: '', // ← pendiente
-  email: '', // ← pendiente (ej. "contacto@expoaseo.com")
-  phoneDisplay: '', // ← pendiente (ej. "+593 98 765 4321")
+  whatsapp: '593989869808',
+  phone: '098 986 9808',
+  email: 'expoaseoec@gmail.com',
 
-  instagram: '', // ← pendiente (URL completa)
-  facebook: '', // ← pendiente (URL completa)
-  tiktok: '', // ← pendiente (URL completa)
+  /** Años en el mercado. Se muestra como cifra grande en "Trayectoria". */
+  yearsExperience: 15,
 
-  location: 'Ecuador',
-  schedule: 'Lunes a sábado, 08:00 – 18:00', // ← confirmar con la clienta
+  instagram: 'https://instagram.com/expoaseo',
+  tiktok: 'https://www.tiktok.com/@expoaseo',
+  facebook: '', // ← sin cuenta confirmada; si se crea, pegar la URL aquí
 
-  /** Mensaje usado cuando el usuario no eligió un servicio específico. */
-  defaultMessage:
-    'Hola EXPOASEO 👋, quisiera recibir información sobre sus servicios de limpieza.',
+  serviceArea: 'Loja y provincia',
+
+  /**
+   * Franjas de atención. Se muestran separadas por "·".
+   * ► Pendiente: la clienta no confirmó qué días aplican. Cuando lo haga,
+   *   escribirlo en businessDays (ej. 'Lunes a viernes') y aparecerá solo.
+   */
+  businessHours: ['08:30 – 12:30', '15:00 – 18:00'],
+  businessDays: '',
+}
+
+/** Horario en una línea: "Lunes a viernes · 08:30 – 12:30 · 15:00 – 18:00" */
+export function formatBusinessHours() {
+  return [businessConfig.businessDays, ...businessConfig.businessHours]
+    .filter(Boolean)
+    .join(' · ')
 }
 
 /**
@@ -40,18 +49,47 @@ export const businessConfig = {
  * Añadir una foto = escribir una ruta aquí. No hay que tocar ningún componente.
  *
  * Proporciones recomendadas:
- *   heroImage        4:3 apaisada   (mín. 1200×900)
- *   homeImage        2:1 apaisada   (mín. 1400×700)
- *   businessImage    2:1 apaisada   (mín. 1400×700)
- *   upholsteryImage  2:1 apaisada   (mín. 1400×700)
+ *   heroVideoDesktop 16:9 apaisado  (1920×1080, MP4 H.264, sin audio, < 4 MB)
+ *   heroVideoMobile  9:16 vertical  (720×1280,  MP4 H.264, sin audio, < 3 MB)
+ *   heroPoster       16:9 apaisada  (mín. 1920×1080)
+ *   homeImage        21:9 apaisada  (mín. 1600×686)
+ *   businessImage    21:9 apaisada  (mín. 1600×686)
+ *   upholsteryImage  21:9 apaisada  (mín. 1600×686)
+ *   closingImage     16:9 apaisada  (mín. 1600×900)
+ *
+ * Las fotos de trabajo real de la sección "Trayectoria" viven en
+ * src/data/trust.js, junto al resto del contenido de esa sección.
  */
 export const businessMedia = {
   logo: '/images/logo.png',
 
-  heroImage: '', // portada
-  homeImage: '', // categoría Hogares
-  businessImage: '', // categoría Empresas e instituciones
-  upholsteryImage: '', // categoría Muebles y tapicería
+  /**
+   * Portada en vídeo. Se sirve UN solo archivo según el viewport: el hero
+   * decide cuál antes de pintar y nunca descarga los dos.
+   *
+   * Se reproduce en bucle, silenciado y con preload="metadata". Si el usuario
+   * pide movimiento reducido, el vídeo no llega a pedirse y se queda el póster.
+   *
+   * Dejar cualquiera de las dos rutas vacía desactiva el vídeo en ese viewport.
+   */
+  heroVideoDesktop: '/videos/hero-desktop.mp4', // 1920×1080 · 24 s · 3,7 MB
+  heroVideoMobile: '/videos/hero-mobile.mp4', // 720×1280 · 40 s · 2,8 MB
+
+  /** Imagen de respaldo: se ve siempre bajo el vídeo, así que nunca hay negro. */
+  heroPoster: '/images/real-work/fiscalia-loja-02.jpg',
+  heroPosterMobile: '', // opcional; si se deja vacío usa heroPoster
+
+  /** Encuadre del vídeo y del póster (object-position). */
+  heroVideoPositionDesktop: 'center 40%',
+  heroVideoPositionMobile: 'center center',
+
+  /** Cabecera de cada categoría de servicio. Vacío = campo de color de marca. */
+  homeImage: '',
+  businessImage: '',
+  upholsteryImage: '',
+
+  /** Fondo del cierre. Se muestra bajo un velo azul profundo. */
+  closingImage: '/images/real-work/limpieza-interior-01.jpg',
 }
 
 /**

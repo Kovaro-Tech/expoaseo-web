@@ -4,10 +4,14 @@
   gap: 16px;
 }
 
-.sec-head__title {
-  max-width: 18ch;
-}
-
 .sec-head__text {
   max-width: 52ch;
+}
+
+/* En móvil los titulares usan todo el ancho: limitarlos a 18ch los parte
+   en demasiadas líneas. */
+@media (min-width: 768px) {
+  .sec-head__title {
+    max-width: 18ch;
+  }
 }
