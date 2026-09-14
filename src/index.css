@@ -208,7 +208,7 @@ p {
 }
 
 .btn--primary {
-  color: #fff;
+  color: var(--on-dark);
   background: var(--brand-600);
 }
 
@@ -217,13 +217,13 @@ p {
 }
 
 .btn--whatsapp {
-  color: #06301a;
+  color: var(--control-ink);
   background: var(--wa);
 }
 
 .btn--whatsapp:hover {
   background: var(--wa-dark);
-  color: #fff;
+  color: var(--on-dark);
 }
 
 .btn--sm {
@@ -237,4 +237,3 @@ p {
   padding: 18px 32px;
   font-size: 1.05rem;
 }
-

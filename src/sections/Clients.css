@@ -103,29 +103,52 @@
   );
   /* El desplazamiento vertical de la página nunca se bloquea. */
   touch-action: pan-y;
+  animation: rail-fade 0.16s var(--ease);
 }
 
-.rail__track {
+@keyframes rail-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.marquee-viewport {
+  width: 100%;
+  min-height: 48px;
+  overflow: hidden;
+}
+
+.marquee-track {
   display: flex;
   width: max-content;
+  will-change: transform;
   animation: rail-scroll 90s linear infinite;
 }
 
-.rail--reverse .rail__track {
+.rail--reverse .marquee-track {
   animation-direction: reverse;
 }
 
 @keyframes rail-scroll {
   to {
-    transform: translateX(-25%);
+    transform: translateX(-50%);
   }
 }
 
-/* Se detiene con el puntero, con el foco y unos segundos tras tocarla. */
-.rail:hover .rail__track,
-.rail:focus-within .rail__track,
-.rail.is-held .rail__track {
-  animation-play-state: paused;
+.marquee-group {
+  display: flex;
+  align-items: center;
+  flex: none;
+  width: max-content;
+  padding-right: 32px;
+}
+
+.marquee-group .rail__set {
+  flex-wrap: nowrap;
+}
+
+.marquee-group .org {
+  flex: 0 0 auto;
 }
 
 .rail__set {
@@ -138,16 +161,23 @@
 .rail--static {
   mask-image: none;
   -webkit-mask-image: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, var(--container));
+  min-height: 48px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
 }
 
 .rail--static .rail__set {
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 /* Sin cinta no hay costura que disimular: fuera el último divisor. */
 .rail--static .org:last-child::after,
-.rail__set:last-child .org:last-child::after {
+.marquee-group .org:last-child::after {
   display: none;
 }
 
@@ -172,6 +202,10 @@
   height: 14px;
   margin-inline: 18px;
   background: var(--line-strong);
+}
+
+.rail--static .org::after {
+  margin-inline: 14px;
 }
 
 .org--featured {
@@ -259,7 +293,7 @@
     gap: 10px;
   }
 
-  .rail__track {
+  .marquee-track {
     animation-duration: 70s;
   }
 
@@ -286,17 +320,25 @@
     -webkit-mask-image: none;
   }
 
-  .rail__track {
-    width: auto;
+  .marquee-track {
+    width: 100%;
     animation: none;
   }
 
-  .rail__set[aria-hidden='true'] {
+  .marquee-group[aria-hidden='true'] {
     display: none;
   }
 
-  .rail__set {
+  .marquee-group {
+    width: 100%;
+    justify-content: center;
+    padding-right: 0;
+  }
+
+  .marquee-group .rail__set {
+    width: 100%;
     flex-wrap: wrap;
+    justify-content: center;
   }
 
   .rail__set:first-child .org:last-child::after {

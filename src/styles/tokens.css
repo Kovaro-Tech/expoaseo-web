@@ -49,6 +49,24 @@
   --surface-2: #eff4f9;
   --surface-dark: #0e2438;
 
+  /* Alias semánticos para superficies y contenido. */
+  --ink: var(--ink-900);
+  --ink-muted: var(--ink-500);
+  --accent: var(--accent-500);
+  --navy: var(--surface-dark);
+  --on-dark: #ffffff;
+  --on-dark-muted: rgba(255, 255, 255, 0.72);
+  --on-dark-subtle: rgba(255, 255, 255, 0.55);
+  --on-dark-line: rgba(255, 255, 255, 0.1);
+  --nav-bg: rgba(255, 255, 255, 0.92);
+  --nav-over-hero-line: rgba(255, 255, 255, 0.45);
+  --control-ink: #06301a;
+  --theme-toggle-bg: #e8f0f6;
+  --theme-toggle-hero-bg: rgba(14, 36, 56, 0.48);
+  --theme-toggle-line: #cddae6;
+  --theme-toggle-icon: #1b3a54;
+  --theme-toggle-thumb: #ffffff;
+
   /* WhatsApp (color oficial — reservado para los botones que abren el chat) */
   --wa: #25d366;
   --wa-dark: #1da851;
@@ -81,6 +99,52 @@
 
   /* Transiciones */
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* Superficies azul tinta: la jerarquía conserva el ritmo del modo claro. */
+  --bg: #0b1725;
+  --surface: #101f30;
+  --surface-2: #16293b;
+  --surface-dark: #091522;
+  --navy: #091522;
+
+  --ink-900: #f4f7f5;
+  --ink-800: #dce5e9;
+  --ink-600: #c5d0d7;
+  --ink-500: #acbbc5;
+  --ink-400: #90a2af;
+  --ink: var(--ink-900);
+  --ink-muted: var(--ink-500);
+  --accent: var(--accent-500);
+  --line: #263b4d;
+  --line-strong: #385065;
+
+  /* Azul más luminoso para enlaces y foco sobre las superficies oscuras. */
+  --brand-600: #55afe7;
+  --brand-700: #80c5ee;
+  --brand-500: #72bceb;
+  --brand-400: #9dd3f2;
+  --brand-200: #b9dcf5;
+  --brand-100: #193b55;
+  --brand-50: #132b3e;
+  --accent-700: #9ad65d;
+
+  --on-dark: #f4f7f5;
+  --on-dark-muted: #c5d0d7;
+  --on-dark-subtle: #9eafbb;
+  --on-dark-line: #263b4d;
+  --nav-bg: rgba(11, 23, 37, 0.92);
+  --nav-over-hero-line: rgba(244, 247, 245, 0.42);
+  --theme-toggle-bg: #1a3043;
+  --theme-toggle-hero-bg: rgba(9, 21, 34, 0.64);
+  --theme-toggle-line: #385065;
+  --theme-toggle-icon: #dce5e9;
+  --theme-toggle-thumb: #365269;
+  --shadow-md: 0 8px 24px -12px rgba(0, 0, 0, 0.48);
+  --shadow-lg: 0 30px 60px -30px rgba(0, 0, 0, 0.6);
 }
 
 @media (min-width: 768px) {

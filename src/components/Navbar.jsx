@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Menu, X } from 'lucide-react'
+import { Menu, Moon, Sun, X } from 'lucide-react'
 import Logo from './Logo'
 import WhatsAppIcon from './WhatsAppIcon'
 import { generalUrl } from '../lib/whatsapp'
@@ -16,6 +16,7 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [theme, setTheme] = useState(() => document.documentElement.dataset.theme || 'light')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -31,6 +32,35 @@ export default function Navbar() {
       document.body.style.overflow = ''
     }
   }, [menuOpen])
+
+  const toggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark'
+    document.documentElement.dataset.theme = nextTheme
+    document.querySelector('meta[name="theme-color"]')?.setAttribute(
+      'content',
+      nextTheme === 'dark' ? '#0b1725' : '#0f75bc',
+    )
+    setTheme(nextTheme)
+    try {
+      localStorage.setItem('expoaseo-theme', nextTheme)
+    } catch {
+      // La preferencia visual sigue funcionando aunque el storage no esté disponible.
+    }
+  }
+
+  const themeControl = (mobile = false) => (
+    <button
+      type="button"
+      className={`theme-toggle${mobile ? ' theme-toggle--mobile' : ''}`}
+      aria-label={theme === 'dark' ? 'Activar modo claro' : 'Activar modo oscuro'}
+      aria-pressed={theme === 'dark'}
+      onClick={toggleTheme}
+    >
+      <Sun className="theme-toggle__sun" size={15} aria-hidden="true" />
+      <span className="theme-toggle__thumb" aria-hidden="true" />
+      <Moon className="theme-toggle__moon" size={14} aria-hidden="true" />
+    </button>
+  )
 
   /* Arriba del todo el navbar flota sobre el vídeo del hero: fondo
      transparente y logo sobre placa blanca, porque el azul del logo no
@@ -57,6 +87,7 @@ export default function Navbar() {
         </nav>
 
         <div className="navbar__actions">
+          {themeControl()}
           <a
             className="btn btn--primary btn--sm navbar__cta"
             href={generalUrl()}
@@ -80,7 +111,7 @@ export default function Navbar() {
 
           <button
             type="button"
-            className="navbar__toggle"
+            className="navbar__menu-toggle"
             aria-expanded={menuOpen}
             aria-controls="menu-movil"
             aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
@@ -103,6 +134,7 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+          <div className="navbar__mobile-theme">{themeControl(true)}</div>
         </nav>
       </div>
     </header>

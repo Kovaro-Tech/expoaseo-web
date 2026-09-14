@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import {
   BriefcaseBusiness,
   Building2,
@@ -40,14 +40,9 @@ const ICONS = {
   Zap,
 }
 
-/* El set se repite para que la cinta nunca deje hueco: la animación desplaza
-   exactamente un set y el reinicio resulta invisible. */
-const REPEATS = 4
-/** Por debajo de esto una cinta en movimiento se ve pobre: se deja estática. */
-const MIN_TO_ANIMATE = 6
+const MARQUEE_MIN_ITEMS = 5
 /** Y por debajo de esto no da para dos filas. */
 const MIN_FOR_TWO_ROWS = 12
-const TOUCH_HOLD = 6000
 
 /** Las destacadas primero, manteniendo el orden del dato dentro de cada grupo. */
 function featuredFirst(list) {
@@ -88,51 +83,38 @@ function Organization({ client }) {
   )
 }
 
-function Rail({ items, reverse, animated }) {
-  const [held, setHeld] = useState(false)
-  const timer = useRef(null)
+function ClientList({ items, listRef, hidden = false }) {
+  return (
+    <ul ref={listRef} className="rail__set" aria-hidden={hidden || undefined}>
+      {items.map((client) => (
+        <Organization key={client.id} client={client} />
+      ))}
+    </ul>
+  )
+}
 
-  // En táctil no hay hover: al tocar la cinta se detiene unos segundos.
-  const holdBriefly = () => {
-    setHeld(true)
-    clearTimeout(timer.current)
-    timer.current = setTimeout(() => setHeld(false), TOUCH_HOLD)
-  }
-
-  useEffect(() => () => clearTimeout(timer.current), [])
-
+function Rail({ items, reverse }) {
   if (items.length === 0) return null
 
-  if (!animated) {
+  const shouldMarquee = items.length >= MARQUEE_MIN_ITEMS
+
+  if (!shouldMarquee) {
     return (
       <div className="rail rail--static">
-        <ul className="rail__set">
-          {items.map((client) => (
-            <Organization key={client.id} client={client} />
-          ))}
-        </ul>
+        <ClientList items={items} />
       </div>
     )
   }
 
   return (
-    <div
-      className={`rail${reverse ? ' rail--reverse' : ''}${held ? ' is-held' : ''}`}
-      onTouchStart={holdBriefly}
-    >
-      <div className="rail__track">
-        {Array.from({ length: REPEATS }, (_, set) => (
-          <ul
-            className="rail__set"
-            key={set}
-            /* Solo el primer set se anuncia; el resto son copias visuales. */
-            aria-hidden={set > 0 ? 'true' : undefined}
-          >
-            {items.map((client) => (
-              <Organization key={client.id} client={client} />
-            ))}
-          </ul>
-        ))}
+    <div className={`rail marquee-viewport${reverse ? ' rail--reverse' : ''}`}>
+      <div className="marquee-track">
+        <div className="marquee-group">
+          <ClientList items={items} />
+        </div>
+        <div className="marquee-group" aria-hidden="true">
+          <ClientList items={items} hidden />
+        </div>
       </div>
     </div>
   )
@@ -183,7 +165,6 @@ export default function Clients() {
             key={`${sector ?? 'todos'}-${index}`}
             items={row}
             reverse={index === 1}
-            animated={row.length >= MIN_TO_ANIMATE}
           />
         ))}
       </div>

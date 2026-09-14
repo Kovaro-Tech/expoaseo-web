@@ -1,6 +1,6 @@
 .footer {
   padding-top: 48px;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--on-dark-muted);
   background: var(--surface-dark);
 }
 
@@ -59,7 +59,7 @@
 }
 
 .footer__list a:hover {
-  color: #fff;
+  color: var(--on-dark);
 }
 
 .footer__list--contact {
@@ -91,13 +91,13 @@
   border-radius: var(--r-sm);
   font-size: 0.84rem;
   font-weight: 600;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.08);
+  color: var(--on-dark);
+  background: color-mix(in srgb, var(--on-dark) 8%, transparent);
   transition: background-color 0.2s var(--ease);
 }
 
 .footer__social a:hover {
-  background: rgba(255, 255, 255, 0.16);
+  background: color-mix(in srgb, var(--on-dark) 16%, transparent);
 }
 
 .footer__bottom {
@@ -105,14 +105,26 @@
   flex-direction: column;
   gap: 8px;
   padding-block: 20px 26px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--on-dark-line);
   font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--on-dark-subtle);
 }
 
-.footer__credit span {
+.footer__credit a {
   color: var(--brand-200);
   font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  transition:
+    color 0.2s var(--ease),
+    text-decoration-color 0.2s var(--ease);
+}
+
+.footer__credit a:hover,
+.footer__credit a:focus-visible {
+  color: var(--on-dark);
+  text-decoration-color: currentColor;
 }
 
 @media (min-width: 640px) {

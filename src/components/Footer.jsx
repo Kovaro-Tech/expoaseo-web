@@ -103,7 +103,10 @@ export default function Footer() {
           © {year} {businessConfig.legalName}. Todos los derechos reservados.
         </p>
         <p className="footer__credit">
-          Sitio desarrollado por <span>Kovaro Tech</span>
+          Sitio desarrollado por{' '}
+          <a href="https://kovarotech.com" target="_blank" rel="noopener noreferrer">
+            Kovaro Tech
+          </a>
         </p>
       </div>
     </footer>
