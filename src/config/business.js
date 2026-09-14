@@ -61,7 +61,17 @@ export function formatBusinessHours() {
  * src/data/trust.js, junto al resto del contenido de esa sección.
  */
 export const businessMedia = {
-  logo: '/images/logo.png',
+  /**
+   * Dos versiones del mismo logo, ambas con transparencia:
+   *   onLight  original a color, para fondos claros
+   *   onDark   wordmark y bajada en blanco, escoba en verde de marca,
+   *            para el hero y el footer
+   * Generada con ffmpeg a partir del original; el comando está en el README.
+   */
+  logo: {
+    onLight: '/images/logo.png',
+    onDark: '/images/logo-light.png',
+  },
 
   /**
    * Portada en vídeo. Se sirve UN solo archivo según el viewport: el hero

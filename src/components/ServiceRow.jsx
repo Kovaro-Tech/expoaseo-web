@@ -1,9 +1,12 @@
-import { ArrowRight } from 'lucide-react'
+import WhatsAppIcon from './WhatsAppIcon'
 import { serviceMetaLine } from '../data/services'
 import { quoteUrl } from '../lib/whatsapp'
 import './ServiceRow.css'
 
-/** Fila de catálogo: sin caja, separada solo por filete. */
+/**
+ * Fila de catálogo: sin caja, separada solo por filete.
+ * Abre WhatsApp con este servicio ya precargado en el mensaje.
+ */
 export default function ServiceRow({ category, service }) {
   const meta = [serviceMetaLine(service), service.priceDetail].filter(Boolean).join(' · ')
 
@@ -19,7 +22,8 @@ export default function ServiceRow({ category, service }) {
         <p className="row__price">{service.price}</p>
         <p className="row__desc">{service.description}</p>
         {meta && <p className="row__meta">{meta}</p>}
-        <ArrowRight className="row__arrow" size={18} />
+        {/* El icono deja claro que la fila abre WhatsApp, no otra página. */}
+        <WhatsAppIcon className="row__arrow" size={19} />
       </a>
     </li>
   )

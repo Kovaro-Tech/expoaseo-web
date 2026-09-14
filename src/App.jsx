@@ -13,13 +13,14 @@ export default function App() {
     <>
       <Navbar />
 
+      {/* Ritmo: vídeo → fotos reales → movimiento → catálogo → interacción →
+          preguntas → invitación. Cada bloque es una experiencia distinta. */}
       <main>
         <Hero />
-        {/* La prueba real va inmediatamente después de la portada. */}
         <Experience />
+        <Clients />
         <Services />
         <RequestCta />
-        <Clients />
         <Faq />
         <FinalCta />
       </main>

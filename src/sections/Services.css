@@ -85,15 +85,32 @@
   }
 }
 
-/* ----------------------------------------------- cabecera de categoría --- */
+/* --------------------------------- cabecera de categoría (sin foto) ------ */
+
+.services__intro {
+  margin: 20px 0 26px;
+}
+
+.services__intro-title {
+  font-size: 1.15rem;
+}
+
+.services__intro-text {
+  margin-top: 6px;
+  max-width: 54ch;
+  font-size: 0.95rem;
+  color: var(--ink-500);
+}
+
+/* ----------------------------------- cabecera de categoría (con foto) ---- */
 
 .services__banner {
   position: relative;
   display: flex;
   align-items: flex-end;
-  min-height: 220px;
-  margin: 26px 0 34px;
-  padding: 24px 22px;
+  min-height: 190px;
+  margin: 24px 0 30px;
+  padding: 22px 20px;
   overflow: hidden;
   border-radius: var(--r-lg);
   background: var(--surface-dark);
@@ -137,10 +154,9 @@
 }
 
 .services__banner-title {
-  font-family: var(--font-display);
-  font-weight: 500;
-  letter-spacing: -0.015em;
-  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
   font-size: clamp(1.5rem, 5.6vw, 2.3rem);
   color: #fff;
 }
@@ -173,10 +189,10 @@
 }
 
 .feature__name {
-  font-family: var(--font-display);
-  font-size: clamp(1.5rem, 5vw, 2.2rem);
-  font-weight: 500;
-  line-height: 1.12;
+  font-size: clamp(1.35rem, 4.6vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.028em;
+  line-height: 1.15;
   transition: color 0.2s var(--ease);
 }
 
@@ -200,13 +216,11 @@
   gap: 6px 14px;
 }
 
-/* Único precio en Fraunces: la cifra grande de la categoría.
-   Los precios de las filas siguen en Plus Jakarta Sans. */
+/* La cifra grande de la categoría: mismo peso máximo que el resto de números. */
 .feature__price {
-  font-family: var(--font-display);
-  font-size: clamp(1.7rem, 6vw, 2.3rem);
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.65rem, 5.6vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
   color: var(--ink-900);
 }
 
@@ -225,19 +239,67 @@
   color: var(--brand-600);
 }
 
-.feature__cta svg {
-  transition: transform 0.22s var(--ease);
-}
-
 .feature:hover .feature__name {
   color: var(--brand-600);
 }
 
-.feature:hover .feature__cta svg {
-  transform: translateX(5px);
+.feature:hover .feature__cta {
+  color: var(--wa-dark);
+}
+
+/* ------------------------------------------- banda de confianza ---------- */
+
+.trustband {
+  display: grid;
+  gap: 2px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.trustband__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.trustband__item svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--brand-600);
+}
+
+.trustband__item strong {
+  display: block;
+  font-size: 0.95rem;
+  letter-spacing: -0.015em;
+  color: var(--ink-900);
+}
+
+.trustband__item span {
+  font-size: 0.88rem;
+  color: var(--ink-500);
+}
+
+@media (min-width: 720px) {
+  .trustband {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 40px;
+    padding-top: 28px;
+  }
 }
 
 @media (min-width: 860px) {
+  .services__intro {
+    margin: 26px 0 34px;
+  }
+
+  .services__intro-title {
+    font-size: 1.3rem;
+  }
+
   .services__banner {
     min-height: 300px;
     margin: 32px 0 44px;

@@ -1,171 +1,309 @@
-.section.clients {
-  padding-block: 56px;
+.section.orgs {
+  padding-block: 48px;
+  overflow: hidden;
   background: var(--surface-2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
-.clients__title {
-  max-width: 20ch;
-  font-size: clamp(1.45rem, 4.6vw, 2.2rem);
+.orgs__head {
   margin-bottom: 26px;
 }
 
-/* Rejilla tipográfica sobria: los nombres son la prueba, no hacen falta cajas. */
-.clients__list {
-  display: grid;
-  grid-template-columns: 1fr;
-  border-top: 1px solid var(--line-strong);
+.orgs__title {
+  max-width: 18ch;
+  font-size: clamp(1.45rem, 4.8vw, 2.2rem);
 }
 
-.clients__list li {
-  display: flex;
-  align-items: center;
-  min-height: 58px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--line-strong);
-}
-
-.clients__list span {
+.orgs__text {
+  margin-top: 12px;
+  max-width: 48ch;
   font-size: 1rem;
+  color: var(--ink-500);
+}
+
+/* Banda tipográfica sobria: cuatro datos, ni una caja. */
+.orgs__stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 0;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line-strong);
+  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: -0.015em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--ink-800);
 }
 
-.clients__list img {
-  height: 32px;
+.orgs__stats span + span::before {
+  content: '·';
+  margin-inline: 10px;
+  color: var(--ink-400);
+  font-weight: 500;
+}
+
+/* ------------------------------------------------------------- filtros --- */
+
+.orgs__filters {
+  display: flex;
+  gap: 20px;
+  margin-top: 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.orgs__filters::-webkit-scrollbar {
+  display: none;
+}
+
+/* Solo texto y una línea de acento. Nada de botones grandes. */
+.orgs__filter {
+  min-height: 44px;
+  padding: 8px 0;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink-400);
+  border-bottom: 2px solid transparent;
+  transition:
+    color 0.2s var(--ease),
+    border-color 0.2s var(--ease);
+}
+
+.orgs__filter:hover {
+  color: var(--ink-900);
+}
+
+.orgs__filter[aria-pressed='true'] {
+  color: var(--ink-900);
+  border-bottom-color: var(--accent-500);
+}
+
+/* ---------------------------------------------------------------- rails -- */
+
+.orgs__rails {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rail {
+  /* Los extremos se desvanecen: la cinta no se corta contra el borde. */
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 6%,
+    #000 94%,
+    transparent
+  );
+  /* El desplazamiento vertical de la página nunca se bloquea. */
+  touch-action: pan-y;
+}
+
+.rail__track {
+  display: flex;
+  width: max-content;
+  animation: rail-scroll 90s linear infinite;
+}
+
+.rail--reverse .rail__track {
+  animation-direction: reverse;
+}
+
+@keyframes rail-scroll {
+  to {
+    transform: translateX(-25%);
+  }
+}
+
+/* Se detiene con el puntero, con el foco y unos segundos tras tocarla. */
+.rail:hover .rail__track,
+.rail:focus-within .rail__track,
+.rail.is-held .rail__track {
+  animation-play-state: paused;
+}
+
+.rail__set {
+  display: flex;
+  align-items: center;
+  flex: none;
+}
+
+/* Pocas organizaciones: se muestran quietas y centradas. */
+.rail--static {
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+.rail--static .rail__set {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+/* Sin cinta no hay costura que disimular: fuera el último divisor. */
+.rail--static .org:last-child::after,
+.rail__set:last-child .org:last-child::after {
+  display: none;
+}
+
+/* ----------------------------------------------------------- organización */
+
+.org {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 0;
+  white-space: nowrap;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink-500);
+}
+
+/* Divisor fino entre nombres, también en la costura entre repeticiones. */
+.org::after {
+  content: '';
+  width: 1px;
+  height: 14px;
+  margin-inline: 18px;
+  background: var(--line-strong);
+}
+
+.org--featured {
+  font-weight: 800;
+  color: var(--ink-900);
+}
+
+.org__icon {
+  flex: none;
+  color: var(--ink-400);
+}
+
+.org--featured .org__icon {
+  color: var(--brand-600);
+}
+
+/* Los logos no se recolorean ni se deforman: altura uniforme y proporción. */
+.org__logo {
+  height: 24px;
   width: auto;
+  flex: none;
   object-fit: contain;
 }
 
-/* ------------------------------------------------------ certificaciones -- */
+/* -------------------------------------------------------------- cierre --- */
 
-.clients__subtitle {
-  font-size: 0.95rem;
-  color: var(--ink-500);
-  margin-bottom: 14px;
+.orgs__note {
+  margin-top: 22px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-400);
 }
 
-.clients__certs {
+.orgs__certs {
+  margin-top: 20px;
   border-top: 1px solid var(--line-strong);
 }
 
-.clients__certs li {
+.orgs__certs li {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
   gap: 4px 20px;
-  padding: 16px 0;
+  padding: 14px 0;
   border-bottom: 1px solid var(--line-strong);
 }
 
-.clients__cert-name {
-  font-weight: 700;
+.orgs__certs strong {
   color: var(--ink-900);
 }
 
-.clients__cert-meta {
+.orgs__certs span {
   font-size: 0.85rem;
   color: var(--ink-400);
 }
 
-/* ---------------------------------------------------- cómo trabajamos ---- */
-
-.clients__how {
-  margin-top: 48px;
-  padding-top: 40px;
-  border-top: 2px solid var(--ink-900);
-}
-
-.clients__how-intro {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-bottom: 28px;
-}
-
-.clients__how-title {
-  font-family: var(--font-display);
-  font-weight: 500;
-  letter-spacing: -0.015em;
-  font-size: clamp(1.4rem, 4.6vw, 2.1rem);
-  line-height: 1.12;
-}
-
-.clients__pillars {
-  display: grid;
-  gap: 0;
-}
-
-.clients__pillars li {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: baseline;
-  gap: 16px;
-  padding: 20px 0;
-  border-top: 1px solid var(--line-strong);
-}
-
-.clients__pillar-num {
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 500;
-  color: var(--accent-600);
-}
-
-.clients__pillar-name {
-  font-size: 1.05rem;
-  margin-bottom: 6px;
-}
-
-.clients__pillar-text {
-  font-size: 0.94rem;
-  color: var(--ink-500);
-  max-width: 52ch;
-}
-
-/* ------------------------------------------------------------ desktop ---- */
-
-@media (min-width: 560px) {
-  .clients__list {
-    grid-template-columns: 1fr 1fr;
-    column-gap: 32px;
-  }
-}
+/* ------------------------------------------------------------- desktop --- */
 
 @media (min-width: 768px) {
-  .section.clients {
-    padding-block: 88px;
+  .section.orgs {
+    padding-block: 76px;
   }
 
-  .clients__how {
-    margin-top: 64px;
-    padding-top: 52px;
+  .orgs__head {
+    margin-bottom: 34px;
+  }
+
+  .orgs__stats {
+    font-size: 0.84rem;
+  }
+
+  .orgs__filters {
+    gap: 28px;
+    margin-top: 28px;
+  }
+
+  .orgs__filter {
+    font-size: 0.95rem;
+  }
+
+  .orgs__rails {
+    gap: 10px;
+  }
+
+  .rail__track {
+    animation-duration: 70s;
+  }
+
+  .org {
+    gap: 11px;
+    padding: 14px 0;
+    font-size: 1rem;
+  }
+
+  .org::after {
+    margin-inline: 24px;
+    height: 16px;
+  }
+
+  .org__logo {
+    height: 28px;
   }
 }
 
-@media (min-width: 960px) {
-  .clients__list {
-    grid-template-columns: repeat(3, 1fr);
-    column-gap: 48px;
+/* Sin movimiento: una sola tanda, en rejilla estática. */
+@media (prefers-reduced-motion: reduce) {
+  .rail {
+    mask-image: none;
+    -webkit-mask-image: none;
   }
 
-  .clients__how {
-    display: grid;
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-    gap: 64px;
-    align-items: start;
+  .rail__track {
+    width: auto;
+    animation: none;
   }
 
-  .clients__how-intro {
-    margin-bottom: 0;
-    position: sticky;
-    top: calc(var(--nav-h) + 40px);
+  .rail__set[aria-hidden='true'] {
+    display: none;
   }
 
-  .clients__pillars li {
-    grid-template-columns: 3.5rem 1fr;
-    gap: 20px;
-    padding: 22px 0;
+  .rail__set {
+    flex-wrap: wrap;
+  }
+
+  .rail__set:first-child .org:last-child::after {
+    display: none;
+  }
+
+  .org::after {
+    margin-inline: 14px;
   }
 }

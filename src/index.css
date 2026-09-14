@@ -89,11 +89,9 @@ ol {
 
 h1,
 h2 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-optical-sizing: auto;
-  line-height: 1.08;
-  letter-spacing: -0.015em;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
   color: var(--ink-900);
   text-wrap: balance;
 }
@@ -106,14 +104,15 @@ h4 {
   color: var(--ink-900);
 }
 
-/* Los mínimos están calculados para que los titulares no partan palabras ni
-   desborden a 320 px, el ancho más estrecho que soportamos. */
+/* Una sans en negrita ocupa más que una serif al mismo cuerpo: los máximos
+   bajan un punto respecto a la versión anterior. Los mínimos están calculados
+   para que los titulares no desborden a 320 px. */
 h1 {
-  font-size: clamp(1.75rem, 7.2vw, 4.4rem);
+  font-size: clamp(1.75rem, 6.8vw, 4rem);
 }
 
 h2 {
-  font-size: clamp(1.6rem, 5.2vw, 3rem);
+  font-size: clamp(1.55rem, 4.8vw, 2.7rem);
 }
 
 h3 {

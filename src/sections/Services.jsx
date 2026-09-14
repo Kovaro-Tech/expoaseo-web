@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react'
-import { ArrowRight } from 'lucide-react'
+import { Clock, SprayCan, Users } from 'lucide-react'
 import SectionHeader from '../components/SectionHeader'
+import WhatsAppIcon from '../components/WhatsAppIcon'
 import ServiceRow from '../components/ServiceRow'
 import { categoryImages } from '../config/business'
-import { pricingDisclaimer, serviceCategories, serviceMetaLine } from '../data/services'
+import { pillars } from '../data/content'
+import { pricingDisclaimer, serviceCategories } from '../data/services'
 import { quoteUrl } from '../lib/whatsapp'
 import './Services.css'
+
+const PILLAR_ICONS = { Users, SprayCan, Clock }
 
 /** Permite enlazar una categoría concreta: #servicios-hogar, #servicios-tapiceria… */
 function categoryFromHash() {
@@ -99,10 +103,11 @@ export default function Services() {
           aria-labelledby={`tab-${active.id}`}
           key={active.id}
         >
-          {/* Banda de categoría: mismo tratamiento haya foto o no, de modo que
-              cambiar de pestaña se siente distinto sin romper la unidad. */}
-          <div className={`services__banner services__banner--${active.id}`}>
-            {categoryImages[active.id] && (
+          {/* Con fotografía la cabecera es una pieza visual; sin ella, dos
+              líneas de texto. Una banda de color vacía solo alejaría los
+              precios, que es a lo que viene el usuario. */}
+          {categoryImages[active.id] ? (
+            <div className={`services__banner services__banner--${active.id}`}>
               <img
                 className="services__banner-img"
                 src={categoryImages[active.id]}
@@ -110,12 +115,17 @@ export default function Services() {
                 loading="lazy"
                 decoding="async"
               />
-            )}
-            <div className="services__banner-text">
-              <h3 className="services__banner-title">{active.title}</h3>
-              <p className="services__banner-desc">{active.description}</p>
+              <div className="services__banner-text">
+                <h3 className="services__banner-title">{active.title}</h3>
+                <p className="services__banner-desc">{active.description}</p>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="services__intro">
+              <h3 className="services__intro-title">{active.title}</h3>
+              <p className="services__intro-text">{active.description}</p>
+            </div>
+          )}
 
           {featured && (
             <a
@@ -128,7 +138,11 @@ export default function Services() {
                 <span className="feature__flag">{featured.badge}</span>
                 <h3 className="feature__name">{featured.name}</h3>
                 <p className="feature__desc">{featured.description}</p>
-                <p className="feature__meta">{serviceMetaLine(featured)}</p>
+                {/* Solo unidad y duración: el resto de metadatos alarga la
+                    ficha sin ayudar a decidir. */}
+                <p className="feature__meta">
+                  {[featured.unit, featured.duration].filter(Boolean).join(' · ')}
+                </p>
               </div>
 
               <div className="feature__side">
@@ -139,8 +153,8 @@ export default function Services() {
                     .join(' · ')}
                 </span>
                 <span className="feature__cta">
+                  <WhatsAppIcon size={17} />
                   Solicitar este servicio
-                  <ArrowRight size={17} />
                 </span>
               </div>
             </a>
@@ -153,6 +167,21 @@ export default function Services() {
           </ul>
         </div>
 
+        {/* Cierra el catálogo; no es una sección aparte. */}
+        <ul className="trustband">
+          {pillars.map((pillar) => {
+            const Icon = PILLAR_ICONS[pillar.icon] ?? Users
+            return (
+              <li className="trustband__item" key={pillar.id}>
+                <Icon size={19} strokeWidth={1.7} aria-hidden="true" />
+                <div>
+                  <strong>{pillar.title}</strong>
+                  <span>{pillar.text}</span>
+                </div>
+              </li>
+            )
+          })}
+        </ul>
       </div>
     </section>
   )

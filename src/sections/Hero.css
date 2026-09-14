@@ -50,13 +50,13 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(to bottom, rgba(9, 25, 40, 0.5) 0%, rgba(9, 25, 40, 0) 24%),
+    linear-gradient(to bottom, rgba(9, 25, 40, 0.45) 0%, rgba(9, 25, 40, 0) 22%),
     linear-gradient(
       to top,
-      rgba(9, 25, 40, 0.95) 0%,
-      rgba(9, 25, 40, 0.88) 32%,
-      rgba(9, 25, 40, 0.52) 66%,
-      rgba(9, 25, 40, 0.26) 100%
+      rgba(9, 25, 40, 0.92) 0%,
+      rgba(9, 25, 40, 0.8) 26%,
+      rgba(9, 25, 40, 0.4) 58%,
+      rgba(9, 25, 40, 0.18) 100%
     );
 }
 
@@ -89,9 +89,9 @@
 
 .hero__title {
   color: #fff;
-  font-size: clamp(2rem, 8.4vw, 4.6rem);
-  line-height: 1.03;
-  letter-spacing: -0.025em;
+  font-size: clamp(1.85rem, 7.2vw, 3.9rem);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
   text-shadow: 0 2px 24px rgba(9, 25, 40, 0.45);
 }
 
@@ -103,21 +103,6 @@
 
 .hero__cta {
   margin-top: 6px;
-}
-
-/* Línea de autoridad: los nombres pesan más que cualquier adjetivo. */
-.hero__authority {
-  margin-top: 10px;
-  padding-top: 18px;
-  border-top: 1px solid rgba(255, 255, 255, 0.22);
-  width: 100%;
-  max-width: 40ch;
-  font-size: 0.74rem;
-  font-weight: 700;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  line-height: 1.9;
-  color: rgba(255, 255, 255, 0.82);
 }
 
 @media (min-width: 768px) {
@@ -158,8 +143,4 @@
     font-size: 1.2rem;
   }
 
-  .hero__authority {
-    max-width: none;
-    font-size: 0.78rem;
-  }
 }

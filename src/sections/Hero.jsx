@@ -1,28 +1,9 @@
-import { useMemo, useState, useSyncExternalStore } from 'react'
+import { useState } from 'react'
 import WhatsAppIcon from '../components/WhatsAppIcon'
 import { businessConfig, businessMedia } from '../config/business'
-import { heroClients } from '../data/trust'
+import { DESKTOP, REDUCED_MOTION, useMediaQuery } from '../lib/useMediaQuery'
 import { generalUrl } from '../lib/whatsapp'
 import './Hero.css'
-
-const DESKTOP = '(min-width: 768px)'
-const REDUCED_MOTION = '(prefers-reduced-motion: reduce)'
-
-/**
- * El primer render ya sabe qué vídeo corresponde —useSyncExternalStore lee el
- * valor de forma síncrona—, así que nunca se pide la fuente equivocada.
- */
-function useMediaQuery(query) {
-  const list = useMemo(() => window.matchMedia(query), [query])
-
-  return useSyncExternalStore(
-    (onChange) => {
-      list.addEventListener('change', onChange)
-      return () => list.removeEventListener('change', onChange)
-    },
-    () => list.matches,
-  )
-}
 
 export default function Hero() {
   const isDesktop = useMediaQuery(DESKTOP)
@@ -86,18 +67,16 @@ export default function Hero() {
       </div>
 
       <div className="container hero__inner">
-        <p className="hero__eyebrow">
-          {businessConfig.name} · {businessConfig.serviceArea}
-        </p>
+        {/* Primer viewport deliberadamente vacío: ni cifras, ni clientes, ni
+            argumentos. La autoridad la demuestra la sección siguiente. */}
+        <p className="hero__eyebrow">Servicios profesionales de limpieza</p>
 
         <h1 className="hero__title">
-          {businessConfig.yearsExperience} años cuidando espacios que no pueden
-          fallar.
+          Cuidamos los espacios donde la limpieza importa.
         </h1>
 
         <p className="hero__lead">
-          Limpieza profesional para hogares, empresas e instituciones en{' '}
-          {businessConfig.serviceArea}.
+          Hogares, empresas e instituciones en {businessConfig.serviceArea}.
         </p>
 
         <a
@@ -109,10 +88,6 @@ export default function Hero() {
           <WhatsAppIcon size={20} />
           Solicitar cotización
         </a>
-
-        <p className="hero__authority">
-          {heroClients.map((client) => client.short ?? client.name).join(' · ')}
-        </p>
       </div>
     </section>
   )

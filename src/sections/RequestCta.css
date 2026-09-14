@@ -1,48 +1,41 @@
-/* Bloque azul profundo: la herramienta principal de la web. */
+/* Herramienta, no otra portada: fondo gris muy suave y sin degradados.
+   El navy queda reservado para el hero y el footer. */
 .request {
-  position: relative;
-  overflow: hidden;
   padding-block: 56px;
-  background:
-    radial-gradient(120% 80% at 85% 0%, rgba(15, 117, 188, 0.55), transparent 62%),
-    linear-gradient(165deg, #0b2033, var(--ink-900) 55%, #071a2b);
+  background: var(--surface-2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
 .request__inner {
-  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 28px;
 }
 
 .request__copy {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-}
-
-.request__label {
-  color: rgba(255, 255, 255, 0.6);
+  gap: 12px;
 }
 
 .request__title {
-  color: #fff;
-  font-size: clamp(1.7rem, 6.2vw, 3rem);
+  font-size: clamp(1.45rem, 4.8vw, 2.2rem);
 }
 
 .request__text {
-  max-width: 34ch;
-  font-size: 1.02rem;
-  color: rgba(255, 255, 255, 0.75);
+  max-width: 40ch;
+  font-size: 1rem;
+  color: var(--ink-500);
 }
 
 @media (min-width: 768px) {
   .request {
-    padding-block: 96px;
+    padding-block: 80px;
   }
 
   .request__text {
-    font-size: 1.15rem;
+    font-size: 1.08rem;
   }
 }
 
@@ -51,7 +44,7 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 80px;
+    gap: 72px;
   }
 
   .request__copy {
@@ -61,11 +54,11 @@
   }
 
   .request__title {
-    max-width: 12ch;
+    max-width: 14ch;
   }
 
   .request__inner .selector {
     flex: 1 1 54%;
-    max-width: 560px;
+    max-width: 540px;
   }
 }

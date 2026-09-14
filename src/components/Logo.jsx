@@ -3,20 +3,21 @@ import { businessMedia } from '../config/business'
 import './Logo.css'
 
 /**
- * Carga /public/logo.png cuando exista.
- * Mientras tanto muestra un wordmark tipográfico provisional
- * (NO es el logo de la empresa, es solo un placeholder).
+ * `variant="light"` usa la versión blanca del logo, para el hero y el footer.
+ * Ambas van sobre transparencia: nunca se monta sobre una placa de color.
  */
 export default function Logo({ variant = 'default' }) {
   const [imageFailed, setImageFailed] = useState(false)
-  const showImage = Boolean(businessMedia.logo) && !imageFailed
+
+  const src = variant === 'light' ? businessMedia.logo.onDark : businessMedia.logo.onLight
+  const showImage = Boolean(src) && !imageFailed
 
   return (
     <span className={`logo logo--${variant}`}>
       {showImage ? (
         <img
           className="logo__img"
-          src={businessMedia.logo}
+          src={src}
           alt="EXPOASEO — Servicios Generales Cía. Ltda."
           width="2259"
           height="719"

@@ -33,7 +33,10 @@
   max-width: 60ch;
 }
 
+/* En móvil la fila se queda en nombre + una línea + precio: los metadatos
+   alargan el catálogo sin ayudar a decidir. */
 .row__meta {
+  display: none;
   grid-column: 1 / -1;
   font-size: 0.8rem;
   color: var(--ink-400);
@@ -42,9 +45,7 @@
 .row__arrow {
   display: none;
   color: var(--line-strong);
-  transition:
-    transform 0.22s var(--ease),
-    color 0.2s var(--ease);
+  transition: color 0.2s var(--ease);
 }
 
 .row__link:hover .row__name {
@@ -52,8 +53,7 @@
 }
 
 .row__link:hover .row__arrow {
-  color: var(--brand-600);
-  transform: translateX(5px);
+  color: var(--wa-dark);
 }
 
 @media (min-width: 768px) {
@@ -77,6 +77,7 @@
   }
 
   .row__meta {
+    display: block;
     grid-column: 2;
     grid-row: 2;
   }

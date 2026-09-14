@@ -2,34 +2,26 @@ import { businessConfig } from '../config/business'
 import { workPhotos } from '../data/trust'
 import './Experience.css'
 
+/* Tres fotografías fijas: una principal y dos de apoyo. Sin carrusel, sin
+   controles y sin avance automático — la prueba no necesita animarse. */
 const photo = (id) => workPhotos.find((item) => item.id === id)
-
-/* Una principal grande, dos de apoyo y una cuarta solo en desktop:
-   en móvil un mosaico de cuatro se vuelve ilegible. */
-const layout = [
-  { slot: 'a', item: photo('fiscalia') },
-  { slot: 'b', item: photo('mobiliario') },
-  { slot: 'c', item: photo('altura') },
-  { slot: 'd', item: photo('petroecuador') },
+const shown = [
+  { slot: 'a', item: photo('sala-sesiones') },
+  { slot: 'b', item: photo('altura') },
+  { slot: 'c', item: photo('estacion') },
 ]
 
-function Photo({ item, className = '' }) {
+function Photo({ slot, item }) {
   if (!item) return null
 
   return (
-    <figure
-      className={`exp__photo ${className}`}
-      style={{
-        '--ratio': item.ratio,
-        '--ratio-mobile': item.ratioMobile ?? item.ratio,
-        '--focus': item.focus ?? 'center',
-      }}
-    >
+    <figure className={`exp__photo exp__photo--${slot}`}>
       <img
         src={item.src}
         alt={item.alt}
         width={item.width}
         height={item.height}
+        style={{ objectPosition: item.objectPosition }}
         loading="lazy"
         decoding="async"
       />
@@ -42,7 +34,7 @@ export default function Experience() {
 
   return (
     <section className="section exp" id="trayectoria">
-      <div className="container">
+      <div className="container exp__inner">
         <div className="exp__top">
           <p className="exp__count">
             <span className="exp__number">{years}</span>
@@ -50,19 +42,17 @@ export default function Experience() {
           </p>
 
           <div className="exp__copy">
-            <h2 className="exp__title">
-              {years} años trabajando donde la limpieza no puede fallar.
-            </h2>
+            <h2 className="exp__title">Una trayectoria construida trabajando.</h2>
             <p className="exp__text">
-              Experiencia en instituciones públicas, salud, educación, energía,
-              comercio y servicios.
+              Experiencia real en instituciones públicas, salud, educación,
+              energía, comercio y hogares de {businessConfig.serviceArea}.
             </p>
           </div>
         </div>
 
         <div className="exp__gallery">
-          {layout.map(({ slot, item }) => (
-            <Photo key={slot} item={item} className={`exp__photo--${slot}`} />
+          {shown.map(({ slot, item }) => (
+            <Photo key={slot} slot={slot} item={item} />
           ))}
         </div>
       </div>

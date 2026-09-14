@@ -53,12 +53,15 @@
   --wa: #25d366;
   --wa-dark: #1da851;
 
-  /* Tipografía
-     --font-display se usa SOLO en titulares. Para volver a un sitio
-     100% sans, basta con igualarla a var(--font-sans). */
+  /* Tipografía — una sola familia en todo el sitio.
+     La jerarquía se construye con peso, tamaño y tracking, no con una
+     segunda familia decorativa:
+       titulares  700 · tracking negativo
+       cifras     800 · tracking negativo
+       cuerpo     400/500
+       labels     700 · mayúsculas · tracking 0.16em */
   --font-sans:
     'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
 
   /* Radios — deliberadamente bajos: menos "card", más editorial. */
   --r-sm: 4px;

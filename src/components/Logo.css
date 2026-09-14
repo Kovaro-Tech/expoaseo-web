@@ -46,19 +46,11 @@
 /* El logo es azul sobre transparente: sobre el navy del footer no tendría
    contraste, así que lo montamos sobre una placa blanca. */
 
+/* Sobre fondo oscuro se usa la versión blanca del archivo, sin placa ni caja.
+   La sombra solo separa el logo del vídeo cuando detrás pasa una zona clara;
+   es deliberadamente casi invisible. */
 .logo--light .logo__img {
-  height: 30px;
-  padding: 7px 11px;
-  background: #fff;
-  border-radius: var(--r-md);
-  box-sizing: content-box;
-}
-
-@media (min-width: 768px) {
-  .logo--light .logo__img {
-    height: 38px;
-    padding: 8px 13px;
-  }
+  filter: drop-shadow(0 1px 6px rgba(9, 25, 40, 0.45));
 }
 
 .logo--light .logo__wordmark {

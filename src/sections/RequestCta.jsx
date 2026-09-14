@@ -6,10 +6,10 @@ export default function RequestCta() {
     <section className="request" id="solicitar">
       <div className="container request__inner">
         <div className="request__copy">
-          <p className="label request__label">Cotización</p>
-          <h2 className="request__title">Cuéntanos qué necesitas limpiar.</h2>
+          <p className="label request__label">Te orientamos</p>
+          <h2 className="request__title">¿No sabes qué servicio necesitas?</h2>
           <p className="request__text">
-            Selecciona el servicio y te llevamos directo a WhatsApp.
+            Cuéntanos qué necesitas limpiar y te orientamos por WhatsApp.
           </p>
         </div>
 

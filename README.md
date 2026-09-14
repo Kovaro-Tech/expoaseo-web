@@ -25,7 +25,7 @@ npm run lint
 | Atributos de "Cómo trabajamos" y FAQ           | `src/data/content.js`          |
 | Fotos de trabajo real, instituciones, certif.  | `src/data/trust.js`            |
 | Colores, tipografía, radios y sombras          | `src/styles/tokens.css`        |
-| Logo                                           | `public/images/logo.png`       |
+| Logo (dos versiones)                           | `businessMedia.logo` en config |
 | Fotos de portada y de categoría                | `businessMedia` en config      |
 
 ### WhatsApp
@@ -72,21 +72,69 @@ puntos, sin saturar la página:
 
 No añadir la palabra "referencial" a cada fila del catálogo: se vuelve ruido.
 
-### Clientes y certificaciones
+### Organizaciones y certificaciones
 
-`src/data/trust.js` exporta `clients` (las 10 instituciones, ya cargadas),
-`certifications` (vacío: su bloque no se renderiza hasta que haya contenido) y
-`heroClientIds`, los cinco nombres de la línea de autoridad del hero.
+Las 29 organizaciones reales viven en `clients` (`src/data/trust.js`), cada
+una con `name`, `shortName`, `sector`, `category`, `icon`, `logo` y `featured`.
 
-Al añadir `logo` a un cliente, la imagen sustituye al nombre sin tocar el
-componente. **No poblar con datos de ejemplo**: solo material que la clienta
+| Sector         | Organizaciones |
+| -------------- | -------------- |
+| Sector público | 13             |
+| Salud          | 11             |
+| Energía        | 2              |
+| Privado        | 3              |
+
+- **`sector`** decide en qué fila del rail cae y bajo qué filtro aparece.
+- **`icon`** es una clave Lucide elegida en el dato; el componente solo la
+  resuelve. Qué icono lleva cada organización NO se decide en el componente.
+- **`shortName`** es lo que se ve; `name` va en el `title` del elemento.
+- **`featured`** (8 organizaciones) da algo más de peso y prioridad de orden.
+- **`clientStats`** calcula las cifras de la banda desde el propio array, así
+  que nunca contradicen a la lista.
+
+**Añadir una organización** = un objeto más en `clients`. Entra sola en su
+fila, su filtro y con su icono. Al rellenar `logo`, la imagen sustituye al
+icono sin tocar el componente: altura uniforme, `object-fit: contain`, sin
+recolorear ni recortar.
+
+**Filtro** (`clientSectors`): chips de texto con línea de acento, nunca
+botones. En móvil se desplazan en horizontal.
+
+**Movimiento:** CSS puro, 90 s en móvil y 70 s en desktop, fila 1 en un
+sentido y fila 2 en el contrario. El set se repite cuatro veces y la animación
+desplaza exactamente un set, de modo que el reinicio es invisible. Se detiene
+con `:hover`, `:focus-within` y, en táctil, 6 s después de tocarla.
+
+El rail se adapta al número de organizaciones: dos filas a partir de 12, una
+sola por debajo, y **estática** por debajo de 6 (Energía y Privado hoy), para
+que una cinta con dos nombres no se vea pobre.
+
+Con `prefers-reduced-motion: reduce` no hay animación: se oculta la
+repetición y queda una única tanda en rejilla.
+
+`certifications` sigue vacío; su bloque no se renderiza hasta que haya
+contenido. **No poblar con datos de ejemplo**: solo material que la clienta
 haya entregado y autorizado.
 
 ### Logo y colores de marca
 
-El logo vive en `public/images/logo.png` (ruta configurada en
-`businessMedia.logo`). Si el archivo faltara, `src/components/Logo.jsx` cae a un
-wordmark tipográfico provisional.
+Hay **dos versiones del logo**, ambas sobre transparencia y sin placa ni caja:
+
+| Archivo                       | `businessMedia.logo` | Dónde                    |
+| ----------------------------- | -------------------- | ------------------------ |
+| `/images/logo.png`            | `onLight`            | Navbar con fondo claro   |
+| `/images/logo-light.png`      | `onDark`             | Hero y footer            |
+
+La versión clara se generó a partir del original con ffmpeg: pasa a blanco
+todo lo que no sea verde, así que el wordmark y la bajada quedan en blanco y
+la escoba conserva el verde de marca.
+
+```bash
+ffmpeg -i public/images/logo.png -vf "format=rgba,geq=r='if(gt(g(X,Y),b(X,Y)),r(X,Y),255)':g='if(gt(g(X,Y),b(X,Y)),g(X,Y),255)':b='if(gt(g(X,Y),b(X,Y)),b(X,Y),255)':a='alpha(X,Y)'" public/images/logo-light.png
+```
+
+Si algún archivo faltara, `src/components/Logo.jsx` cae a un wordmark
+tipográfico provisional.
 
 La paleta de `src/styles/tokens.css` está derivada del logo:
 
@@ -94,7 +142,7 @@ La paleta de `src/styles/tokens.css` está derivada del logo:
 | ---------------- | --------- | ------------- | ------------------------------------ |
 | Azul wordmark    | `#0F75BC` | `--brand-600` | Botones, tabs, iconos, degradados    |
 | Verde escoba     | `#8CC63F` | `--accent-500`| Filetes de sección, subrayado activo |
-| Verde secundario | `#6EBE44` | `--accent-600`| Numeración editorial                 |
+| Verde secundario | `#6EBE44` | `--accent-600`| Reservado; hoy sin uso               |
 | Gris bajada      | `#818285` | `--logo-gray` | Referencia de marca                  |
 | Verde WhatsApp   | `#25D366` | `--wa`        | Solo botones que abren el chat       |
 
@@ -102,8 +150,8 @@ La paleta de `src/styles/tokens.css` está derivada del logo:
 para superar 4.5:1 (WCAG AA) sobre el fondo del sitio. **No aclararlos**: el
 gris exacto del logo (`--logo-gray`) no alcanza ese contraste en texto chico.
 
-Sobre el footer oscuro el logo se monta en una placa blanca
-(`.logo--light`), porque el azul del logo no contrasta con el navy.
+Sobre fondo oscuro se usa la versión blanca con un `drop-shadow` mínimo
+(`.logo--light`), nunca una placa de color.
 
 ## Estructura
 
@@ -115,7 +163,7 @@ src/
                 Clients · Faq · FinalCta
   data/         services.js · content.js · trust.js
   config/       business.js · whatsapp.js
-  lib/          whatsapp.js                (ensambla, no redacta)
+  lib/          whatsapp.js · useMediaQuery.js
   styles/       tokens.css                 (design tokens)
 ```
 
@@ -128,9 +176,56 @@ Sitio editorial, no "landing de tarjetas": secciones separadas por filetes
 (`border-top`) en lugar de cajas, radios bajos, sombras casi inexistentes y
 composiciones asimétricas (columna de intro fija + columna de contenido).
 
-Titulares en **Fraunces** (`--font-display`), cuerpo en **Plus Jakarta Sans**.
-Para volver a un sitio 100 % sans, iguala `--font-display` a `--font-sans` en
-`tokens.css`.
+**Una sola familia: Plus Jakarta Sans.** La jerarquía se construye con peso,
+tamaño y tracking, no con una segunda tipografía:
+
+| Elemento         | Peso | Tracking  |
+| ---------------- | ---- | --------- |
+| H1 / H2          | 700  | -0.03em   |
+| Cifras y precios | 800  | -0.035em  |
+| Subtítulos (h3)  | 700  | -0.015em  |
+| Cuerpo           | 400  | normal    |
+| Labels           | 700  | +0.16em, mayúsculas |
+
+No volver a introducir una serif ni una segunda familia: la elegancia sale de
+la composición, no de la fuente.
+
+### Ritmo de la página
+
+Cada bloque tiene que ser una experiencia distinta, no otro bloque de texto
+con filete:
+
+```
+vídeo → fotos reales → movimiento → catálogo → interacción → preguntas → CTA
+Hero    Experience     Clients      Services   RequestCta    Faq          FinalCta
+```
+
+Los **15 años son exclusivos de Trayectoria**. El hero no lleva cifras, ni
+clientes, ni argumentos: solo qué hacen, para quién y el CTA. La autoridad la
+demuestra la sección siguiente, no un titular.
+
+Los tres atributos de confianza (personal, insumos, horarios) son una **banda
+compacta al cierre de Servicios**, no una sección propia: apoyan al catálogo
+justo donde el usuario está mirando precios.
+
+### Fondos y uso del navy
+
+El azul oscuro está reservado a los dos extremos de la página. En medio todo
+es claro, para que la web se lea como una empresa de servicios y no como una
+sucesión de portadas:
+
+| Sección       | Fondo                          |
+| ------------- | ------------------------------ |
+| Hero          | vídeo + velo navy              |
+| Trayectoria   | claro                          |
+| Servicios     | claro (banda de categoría azul)|
+| Confianza     | gris suave (`--surface-2`)     |
+| Cotizador     | gris suave (`--surface-2`)     |
+| FAQ           | claro                          |
+| Cierre        | gris suave (`--surface-2`)     |
+| Footer        | navy                           |
+
+No añadir más bloques oscuros: pierden el efecto de los dos que hay.
 
 ### Enlaces a una categoría concreta
 
@@ -173,21 +268,23 @@ El velo azul es un degradado, no un plano opaco: denso bajo el copy (90-95 %)
 y suelto en la zona opuesta (22-34 %), para que el movimiento se note sin
 comprometer la lectura.
 
-El navbar flota sobre la portada sin fondo y con el logo sobre placa blanca;
-al desplazarse 60 px vuelve a su versión clara.
+El navbar flota sobre la portada sin fondo, con la versión blanca del logo;
+al desplazarse 60 px vuelve a fondo claro y logo a color.
 
 ### Fotografías de trabajo real
 
-La sección "Trayectoria" usa cuatro fotos de `public/images/real-work/`,
-declaradas en `workPhotos` (`src/data/trust.js`) con su `alt`, su proporción y
-su `object-position`.
+La sección "Trayectoria" muestra **tres fotografías fijas** de
+`public/images/real-work/`: una principal y dos de apoyo. Sin carrusel, sin
+controles y sin avance automático — la prueba no necesita animarse.
 
-**El recorte no es decorativo.** `limpieza-altura-01.jpg` y
-`petroecuador-exterior-01.jpg` traen incrustadas fecha, coordenadas GPS y
-nombre del sitio en la esquina inferior derecha. Los marcos 16:9 y 21:9 con
-`focus: 'top'` las dejan fuera de cuadro. Si se cambia la proporción de esas
-dos fotos, la marca vuelve a aparecer. Lo ideal es pedir a la clienta un
-reexport sin sello.
+Las seis fotos siguen declaradas en `workPhotos` (`src/data/trust.js`) con
+`src`, `alt`, `label` y `objectPosition`; `src/sections/Experience.jsx` elige
+cuáles se muestran. Los `label` son contexto del trabajo ("Sala de sesiones",
+"Trabajo en altura"): **nunca dirección exacta, coordenadas ni fecha**.
+
+`limpieza-altura-01.jpg` y `petroecuador-exterior-01.jpg` venían con fecha y
+coordenadas GPS incrustadas: los archivos publicados ya están **recortados**
+para eliminarlas. Los originales quedan en `assets-source/images/`.
 
 ### Rendimiento
 

@@ -5,27 +5,29 @@
  * ► No usamos cifras que no podamos comprobar (años, número de clientes).
  */
 
-/** Bloque "Cómo trabajamos", dentro de la sección de confianza. Máximo cuatro. */
+/**
+ * Banda de confianza al cierre de Servicios. Tres atributos, una línea cada
+ * uno: es un apoyo al catálogo, no una sección.
+ * `icon` es una clave; el mapa vive en src/sections/Services.jsx.
+ */
 export const pillars = [
   {
     id: 'equipo',
-    title: 'Equipo capacitado',
-    text: 'Personal propio y supervisado, con protocolos para cada tipo de espacio.',
+    icon: 'Users',
+    title: 'Personal capacitado',
+    text: 'Equipo propio y supervisado.',
   },
   {
     id: 'insumos',
+    icon: 'SprayCan',
     title: 'Insumos adecuados',
-    text: 'Llegamos con los productos y equipos que cada superficie necesita.',
+    text: 'Productos según cada superficie.',
   },
   {
     id: 'horarios',
+    icon: 'Clock',
     title: 'Horarios coordinados',
-    text: 'Jornadas de 4 u 8 horas, acordadas contigo antes de empezar.',
-  },
-  {
-    id: 'alcance',
-    title: 'Hogares y empresas',
-    text: 'Desde un juego de sala hasta el mantenimiento mensual de varios puntos de atención.',
+    text: 'Jornadas acordadas antes de empezar.',
   },
 ]
 
