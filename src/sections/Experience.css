@@ -2,13 +2,46 @@
   padding-block: 56px;
 }
 
-/* ---------------------------------------------------------------- cifra -- */
+.exp__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.exp__gallery {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 10px;
+}
+
+.exp__photo {
+  overflow: hidden;
+  margin: 0;
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
+
+.exp__photo--primary {
+  grid-column: 1 / -1;
+  aspect-ratio: 4 / 3;
+}
+
+.exp__photo--secondary,
+.exp__photo--tertiary {
+  aspect-ratio: 1 / 1;
+}
+
+.exp__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 .exp__top {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  margin-bottom: 32px;
 }
 
 .exp__count {
@@ -36,42 +69,13 @@
 }
 
 .exp__title {
-  font-size: clamp(1.5rem, 5.2vw, 2.5rem);
+  font-size: clamp(1.5rem, 5.2vw, 2.3rem);
 }
 
 .exp__text {
+  max-width: 42ch;
   margin-top: 12px;
-  max-width: 48ch;
-  font-size: 1rem;
   color: var(--ink-500);
-}
-
-/* -------------------------------------------------------------- fotos ---- */
-
-.exp__gallery {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.exp__photo {
-  margin: 0;
-  overflow: hidden;
-  border-radius: var(--r-lg);
-  background: var(--surface-2);
-  aspect-ratio: 1 / 1;
-}
-
-/* La principal ocupa el ancho completo; las dos de apoyo comparten fila. */
-.exp__photo--a {
-  grid-column: 1 / -1;
-  aspect-ratio: 4 / 3;
-}
-
-.exp__photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 @media (min-width: 768px) {
@@ -79,81 +83,40 @@
     padding-block: 88px;
   }
 
-  /* Bloque rectangular: la principal llena la altura de las dos de apoyo. */
+  .exp__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.38fr) minmax(260px, 1fr);
+    gap: clamp(40px, 6vw, 80px);
+    align-items: center;
+  }
+
   .exp__gallery {
-    grid-template-columns: 1.4fr 1fr;
+    grid-template-columns: minmax(0, 1.65fr) minmax(0, 0.75fr);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
     gap: 12px;
-  }
-
-  .exp__photo--a {
-    grid-column: 1;
-    grid-row: 1 / 3;
-    aspect-ratio: auto;
-    height: 100%;
-  }
-
-  .exp__photo--b,
-  .exp__photo--c {
     aspect-ratio: 16 / 10;
   }
 
-  .exp__top {
-    flex-direction: row;
-    align-items: flex-end;
-    gap: 48px;
-    margin-bottom: 40px;
+  .exp__photo--primary {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    aspect-ratio: auto;
   }
 
-  .exp__count {
-    flex: none;
-    border-bottom: 0;
-    padding-bottom: 0;
-  }
-
-  .exp__number {
-    font-size: clamp(5.5rem, 10vw, 8.5rem);
-  }
-
-  .exp__copy {
-    flex: 1 1 auto;
-    padding-bottom: 8px;
-    border-bottom: 2px solid var(--ink-900);
-  }
-
-  .exp__title {
-    max-width: 22ch;
-  }
-}
-
-/* Desde 1100 px la cifra y el texto pasan a una columna lateral y el carrusel
-   ocupa el resto: una sola fotografía grande, con foco. */
-@media (min-width: 1100px) {
-  .exp__inner {
-    display: grid;
-    grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
-    gap: 64px;
-    align-items: start;
+  .exp__photo--secondary,
+  .exp__photo--tertiary {
+    aspect-ratio: auto;
   }
 
   .exp__top {
-    flex-direction: column;
-    align-items: flex-start;
     gap: 28px;
-    margin-bottom: 0;
   }
 
   .exp__count {
     padding-bottom: 24px;
-    border-bottom: 2px solid var(--ink-900);
-    align-self: stretch;
   }
 
-  .exp__copy {
-    padding-bottom: 0;
-    border-bottom: 0;
-  }
-
-  .exp__title {
-    font-size: clamp(1.8rem, 2.4vw, 2.3rem);
+  .exp__number {
+    font-size: clamp(5.5rem, 8vw, 8.5rem);
   }
 }

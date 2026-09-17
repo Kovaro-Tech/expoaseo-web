@@ -7,6 +7,7 @@ import FinalCta from './sections/FinalCta'
 import Hero from './sections/Hero'
 import RequestCta from './sections/RequestCta'
 import Services from './sections/Services'
+import WorkInAction from './sections/WorkInAction'
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Experience />
         <Clients />
         <Services />
+        <WorkInAction />
         <RequestCta />
         <Faq />
         <FinalCta />
