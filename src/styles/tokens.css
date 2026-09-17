@@ -48,6 +48,9 @@
   --surface: #ffffff;
   --surface-2: #eff4f9;
   --surface-dark: #0e2438;
+  /* Base inmediata del hero mientras el vídeo aún no se puede mostrar. */
+  --hero-fallback-bg: #0e2438;
+  --hero-fallback-bg-dark: #091522;
 
   /* Alias semánticos para superficies y contenido. */
   --ink: var(--ink-900);
@@ -109,6 +112,7 @@
   --surface: #101f30;
   --surface-2: #16293b;
   --surface-dark: #091522;
+  --hero-fallback-bg: var(--hero-fallback-bg-dark);
   --navy: #091522;
 
   --ink-900: #f4f7f5;

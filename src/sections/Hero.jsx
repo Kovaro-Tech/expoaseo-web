@@ -1,27 +1,39 @@
 import { useState } from 'react'
 import WhatsAppIcon from '../components/WhatsAppIcon'
 import { businessConfig, businessMedia } from '../config/business'
-import { DESKTOP, REDUCED_MOTION, useMediaQuery } from '../lib/useMediaQuery'
+import {
+  DESKTOP,
+  REDUCED_MOTION,
+  useMediaQuery,
+  usePosterOnlyForConnection,
+} from '../lib/useMediaQuery'
 import { generalUrl } from '../lib/whatsapp'
 import './Hero.css'
 
 export default function Hero() {
   const isDesktop = useMediaQuery(DESKTOP)
   const reducedMotion = useMediaQuery(REDUCED_MOTION)
+  const posterOnlyForConnection = usePosterOnlyForConnection()
 
   /* Guardamos QUÉ fuente está reproduciéndose, no un booleano: así, al cruzar
      el breakpoint, el vídeo vuelve a ocultarse solo, sin efecto de por medio. */
   const [playingSource, setPlayingSource] = useState(null)
+  const [failedSource, setFailedSource] = useState(null)
 
   /* Solo se monta UNA etiqueta <video> y con UNA sola fuente. El navegador
      nunca ve la otra ruta, así que no puede descargarla. */
   const source = isDesktop
     ? businessMedia.heroVideoDesktop
     : businessMedia.heroVideoMobile
-  const showVideo = Boolean(source) && !reducedMotion
-  const poster =
-    (!isDesktop && businessMedia.heroPosterMobile) || businessMedia.heroPoster
-  const isPlaying = playingSource === source
+  /* La sesión también cambia si se activa una preferencia de ahorro de datos:
+     una futura carga nunca hereda el estado visible de un vídeo anterior. */
+  const videoSession = `${source}:${isDesktop}:${reducedMotion}:${posterOnlyForConnection}`
+  const showVideo =
+    Boolean(source) &&
+    !reducedMotion &&
+    !posterOnlyForConnection &&
+    failedSource !== videoSession
+  const isPlaying = playingSource === videoSession
 
   return (
     <section className="hero" id="inicio">
@@ -32,21 +44,9 @@ export default function Hero() {
           '--focus-mobile': businessMedia.heroVideoPositionMobile,
         }}
       >
-        {/* Siempre presente y por debajo del vídeo: nunca se ve fondo negro,
-            ni mientras carga, ni si el autoplay está bloqueado, ni si falla. */}
-        {poster && (
-          <img
-            className="hero__layer hero__poster"
-            src={poster}
-            alt=""
-            fetchPriority="high"
-            decoding="async"
-          />
-        )}
-
         {showVideo && (
           <video
-            key={source}
+            key={videoSession}
             className={`hero__layer hero__video${isPlaying ? ' is-playing' : ''}`}
             src={source}
             autoPlay
@@ -56,10 +56,13 @@ export default function Hero() {
             preload="metadata"
             aria-hidden="true"
             tabIndex={-1}
-            /* 'playing', no 'canplay': si el navegador bloquea el autoplay
-               el vídeo no aparece y se queda el póster. */
-            onPlaying={() => setPlayingSource(source)}
-            onError={() => setPlayingSource(null)}
+            /* 'playing', no 'canplay': si el navegador bloquea el autoplay,
+               se conserva el fondo de marca sin revelar un fotograma. */
+            onPlaying={() => setPlayingSource(videoSession)}
+            onError={() => {
+              setPlayingSource(null)
+              setFailedSource(videoSession)
+            }}
           />
         )}
 

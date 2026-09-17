@@ -238,8 +238,8 @@ El hero reproduce un vídeo distinto según el viewport y **solo descarga uno**:
 
 | Viewport | Archivo                    | Peso   |
 | -------- | -------------------------- | ------ |
-| ≥ 768 px | `/videos/hero-desktop.mp4` | 3,7 MB |
-| < 768 px | `/videos/hero-mobile.mp4`  | 2,8 MB |
+| ≥ 768 px | `/videos/hero-desktop-web.mp4` | 1,1 MB |
+| < 768 px | `/videos/hero-mobile-web.mp4`  | 0,6 MB |
 
 Se monta **una sola** etiqueta `<video>` con **una sola** `src`, elegida antes
 del primer pintado (`useSyncExternalStore` + `matchMedia` devuelve el valor de
@@ -250,19 +250,23 @@ dentro de `<video>` y acabarían descargando el primero de la lista.
 Atributos: `autoplay muted loop playsInline preload="metadata"`, sin controles
 y sin pista de audio en el archivo.
 
-**Fallback.** Debajo del vídeo hay siempre un `<img>` con `heroPoster`, cargado
-con `fetchpriority="high"`. El vídeo arranca en `opacity: 0` y solo aparece
-—con un fundido de 240 ms— cuando dispara el evento `playing`, no `canplay`:
-si el navegador bloquea el autoplay, el archivo falla o tarda, se queda el
-póster y nunca se ve fondo negro. `heroPosterMobile` permite una imagen
-distinta en móvil; vacío usa `heroPoster`.
+**Fallback.** El hero comienza con `--hero-fallback-bg` y su velo azul ya
+renderizado; no hay imagen póster. El vídeo arranca en `opacity: 0` y solo
+aparece —con un fundido de 200 ms— cuando dispara el evento `playing`, no
+`canplay`. Si el autoplay falla, tarda o reporta un error, se conserva el fondo
+de marca y nunca se ve fondo negro. En tema oscuro,
+`--hero-fallback-bg` resuelve a `--hero-fallback-bg-dark`.
 
 **Movimiento reducido.** Con `prefers-reduced-motion: reduce` la etiqueta
-`<video>` ni siquiera se monta: el archivo no se pide. No es una pausa
-posterior a la descarga.
+`<video>` ni siquiera se monta: el archivo no se pide y se mantiene el fondo de
+marca. No es una pausa posterior a la descarga.
+
+**Ahorro de datos.** Si `navigator.connection.saveData` es `true`, o
+`effectiveType` es `2g` o `slow-2g`, tampoco se monta el `<video>`: se mantiene
+el fondo de marca.
 
 **Encuadre.** `heroVideoPositionDesktop` y `heroVideoPositionMobile`
-(`object-position`) se aplican por igual al vídeo y al póster.
+(`object-position`) se aplican al vídeo.
 
 El velo azul es un degradado, no un plano opaco: denso bajo el copy (90-95 %)
 y suelto en la zona opuesta (22-34 %), para que el movimiento se note sin
@@ -326,13 +330,12 @@ instituciones listadas en `src/data/trust.js`.
   | ----------------- | ----------------------- | ---------- | --------- |
   | `heroVideoDesktop`| Portada ≥ 768 px        | 16:9       | 1920×1080 |
   | `heroVideoMobile` | Portada < 768 px        | 9:16       | 720×1280  |
-  | `heroPoster`      | Respaldo de portada     | 16:9       | 1920×1080 |
   | `homeImage`       | Categoría Hogares       | 21:9       | 1600×686  |
   | `businessImage`   | Categoría Empresas      | 21:9       | 1600×686  |
   | `upholsteryImage` | Categoría Tapicería     | 21:9       | 1600×686  |
   | `closingImage`    | Cierre                  | 16:9       | 1600×900  |
 
-  Portada, respaldo y cierre ya están resueltos. Falta una foto honesta de
+  Portada y cierre ya están resueltos. Falta una foto honesta de
   **hogar**: todo el material disponible es institucional.
 - Imagen para compartir en redes (`og:image`, 1200×630) con URL absoluta.
 - Validar la respuesta de la FAQ sobre tiempos de agendamiento.

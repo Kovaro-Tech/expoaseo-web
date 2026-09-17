@@ -1,4 +1,4 @@
-/* Portada a sangre: el navbar se superpone al vídeo/póster. */
+/* Portada a sangre: el navbar se superpone al vídeo. */
 
 .hero {
   position: relative;
@@ -10,7 +10,8 @@
   padding-top: calc(var(--nav-h) + 40px);
   padding-bottom: max(40px, calc(env(safe-area-inset-bottom) + 20px));
   overflow: hidden;
-  background: var(--surface-dark);
+  /* Visible desde el primer frame, antes de que exista un fotograma de vídeo. */
+  background: var(--hero-fallback-bg);
 }
 
 .hero__media {
@@ -18,7 +19,7 @@
   inset: 0;
 }
 
-/* Póster y vídeo ocupan exactamente el mismo hueco, uno encima del otro. */
+/* El vídeo ocupa el hueco del hero sin alterar el layout ya reservado. */
 .hero__layer {
   position: absolute;
   inset: 0;
@@ -30,7 +31,7 @@
 
 .hero__video {
   opacity: 0;
-  transition: opacity 240ms var(--ease);
+  transition: opacity 200ms var(--ease);
 }
 
 /* Solo aparece cuando el vídeo está reproduciéndose de verdad. */

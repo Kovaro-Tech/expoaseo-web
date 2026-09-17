@@ -51,7 +51,6 @@ export function formatBusinessHours() {
  * Proporciones recomendadas:
  *   heroVideoDesktop 16:9 apaisado  (1920×1080, MP4 H.264, sin audio, < 4 MB)
  *   heroVideoMobile  9:16 vertical  (720×1280,  MP4 H.264, sin audio, < 3 MB)
- *   heroPoster       16:9 apaisada  (mín. 1920×1080)
  *   homeImage        21:9 apaisada  (mín. 1600×686)
  *   businessImage    21:9 apaisada  (mín. 1600×686)
  *   upholsteryImage  21:9 apaisada  (mín. 1600×686)
@@ -82,14 +81,10 @@ export const businessMedia = {
    *
    * Dejar cualquiera de las dos rutas vacía desactiva el vídeo en ese viewport.
    */
-  heroVideoDesktop: '/videos/hero-desktop.mp4', // 1920×1080 · 24 s · 3,7 MB
-  heroVideoMobile: '/videos/hero-mobile.mp4', // 720×1280 · 40 s · 2,8 MB
+  heroVideoDesktop: '/videos/hero-desktop-web.mp4', // 1920×1080 · 8 s · 1,1 MB
+  heroVideoMobile: '/videos/hero-mobile-web.mp4', // 720×1280 · 7 s · 0,6 MB
 
-  /** Imagen de respaldo: se ve siempre bajo el vídeo, así que nunca hay negro. */
-  heroPoster: '/images/real-work/fiscalia-loja-02.jpg',
-  heroPosterMobile: '', // opcional; si se deja vacío usa heroPoster
-
-  /** Encuadre del vídeo y del póster (object-position). */
+  /** Encuadre del vídeo (object-position). */
   heroVideoPositionDesktop: 'center 40%',
   heroVideoPositionMobile: 'center center',
 
