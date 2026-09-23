@@ -20,7 +20,7 @@ export default function Footer() {
         <div className="footer__brand">
           <Logo variant="light" />
           <p className="footer__tagline">
-            Limpieza profesional en {businessConfig.serviceArea}.{' '}
+            Limpieza profesional con {businessConfig.serviceArea.toLowerCase()}.{' '}
             {businessConfig.yearsExperience} años de experiencia.
           </p>
         </div>

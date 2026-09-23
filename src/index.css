@@ -1,5 +1,11 @@
 @import './styles/tokens.css';
 
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.skip-link { position: fixed; top: 8px; left: 8px; z-index: 200; padding: 12px; background: var(--surface); color: var(--ink-900); transform: translateY(-200%); }
+.skip-link:focus { transform: none; }
+
+[data-theme='dark'] .btn--primary { color: var(--surface-dark); }
+
 /* ---------------------------------------------------------------- reset -- */
 
 *,
@@ -235,7 +241,7 @@ p {
 
 .btn--whatsapp:hover {
   background: var(--wa-dark);
-  color: var(--on-dark);
+  color: var(--control-ink);
 }
 
 .btn--sm {

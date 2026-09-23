@@ -253,7 +253,7 @@
   display: inline-flex;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1200px) {
   .navbar__links {
     display: flex;
     align-items: center;
@@ -279,8 +279,14 @@
   }
 }
 
-@media (max-width: 899px) {
+@media (max-width: 1199px) {
   .navbar__actions > .theme-toggle {
     display: none;
   }
+}
+
+.navbar__mobile {
+  max-height: calc(100dvh - var(--nav-h));
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }

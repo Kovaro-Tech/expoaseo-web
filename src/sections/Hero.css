@@ -106,6 +106,8 @@
   margin-top: 6px;
 }
 
+.hero__motion { min-height: 44px; color: #fff; font-size: .8rem; text-decoration: underline; }
+
 @media (min-width: 768px) {
   .hero {
     min-height: 86vh;

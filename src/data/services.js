@@ -160,7 +160,7 @@ export const serviceCategories = [
         price: 'Cotización personalizada',
         unit: 'según alcance',
         bestFor: 'Empresas, conjuntos e instituciones',
-        image: '/images/services/jardineria-01.jpg',
+        image: '/images/services/jardineria-01.webp',
       },
       {
         id: 'limpieza-fin-obra',
@@ -170,7 +170,7 @@ export const serviceCategories = [
         price: 'Cotización personalizada',
         unit: 'según proyecto',
         bestFor: 'Entrega e inauguración',
-        image: '/images/services/fin-de-obra-01.jpg',
+        image: '/images/services/fin-de-obra-01.webp',
       },
       {
         id: 'fumigacion-control-plagas',
@@ -180,7 +180,7 @@ export const serviceCategories = [
         price: 'Cotización personalizada',
         unit: 'según diagnóstico',
         bestFor: 'Entornos corporativos, educativos y residenciales',
-        image: '/images/services/fumigacion-01.jpg',
+        image: '/images/services/fumigacion-01.webp',
       },
     ],
   },

@@ -8,6 +8,7 @@
 
 .selector__options {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   border-bottom: 1px solid var(--line-strong);
 }

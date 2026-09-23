@@ -4,6 +4,7 @@ import JobApplicationModal from './JobApplicationModal'
 import Logo from './Logo'
 import WhatsAppIcon from './WhatsAppIcon'
 import { generalUrl } from '../lib/whatsapp'
+import { lockScroll } from '../lib/scrollLock'
 import './Navbar.css'
 
 /* El orden sigue al de la página. */
@@ -19,6 +20,8 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [applicationOpen, setApplicationOpen] = useState(false)
   const workButtonRef = useRef(null)
+  const menuButtonRef = useRef(null)
+  const headerRef = useRef(null)
   const [theme, setTheme] = useState(() => document.documentElement.dataset.theme || 'light')
 
   useEffect(() => {
@@ -30,9 +33,26 @@ export default function Navbar() {
 
   // Bloquea el scroll del body mientras el menú móvil está abierto.
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    if (!menuOpen) return undefined
+    const unlock = lockScroll()
+    const onKey = (event) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false)
+        menuButtonRef.current?.focus()
+      }
+    }
+    const onOutside = (event) => {
+      if (!headerRef.current?.contains(event.target)) setMenuOpen(false)
+    }
+    const onResize = () => { if (window.innerWidth >= 1200) setMenuOpen(false) }
+    document.addEventListener('keydown', onKey)
+    document.addEventListener('pointerdown', onOutside)
+    window.addEventListener('resize', onResize)
     return () => {
-      document.body.style.overflow = ''
+      unlock()
+      document.removeEventListener('keydown', onKey)
+      document.removeEventListener('pointerdown', onOutside)
+      window.removeEventListener('resize', onResize)
     }
   }, [menuOpen])
 
@@ -70,20 +90,21 @@ export default function Navbar() {
      contrasta con el velo oscuro. Al desplazarse vuelve a la versión clara. */
   const overHero = !scrolled && !menuOpen
   const openApplication = (event) => {
-    workButtonRef.current = event.currentTarget
+    workButtonRef.current = menuOpen ? menuButtonRef.current : event.currentTarget
     setMenuOpen(false)
     setApplicationOpen(true)
   }
 
   return (
     <header
+      ref={headerRef}
       className={`navbar${scrolled ? ' navbar--scrolled' : ''}${
         overHero ? ' navbar--over-hero' : ''
       }`}
     >
       <div className="container navbar__inner">
         <a className="navbar__brand" href="#inicio" onClick={() => setMenuOpen(false)}>
-          <Logo variant={overHero ? 'light' : 'default'} />
+          <Logo variant={overHero || theme === 'dark' ? 'light' : 'default'} />
         </a>
 
         <nav className="navbar__links" aria-label="Navegación principal">
@@ -125,6 +146,7 @@ export default function Navbar() {
           </a>
 
           <button
+            ref={menuButtonRef}
             type="button"
             className="navbar__menu-toggle"
             aria-expanded={menuOpen}
@@ -159,12 +181,10 @@ export default function Navbar() {
           <div className="navbar__mobile-theme">{themeControl(true)}</div>
         </nav>
       </div>
-      <JobApplicationModal
-        key={applicationOpen ? 'application-open' : 'application-closed'}
-        open={applicationOpen}
+      {applicationOpen && <JobApplicationModal
         onClose={() => setApplicationOpen(false)}
         returnFocusRef={workButtonRef}
-      />
+      />}
     </header>
   )
 }

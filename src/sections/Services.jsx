@@ -85,7 +85,7 @@ export default function Services() {
               role="tab"
               id={`tab-${category.id}`}
               aria-selected={category.id === activeId}
-              aria-controls={`panel-${category.id}`}
+              aria-controls="services-panel"
               tabIndex={category.id === activeId ? 0 : -1}
               className="services__nav-item"
               onClick={() => setActiveId(category.id)}
@@ -98,7 +98,7 @@ export default function Services() {
 
         <div
           className="services__panel"
-          id={`panel-${active.id}`}
+          id="services-panel"
           role="tabpanel"
           aria-labelledby={`tab-${active.id}`}
           key={active.id}
@@ -168,7 +168,7 @@ export default function Services() {
         </div>
 
         {/* Cierra el catálogo; no es una sección aparte. */}
-        <div className="trustband" id="confianza">
+        <div className="trustband" id="por-que-elegirnos">
           <div className="trustband__heading">
             <p className="label">Nuestro respaldo</p>
             <h3>¿Por qué elegirnos?</h3>

@@ -12,11 +12,12 @@ import WorkInAction from './sections/WorkInAction'
 export default function App() {
   return (
     <>
+      <a href="#contenido" className="skip-link">Saltar al contenido</a>
       <Navbar />
 
       {/* Ritmo: vídeo → fotos reales → movimiento → catálogo → interacción →
           preguntas → invitación. Cada bloque es una experiencia distinta. */}
-      <main>
+      <main id="contenido" tabIndex={-1}>
         <Hero />
         <Experience />
         <Clients />

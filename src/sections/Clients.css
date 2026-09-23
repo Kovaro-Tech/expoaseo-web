@@ -86,10 +86,17 @@
 /* ---------------------------------------------------------------- rails -- */
 
 .orgs__rails {
+  min-height: 114px;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
+
+.orgs__motion { min-height: 44px; margin-top: 8px; font-size: .85rem; color: var(--ink-500); text-decoration: underline; }
+.orgs__rails.is-paused .marquee-track,
+.orgs__rails:hover .marquee-track { animation-play-state: paused; }
+.rail--static .rail__set { flex: 0 1 auto; min-width: 0; }
+.rail--static .org { white-space: normal; }
 
 .rail {
   /* Los extremos se desvanecen: la cinta no se corta contra el borde. */
@@ -315,6 +322,7 @@
 
 /* Sin movimiento: una sola tanda, en rejilla estática. */
 @media (prefers-reduced-motion: reduce) {
+  .orgs__motion { display: none; }
   .rail {
     mask-image: none;
     -webkit-mask-image: none;

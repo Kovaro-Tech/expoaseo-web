@@ -122,6 +122,7 @@ function Rail({ items, reverse }) {
 
 export default function Clients() {
   const [sector, setSector] = useState(null)
+  const [paused, setPaused] = useState(false)
 
   const filtered = sector ? clients.filter((client) => client.sector === sector) : clients
   const rows = buildRows(filtered, sector)
@@ -155,9 +156,12 @@ export default function Clients() {
             </button>
           ))}
         </div>
+        <button className="orgs__motion" type="button" aria-pressed={paused} onClick={() => setPaused((value) => !value)}>
+          {paused ? 'Reanudar movimiento' : 'Pausar movimiento'}
+        </button>
       </div>
 
-      <div className="orgs__rails">
+      <div className={`orgs__rails${paused ? ' is-paused' : ''}`}>
         {rows.map((row, index) => (
           <Rail
             /* Al cambiar de filtro se remonta la cinta y la animación

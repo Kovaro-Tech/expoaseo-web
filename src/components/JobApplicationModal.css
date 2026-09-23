@@ -1,5 +1,5 @@
 .application-modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 18px; background: rgba(5, 16, 27, .76); backdrop-filter: blur(5px); }
-.application-modal__dialog { position: relative; width: min(100%, 600px); max-height: calc(100vh - 36px); overflow: auto; padding: 32px; border: 1px solid var(--line-strong); border-radius: var(--r-lg); color: var(--ink-900); background: var(--surface); box-shadow: var(--shadow-lg); }
+.application-modal__dialog { position: relative; width: min(100%, 600px); max-height: min(90dvh, calc(100dvh - 36px)); overflow: auto; overscroll-behavior: contain; padding: 32px; border: 1px solid var(--line-strong); border-radius: var(--r-lg); color: var(--ink-900); background: var(--surface); box-shadow: var(--shadow-lg); }
 .application-modal__close { position: absolute; top: 14px; right: 14px; display: grid; place-items: center; width: 42px; height: 42px; color: var(--ink-900); border: 1px solid var(--line); border-radius: var(--r-full); }
 .application-modal__header { padding-right: 42px; }
 .application-modal__header h2, .application-modal__success h2 { font-size: clamp(1.5rem, 4vw, 2rem); }
@@ -18,11 +18,23 @@
 .application-dropzone small { color: var(--ink-500); font-size: .8rem; }
 .application-dropzone__file button { margin-left: auto; color: var(--brand-700); font-size: .82rem; font-weight: 700; }
 .application-form__error { margin-top: -8px; color: #c93c3c; font-size: .85rem; }
-.application-form__turnstile { min-height: 65px; }
+.application-form__turnstile { min-height: 140px; }
+.application-form__turnstile:empty { display: none; }
 .application-form__submit { justify-content: center; width: 100%; }
 .application-form__submit:disabled { cursor: not-allowed; opacity: .6; }
 .application-form__privacy { text-align: center; color: var(--ink-400); font-size: .78rem; line-height: 1.45; }
 .application-modal__success { display: grid; justify-items: start; gap: 14px; padding: 24px 0 10px; }
 .application-modal__success svg { color: var(--brand-600); }
 .application-modal__success p { color: var(--ink-500); line-height: 1.55; }
-@media (max-width: 560px) { .application-modal { padding: 10px; } .application-modal__dialog { max-height: calc(100vh - 20px); padding: 26px 20px; } .application-form__grid { grid-template-columns: 1fr; gap: 14px; } }
+@media (max-width: 560px) { .application-modal { padding: max(10px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom)); } .application-modal__dialog { max-height: calc(100dvh - 40px); padding: 26px 20px; } .application-form__grid { grid-template-columns: 1fr; gap: 14px; } }
+
+.application-form fieldset { display: grid; gap: 16px; border: 0; padding: 0; min-width: 0; }
+.application-form__grid > div { min-width: 0; }
+.application-form__grid input { margin-top: 7px; }
+.application-form__error { margin-top: 4px; color: #af2525; }
+[data-theme='dark'] .application-form__error { color: #ffaaaa; }
+.application-dropzone span { min-width: 0; overflow-wrap: anywhere; }
+.application-dropzone svg { flex: none; }
+.application-dropzone__file { flex-wrap: wrap; }
+.application-dropzone__file button { min-height: 44px; }
+.application-form input { font-size: 16px; }

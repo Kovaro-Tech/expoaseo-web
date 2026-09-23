@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import WhatsAppIcon from '../components/WhatsAppIcon'
 import { businessConfig, businessMedia } from '../config/business'
 import {
@@ -11,6 +11,8 @@ import { generalUrl } from '../lib/whatsapp'
 import './Hero.css'
 
 export default function Hero() {
+  const videoRef = useRef(null)
+  const [paused, setPaused] = useState(false)
   const isDesktop = useMediaQuery(DESKTOP)
   const reducedMotion = useMediaQuery(REDUCED_MOTION)
   const posterOnlyForConnection = usePosterOnlyForConnection()
@@ -46,10 +48,11 @@ export default function Hero() {
       >
         {showVideo && (
           <video
+            ref={videoRef}
             key={videoSession}
             className={`hero__layer hero__video${isPlaying ? ' is-playing' : ''}`}
             src={source}
-            autoPlay
+            autoPlay={!paused}
             muted
             loop
             playsInline
@@ -91,6 +94,19 @@ export default function Hero() {
           <WhatsAppIcon size={20} />
           Solicitar cotización
         </a>
+        {showVideo && (
+          <button type="button" className="hero__motion" aria-pressed={paused} onClick={() => {
+            const video = videoRef.current
+            if (paused) {
+              video?.play().then(() => setPaused(false)).catch(() => {})
+            } else {
+              video?.pause()
+              setPaused(true)
+            }
+          }}>
+            {paused ? 'Reanudar video de portada' : 'Pausar video de portada'}
+          </button>
+        )}
       </div>
     </section>
   )
