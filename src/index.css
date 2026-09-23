@@ -216,6 +216,18 @@ p {
   background: var(--brand-700);
 }
 
+.btn--secondary {
+  color: var(--ink-900);
+  border: 1px solid var(--line-strong);
+  background: transparent;
+}
+
+.btn--secondary:hover {
+  color: var(--brand-700);
+  border-color: var(--brand-600);
+  background: color-mix(in srgb, var(--brand-500) 8%, transparent);
+}
+
 .btn--whatsapp {
   color: var(--control-ink);
   background: var(--wa);

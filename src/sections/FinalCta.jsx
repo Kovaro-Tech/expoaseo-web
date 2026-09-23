@@ -9,7 +9,8 @@ export default function FinalCta() {
       <div className="container closing__inner">
         <h2 className="closing__title">¿Qué necesitas limpiar?</h2>
         <p className="closing__text">
-          Cuéntanos tu caso y coordinamos contigo por WhatsApp.
+          Cuéntanos tu caso: coordinamos servicios de limpieza, jardinería,
+          fin de obra y fumigación por WhatsApp.
         </p>
 
         <a

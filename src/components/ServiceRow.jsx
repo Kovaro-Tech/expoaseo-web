@@ -18,7 +18,18 @@ export default function ServiceRow({ category, service }) {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <h3 className="row__name">{service.name}</h3>
+        <div className="row__identity">
+          {service.image && (
+            <img
+              className="row__image"
+              src={service.image}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+          )}
+          <h3 className="row__name">{service.name}</h3>
+        </div>
         <p className="row__price">{service.price}</p>
         <p className="row__desc">{service.description}</p>
         {meta && <p className="row__meta">{meta}</p>}

@@ -72,14 +72,14 @@ export default function Hero() {
       <div className="container hero__inner">
         {/* Primer viewport deliberadamente vacío: ni cifras, ni clientes, ni
             argumentos. La autoridad la demuestra la sección siguiente. */}
-        <p className="hero__eyebrow">Servicios profesionales de limpieza</p>
+        <p className="hero__eyebrow">Servicios generales profesionales</p>
 
         <h1 className="hero__title">
           Cuidamos los espacios donde la limpieza importa.
         </h1>
 
         <p className="hero__lead">
-          Hogares, empresas e instituciones en {businessConfig.serviceArea}.
+          Hogares, empresas e instituciones con {businessConfig.serviceArea.toLowerCase()}.
         </p>
 
         <a

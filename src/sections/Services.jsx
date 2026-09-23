@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Clock, SprayCan, Users } from 'lucide-react'
+import { MapPinned, ShieldCheck, Sparkles, Users } from 'lucide-react'
 import SectionHeader from '../components/SectionHeader'
 import WhatsAppIcon from '../components/WhatsAppIcon'
 import ServiceRow from '../components/ServiceRow'
@@ -9,7 +9,7 @@ import { pricingDisclaimer, serviceCategories } from '../data/services'
 import { quoteUrl } from '../lib/whatsapp'
 import './Services.css'
 
-const PILLAR_ICONS = { Users, SprayCan, Clock }
+const PILLAR_ICONS = { Users, ShieldCheck, MapPinned, Sparkles }
 
 /** Permite enlazar una categoría concreta: #servicios-hogar, #servicios-tapiceria… */
 function categoryFromHash() {
@@ -168,20 +168,26 @@ export default function Services() {
         </div>
 
         {/* Cierra el catálogo; no es una sección aparte. */}
-        <ul className="trustband">
-          {pillars.map((pillar) => {
-            const Icon = PILLAR_ICONS[pillar.icon] ?? Users
-            return (
-              <li className="trustband__item" key={pillar.id}>
-                <Icon size={19} strokeWidth={1.7} aria-hidden="true" />
-                <div>
-                  <strong>{pillar.title}</strong>
-                  <span>{pillar.text}</span>
-                </div>
-              </li>
-            )
-          })}
-        </ul>
+        <div className="trustband" id="confianza">
+          <div className="trustband__heading">
+            <p className="label">Nuestro respaldo</p>
+            <h3>¿Por qué elegirnos?</h3>
+          </div>
+          <ul className="trustband__list">
+            {pillars.map((pillar) => {
+              const Icon = PILLAR_ICONS[pillar.icon] ?? Users
+              return (
+                <li className="trustband__item" key={pillar.id}>
+                  <Icon size={19} strokeWidth={1.7} aria-hidden="true" />
+                  <div>
+                    <strong>{pillar.title}</strong>
+                    <span>{pillar.text}</span>
+                  </div>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
       </div>
     </section>
   )

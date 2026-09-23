@@ -40,7 +40,7 @@ export default function Experience() {
             <h2 className="exp__title">Una trayectoria construida trabajando.</h2>
             <p className="exp__text">
               Experiencia real en hogares, instituciones, salud, comercio y
-              servicios en {businessConfig.serviceArea}.
+              servicios con {businessConfig.serviceArea.toLowerCase()}.
             </p>
           </div>
         </div>

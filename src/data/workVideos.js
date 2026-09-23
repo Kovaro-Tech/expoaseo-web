@@ -28,4 +28,18 @@ export const workVideos = [
     description: 'Resultados que se perciben en cada detalle.',
     poster: '/images/real-work/limpieza-altura-01.jpg',
   },
+  {
+    id: 'trabajo-altura-02',
+    src: '/videos/real-work/trabajo-altura-02-web.mp4',
+    title: 'Trabajo seguro en altura',
+    description: 'Procesos con personal preparado y medidas de seguridad.',
+    poster: '/images/real-work/limpieza-altura-01.jpg',
+  },
+  {
+    id: 'limpieza-exterior-01',
+    src: '/videos/real-work/limpieza-exterior-01-web.mp4',
+    title: 'Limpieza exterior',
+    description: 'Mantenimiento profesional de áreas exteriores.',
+    poster: '/images/real-work/limpieza-aeropuerto-01.jpg',
+  },
 ]

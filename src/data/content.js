@@ -6,7 +6,7 @@
  */
 
 /**
- * Banda de confianza al cierre de Servicios. Tres atributos, una línea cada
+ * Banda de confianza al cierre de Servicios. Cuatro atributos, una línea cada
  * uno: es un apoyo al catálogo, no una sección.
  * `icon` es una clave; el mapa vive en src/sections/Services.jsx.
  */
@@ -18,16 +18,22 @@ export const pillars = [
     text: 'Equipo propio y supervisado.',
   },
   {
-    id: 'insumos',
-    icon: 'SprayCan',
-    title: 'Insumos adecuados',
-    text: 'Productos según cada superficie.',
+    id: 'seguridad',
+    icon: 'ShieldCheck',
+    title: 'Seguridad industrial',
+    text: 'Cumplimiento de normativa de seguridad industrial.',
   },
   {
-    id: 'horarios',
-    icon: 'Clock',
-    title: 'Horarios coordinados',
-    text: 'Jornadas acordadas antes de empezar.',
+    id: 'cobertura',
+    icon: 'MapPinned',
+    title: 'Cobertura nacional',
+    text: 'Despliegue operativo a nivel nacional.',
+  },
+  {
+    id: 'insumos',
+    icon: 'Sparkles',
+    title: 'Insumos de alta calidad',
+    text: 'Productos adecuados para cada entorno.',
   },
 ]
 
@@ -56,16 +62,16 @@ export const faqs = [
       'Sí. Lavamos y desinfectamos sillones, salas y sillas de comedor en tu espacio, sin trasladar los muebles.',
   },
   {
-    id: 'faq-empresas',
-    question: '¿Atienden empresas e instituciones?',
+    id: 'faq-sectores',
+    question: '¿A qué tipo de clientes o sectores atienden?',
     answer:
-      'Sí. Trabajamos limpieza institucional por metraje y mantenimiento mensual de cajeros o fichas SOS.',
+      'Damos servicio tanto al sector público como privado, abarcando instalaciones corporativas, institucionales e industriales a nivel nacional. Adaptamos nuestros protocolos a los requerimientos técnicos, de seguridad ocupacional y de fiscalización específicos de cada contratación.',
   },
   {
-    id: 'faq-zona',
-    question: '¿A qué zonas llegan?',
+    id: 'faq-cobertura',
+    question: '¿Cuál es el alcance geográfico de sus servicios?',
     answer:
-      'Trabajamos en Loja y la provincia. Si tu dirección queda fuera, escríbenos igual y te decimos si podemos llegar.',
+      'Ofrecemos cobertura y despliegue operativo a nivel nacional. Nuestra estructura logística y de personal nos permite ejecutar proyectos y mantener continuidad de servicio en diversas provincias del Ecuador, cumpliendo estrictamente con los estándares requeridos por cada cliente.',
   },
   {
     id: 'faq-anticipacion',

@@ -8,7 +8,7 @@
 export const businessConfig = {
   name: 'EXPOASEO',
   legalName: 'EXPOASEO SERVICIOS GENERALES CIA LTDA',
-  tagline: 'Servicios profesionales de limpieza',
+  tagline: 'Servicios generales profesionales',
 
   whatsapp: '593989869808',
   phone: '098 986 9808',
@@ -21,7 +21,7 @@ export const businessConfig = {
   tiktok: 'https://www.tiktok.com/@expoaseo',
   facebook: '', // ← sin cuenta confirmada; si se crea, pegar la URL aquí
 
-  serviceArea: 'Loja y provincia',
+  serviceArea: 'Cobertura nacional desde Loja',
 
   /**
    * Franjas de atención. Se muestran separadas por "·".
@@ -105,4 +105,5 @@ export const categoryImages = {
   hogar: businessMedia.homeImage,
   institucional: businessMedia.businessImage,
   tapiceria: businessMedia.upholsteryImage,
+  especializados: '',
 }

@@ -1,0 +1,28 @@
+.application-modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 18px; background: rgba(5, 16, 27, .76); backdrop-filter: blur(5px); }
+.application-modal__dialog { position: relative; width: min(100%, 600px); max-height: calc(100vh - 36px); overflow: auto; padding: 32px; border: 1px solid var(--line-strong); border-radius: var(--r-lg); color: var(--ink-900); background: var(--surface); box-shadow: var(--shadow-lg); }
+.application-modal__close { position: absolute; top: 14px; right: 14px; display: grid; place-items: center; width: 42px; height: 42px; color: var(--ink-900); border: 1px solid var(--line); border-radius: var(--r-full); }
+.application-modal__header { padding-right: 42px; }
+.application-modal__header h2, .application-modal__success h2 { font-size: clamp(1.5rem, 4vw, 2rem); }
+.application-modal__header p { margin-top: 10px; color: var(--ink-500); line-height: 1.55; }
+.application-form { display: grid; gap: 16px; margin-top: 26px; }
+.application-form__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.application-form label { display: grid; gap: 7px; font-size: .88rem; font-weight: 700; color: var(--ink-900); }
+.application-form input { width: 100%; min-height: 44px; padding: 10px 12px; color: var(--ink-900); border: 1px solid var(--line-strong); border-radius: var(--r-sm); background: var(--surface-2); }
+.application-form input:focus-visible { outline: 2px solid var(--brand-500); outline-offset: 1px; }
+.application-form__honeypot { position: absolute; left: -9999px; }
+.application-dropzone { border: 1px dashed var(--line-strong); border-radius: var(--r-md); background: var(--surface-2); }
+.application-dropzone.is-error { border-color: #c93c3c; }
+.application-dropzone > button, .application-dropzone__file { display: flex; width: 100%; align-items: center; gap: 12px; padding: 17px; text-align: left; color: var(--ink-900); }
+.application-dropzone > button:hover { background: color-mix(in srgb, var(--brand-500) 7%, transparent); }
+.application-dropzone span { display: grid; gap: 3px; }
+.application-dropzone small { color: var(--ink-500); font-size: .8rem; }
+.application-dropzone__file button { margin-left: auto; color: var(--brand-700); font-size: .82rem; font-weight: 700; }
+.application-form__error { margin-top: -8px; color: #c93c3c; font-size: .85rem; }
+.application-form__turnstile { min-height: 65px; }
+.application-form__submit { justify-content: center; width: 100%; }
+.application-form__submit:disabled { cursor: not-allowed; opacity: .6; }
+.application-form__privacy { text-align: center; color: var(--ink-400); font-size: .78rem; line-height: 1.45; }
+.application-modal__success { display: grid; justify-items: start; gap: 14px; padding: 24px 0 10px; }
+.application-modal__success svg { color: var(--brand-600); }
+.application-modal__success p { color: var(--ink-500); line-height: 1.55; }
+@media (max-width: 560px) { .application-modal { padding: 10px; } .application-modal__dialog { max-height: calc(100vh - 20px); padding: 26px 20px; } .application-form__grid { grid-template-columns: 1fr; gap: 14px; } }

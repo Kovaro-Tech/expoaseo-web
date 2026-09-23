@@ -250,11 +250,20 @@
 /* ------------------------------------------- banda de confianza ---------- */
 
 .trustband {
-  display: grid;
-  gap: 2px;
   margin-top: 28px;
   padding-top: 24px;
   border-top: 1px solid var(--line);
+}
+
+.trustband__heading h3 {
+  margin-top: 8px;
+  font-size: clamp(1.35rem, 4vw, 1.8rem);
+}
+
+.trustband__list {
+  display: grid;
+  gap: 2px;
+  margin-top: 14px;
 }
 
 .trustband__item {
@@ -284,10 +293,14 @@
 
 @media (min-width: 720px) {
   .trustband {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
     margin-top: 40px;
     padding-top: 28px;
+  }
+
+  .trustband__list {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 20px;
   }
 }
 

@@ -142,6 +142,48 @@ export const serviceCategories = [
       },
     ],
   },
+
+  {
+    id: 'especializados',
+    label: 'Servicios especializados',
+    shortLabel: 'Especializados',
+    title: 'Servicios especializados',
+    description:
+      'Soluciones complementarias para mantener y preparar espacios profesionales.',
+    whatsappTopic: 'Servicios especializados',
+    services: [
+      {
+        id: 'jardineria-areas-verdes',
+        name: 'Jardinería y Mantenimiento de Áreas Verdes',
+        description:
+          'Cuidado, poda, embellecimiento y mantenimiento integral de jardines, parques y zonas verdes para empresas, conjuntos residenciales e instituciones.',
+        price: 'Cotización personalizada',
+        unit: 'según alcance',
+        bestFor: 'Empresas, conjuntos e instituciones',
+        image: '/images/services/jardineria-01.jpg',
+      },
+      {
+        id: 'limpieza-fin-obra',
+        name: 'Limpieza de Fin de Obra (Post-Construcción)',
+        description:
+          'Limpieza profunda y remoción de escombros, fino de obra, restos de pintura y polvo para entregar instalaciones, edificios o viviendas listos para su uso o inauguración.',
+        price: 'Cotización personalizada',
+        unit: 'según proyecto',
+        bestFor: 'Entrega e inauguración',
+        image: '/images/services/fin-de-obra-01.jpg',
+      },
+      {
+        id: 'fumigacion-control-plagas',
+        name: 'Fumigación y Control de Plagas',
+        description:
+          'Servicios de desinfección, desinsectación y desratización con insumos certificados y seguros para entornos corporativos, educativos y residenciales.',
+        price: 'Cotización personalizada',
+        unit: 'según diagnóstico',
+        bestFor: 'Entornos corporativos, educativos y residenciales',
+        image: '/images/services/fumigacion-01.jpg',
+      },
+    ],
+  },
 ]
 
 /**

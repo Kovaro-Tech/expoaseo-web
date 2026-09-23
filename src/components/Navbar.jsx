@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Menu, Moon, Sun, X } from 'lucide-react'
+import JobApplicationModal from './JobApplicationModal'
 import Logo from './Logo'
 import WhatsAppIcon from './WhatsAppIcon'
 import { generalUrl } from '../lib/whatsapp'
@@ -16,6 +17,8 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [applicationOpen, setApplicationOpen] = useState(false)
+  const workButtonRef = useRef(null)
   const [theme, setTheme] = useState(() => document.documentElement.dataset.theme || 'light')
 
   useEffect(() => {
@@ -66,6 +69,11 @@ export default function Navbar() {
      transparente y logo sobre placa blanca, porque el azul del logo no
      contrasta con el velo oscuro. Al desplazarse vuelve a la versión clara. */
   const overHero = !scrolled && !menuOpen
+  const openApplication = (event) => {
+    workButtonRef.current = event.currentTarget
+    setMenuOpen(false)
+    setApplicationOpen(true)
+  }
 
   return (
     <header
@@ -88,6 +96,13 @@ export default function Navbar() {
 
         <div className="navbar__actions">
           {themeControl()}
+          <button
+            type="button"
+            className="btn btn--secondary btn--sm navbar__work"
+            onClick={openApplication}
+          >
+            Trabaja con nosotros
+          </button>
           <a
             className="btn btn--primary btn--sm navbar__cta"
             href={generalUrl()}
@@ -134,9 +149,22 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+          <button
+            type="button"
+            className="btn btn--secondary navbar__mobile-work"
+            onClick={openApplication}
+          >
+            Trabaja con nosotros
+          </button>
           <div className="navbar__mobile-theme">{themeControl(true)}</div>
         </nav>
       </div>
+      <JobApplicationModal
+        key={applicationOpen ? 'application-open' : 'application-closed'}
+        open={applicationOpen}
+        onClose={() => setApplicationOpen(false)}
+        returnFocusRef={workButtonRef}
+      />
     </header>
   )
 }
