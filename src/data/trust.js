@@ -91,7 +91,8 @@ export const workPhotos = [
  *   category   matiz fino; documenta por qué lleva ese icono
  *   icon       clave de icono Lucide. El componente solo resuelve la clave:
  *              qué icono lleva cada organización se decide AQUÍ
- *   logo       ruta al logo oficial; si existe, sustituye al icono
+ *   logo       ruta real al logo oficial, reservada para una futura presentación
+ *   logoAuthorized  autorización expresa; no activa su presentación en la web
  *   featured   un punto más de peso visual y aparición prioritaria en su fila
  *
  * Añadir una organización = un objeto más. Entra sola en su fila y su filtro.
@@ -258,15 +259,7 @@ export const clients = [
     category: 'clinica',
     icon: 'Hospital',
     logo: '',
-  },
-  {
-    id: 'clinica-moderna',
-    name: 'Clínica Moderna',
-    shortName: 'Clínica Moderna',
-    sector: 'salud',
-    category: 'clinica',
-    icon: 'Hospital',
-    logo: '',
+    logoAuthorized: true,
   },
   {
     id: 'hospital-catacocha',
@@ -363,6 +356,7 @@ export const clients = [
     category: 'comercio',
     icon: 'ShoppingBag',
     logo: '',
+    logoAuthorized: true,
   },
   {
     id: 'equilibrium',

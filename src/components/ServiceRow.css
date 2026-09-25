@@ -33,6 +33,15 @@
   border-radius: var(--r-sm);
 }
 
+/* Referencia discreta: el nombre y la cotización conservan la jerarquía. */
+[aria-labelledby='tab-especializados'] .row__image {
+  width: 32px;
+  height: 32px;
+  order: 1;
+  opacity: 0.72;
+  filter: saturate(0.65);
+}
+
 .row__price {
   font-size: 1rem;
   font-weight: 800;

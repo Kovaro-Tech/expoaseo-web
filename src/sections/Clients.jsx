@@ -73,11 +73,9 @@ function Organization({ client }) {
       className={`org${client.featured ? ' org--featured' : ''}`}
       title={client.name}
     >
-      {client.logo ? (
-        <img className="org__logo" src={client.logo} alt="" loading="lazy" />
-      ) : (
-        <Icon className="org__icon" size={18} strokeWidth={1.6} aria-hidden="true" />
-      )}
+      {/* Mantener iconos para todas las organizaciones hasta disponer de una
+          colección suficiente de logos autorizados y un diseño conjunto. */}
+      <Icon className="org__icon" size={18} strokeWidth={1.6} aria-hidden="true" />
       <span>{client.shortName}</span>
     </li>
   )

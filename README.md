@@ -74,13 +74,14 @@ No añadir la palabra "referencial" a cada fila del catálogo: se vuelve ruido.
 
 ### Organizaciones y certificaciones
 
-Las 29 organizaciones reales viven en `clients` (`src/data/trust.js`), cada
+Las 28 organizaciones reales viven en `clients` (`src/data/trust.js`), cada
 una con `name`, `shortName`, `sector`, `category`, `icon`, `logo` y `featured`.
+El campo opcional `logoAuthorized` registra la autorización para uso futuro.
 
 | Sector         | Organizaciones |
 | -------------- | -------------- |
 | Sector público | 13             |
-| Salud          | 11             |
+| Salud          | 10             |
 | Energía        | 2              |
 | Privado        | 3              |
 
@@ -93,9 +94,11 @@ una con `name`, `shortName`, `sector`, `category`, `icon`, `logo` y `featured`.
   que nunca contradicen a la lista.
 
 **Añadir una organización** = un objeto más en `clients`. Entra sola en su
-fila, su filtro y con su icono. Al rellenar `logo`, la imagen sustituye al
-icono sin tocar el componente: altura uniforme, `object-fit: contain`, sin
-recolorear ni recortar.
+fila, su filtro y con su icono. La sección mantiene nombres e iconos para
+todas las organizaciones; rellenar `logo` no activa su presentación.
+Clínica Santa María y Plaza del Valle Shopping tienen `logoAuthorized: true`,
+con `logo` vacío hasta contar con archivos reales. Los logos se reservan para
+un futuro diseño conjunto cuando haya suficientes autorizaciones.
 
 **Filtro** (`clientSectors`): chips de texto con línea de acento, nunca
 botones. En móvil se desplazan en horizontal.
