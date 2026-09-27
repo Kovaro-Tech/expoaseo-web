@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { trajectoryPhotos } from '../data/trajectoryPhotos'
-import { DESKTOP, REDUCED_MOTION, useMediaQuery } from '../lib/useMediaQuery'
+import { REDUCED_MOTION, useMediaQuery } from '../lib/useMediaQuery'
 
 const CHANGE_INTERVAL = 12000
 const SLOT_ORDER = [0, 2, 4, 1, 3]
@@ -24,7 +24,7 @@ function Photo({ photo, previous = false, incoming = false }) {
 }
 
 export default function ExperienceGallery({ count, copy }) {
-  const desktop = useMediaQuery(DESKTOP)
+  const desktop = useMediaQuery('(min-width: 1024px)')
   const reducedMotion = useMediaQuery(REDUCED_MOTION)
   const archiveRef = useRef(null)
   const turn = useRef(0)
@@ -89,10 +89,10 @@ export default function ExperienceGallery({ count, copy }) {
   return (
     <div
       ref={archiveRef}
-      className={`exp__archive ${desktop ? 'exp__mosaic' : 'exp__rail'}`}
+      className={`exp__archive ${desktop ? 'exp__mosaic' : 'exp__stack'}`}
       role="region"
-      aria-label={desktop ? 'Archivo visual de trabajos de EXPOASEO' : 'Archivo visual de trabajos de EXPOASEO. Desliza para explorar.'}
-      tabIndex={0}
+      aria-label="Archivo visual de trabajos de EXPOASEO"
+      tabIndex={desktop ? 0 : undefined}
       onPointerEnter={(event) => { if (event.pointerType === 'mouse') setHovered(true) }}
       onPointerLeave={() => setHovered(false)}
       onFocusCapture={() => setFocused(true)}
@@ -118,16 +118,18 @@ export default function ExperienceGallery({ count, copy }) {
         <>
           <div className="exp__intro-card">
             {count}
+            {copy}
+          </div>
+          <div className="exp__rail" role="region" aria-label="Fotografías de trabajos. Desliza para explorar." tabIndex={0}>
             <figure className="exp__photo exp__intro-photo">
               <Photo photo={trajectoryPhotos[2]} />
             </figure>
-            {copy}
+            {trajectoryPhotos.filter((_, index) => index !== 2).map((photo) => (
+              <figure className="exp__photo" key={photo.id}>
+                <Photo photo={photo} />
+              </figure>
+            ))}
           </div>
-          {trajectoryPhotos.filter((_, index) => index !== 2).map((photo) => (
-            <figure className="exp__photo" key={photo.id}>
-              <Photo photo={photo} />
-            </figure>
-          ))}
         </>
       )}
     </div>
