@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { businessConfig } from '../src/config/business.js'
+import { privacyConfig } from '../src/config/privacy.js'
 import { PRODUCTION_URL, pages, siteConfig } from '../src/config/site.js'
 
 const escape = (value) => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;')
@@ -8,10 +9,16 @@ export const organization = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: businessConfig.legalName,
+  taxID: privacyConfig.taxId,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: privacyConfig.address,
+    addressCountry: privacyConfig.country,
+  },
   url: `${PRODUCTION_URL}/`,
   email: businessConfig.email,
   telephone: businessConfig.telephone,
-  areaServed: { '@type': 'Country', name: 'Ecuador' },
+  areaServed: { '@type': 'Country', name: privacyConfig.country },
   sameAs: [businessConfig.instagram, businessConfig.tiktok].filter(Boolean),
 }
 

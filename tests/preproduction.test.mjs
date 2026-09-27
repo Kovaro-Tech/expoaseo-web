@@ -19,7 +19,13 @@ test('producción explícita, staging seguro y preview noindex', () => {
   assert.doesNotMatch(renderSeo('/', production), /(?:og|twitter):image/)
   assert.equal(resolveSiteEnvironment({ SITE_ENVIRONMENT: 'production', SITE_URL: 'https://expoaseo.com', VERCEL_ENV: 'preview' }).indexable, false)
   assert.equal(organization['@type'], 'Organization')
-  for (const key of ['address', 'geo', 'aggregateRating', 'openingHours', 'foundingDate']) assert.equal(organization[key], undefined)
+  assert.equal(organization.taxID, '1191739848001')
+  assert.deepEqual(organization.address, {
+    '@type': 'PostalAddress',
+    streetAddress: privacyConfig.address,
+    addressCountry: privacyConfig.country,
+  })
+  for (const key of ['geo', 'aggregateRating', 'openingHours', 'foundingDate']) assert.equal(organization[key], undefined)
 })
 
 test('API exige consentimiento vigente antes de contactar proveedores y registra evidencia', async () => {

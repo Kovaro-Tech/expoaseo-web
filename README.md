@@ -5,7 +5,7 @@ La última capa legal, de consentimiento, SEO y seguridad está documentada en
 pendientes antiguos sobre dominio/canonical y contiene la configuración de
 staging/producción, proveedores, comprobaciones y pendientes reales del cliente.
 
-Landing comercial de **EXPOASEO SERVICIOS GENERALES CIA LTDA**.
+Landing comercial de **EXPOASEO SERVICIOS GENERALES CIA. LTDA.**.
 Objetivo: presentar los servicios y llevar al usuario a WhatsApp.
 
 Con una función de backend para postulaciones; sin base de datos, login ni panel administrativo.

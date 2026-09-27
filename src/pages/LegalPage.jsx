@@ -7,10 +7,13 @@ const contact = <a href={`mailto:${businessConfig.email}`}>{businessConfig.email
 function Privacy() {
   return <>
     <section><h2>1. Responsable del tratamiento</h2>
-      <p>{businessConfig.legalName}, en {privacyConfig.country}, es responsable del tratamiento de los datos recibidos mediante esta web. Puedes contactarnos en {contact}.</p>
+      <p>{businessConfig.legalName}</p>
       {privacyConfig.taxId && <p>RUC: {privacyConfig.taxId}</p>}
-      {privacyConfig.address && <p>Dirección: {privacyConfig.address}</p>}
+      {privacyConfig.address && <p>Domicilio: {privacyConfig.address}</p>}
       {privacyConfig.legalRepresentative && <p>Representante legal: {privacyConfig.legalRepresentative}</p>}
+      <p>Correo: {contact}</p>
+      <p>{privacyConfig.country}</p>
+      <p>Es responsable del tratamiento de los datos recibidos mediante esta web.</p>
     </section>
     <section><h2>2. Datos que recibimos</h2>
       <p>El formulario «Trabaja con nosotros» solicita nombre completo, correo electrónico, teléfono, ciudad y hoja de vida (CV). Puedes indicar, de forma opcional, el área o cargo de interés. También recibimos la información que incluyas voluntariamente en tu CV.</p>
