@@ -13,8 +13,10 @@ export default function Experience() {
     <div className="exp__copy">
       <h2 className="exp__title">Una trayectoria construida trabajando.</h2>
       <p className="exp__text">
-        Experiencia real en hogares, instituciones, salud, comercio y
-        servicios con {businessConfig.serviceArea.toLowerCase()}.
+        Somos una empresa orgullosamente lojana, con más de 15 años de experiencia
+        brindando soluciones integrales de limpieza, desinfección y mantenimiento
+        institucional a nivel nacional. Garantizamos espacios impecables, seguros
+        y eficientes, adaptándonos a las altas exigencias y normativas de cada sector.
       </p>
     </div>
   )
