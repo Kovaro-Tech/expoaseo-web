@@ -13,6 +13,7 @@ const PILLAR_ICONS = { Users, ShieldCheck, MapPinned, Sparkles }
 
 /** Permite enlazar una categoría concreta: #servicios-hogar, #servicios-tapiceria… */
 function categoryFromHash() {
+  if (typeof window === 'undefined') return null
   const match = /^#servicios-(.+)$/.exec(window.location.hash)
   return serviceCategories.some((category) => category.id === match?.[1]) ? match[1] : null
 }

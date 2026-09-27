@@ -30,7 +30,7 @@ export default function Footer() {
           <ul className="footer__list">
             {serviceCategories.map((category) => (
               <li key={category.id}>
-                <a href={`#servicios-${category.id}`}>{category.label}</a>
+                <a href={`/#servicios-${category.id}`}>{category.label}</a>
               </li>
             ))}
           </ul>
@@ -40,16 +40,16 @@ export default function Footer() {
           <h3 className="footer__title">La empresa</h3>
           <ul className="footer__list">
             <li>
-              <a href="#trayectoria">Trayectoria</a>
+              <a href="/#trayectoria">Trayectoria</a>
             </li>
             <li>
-              <a href="#confianza">Confianza</a>
+              <a href="/#confianza">Confianza</a>
             </li>
             <li>
-              <a href="#faq">Preguntas frecuentes</a>
+              <a href="/#faq">Preguntas frecuentes</a>
             </li>
             <li>
-              <a href="#solicitar">Solicitar limpieza</a>
+              <a href="/#solicitar">Solicitar limpieza</a>
             </li>
           </ul>
         </nav>
@@ -60,7 +60,7 @@ export default function Footer() {
             {businessConfig.phone && (
               <li>
                 <Phone size={15} />
-                <a href={`tel:+${businessConfig.whatsapp}`}>{businessConfig.phone}</a>
+                <a href={`tel:${businessConfig.telephone}`}>{businessConfig.phone}</a>
               </li>
             )}
             {businessConfig.email && (
@@ -100,8 +100,12 @@ export default function Footer() {
 
       <div className="container footer__bottom">
         <p>
-          © {year} {businessConfig.legalName}. Todos los derechos reservados.
+          © {year} {businessConfig.name}
         </p>
+        <nav className="footer__legal" aria-label="Información legal">
+          <a href="/privacidad">Política de Privacidad</a>
+          <a href="/cookies">Política de Cookies</a>
+        </nav>
         <p className="footer__credit">
           Sitio desarrollado por{' '}
           <a href="https://kovarotech.com" target="_blank" rel="noopener noreferrer">

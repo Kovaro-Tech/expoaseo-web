@@ -1,0 +1,13 @@
+{
+  "name": "EXPOASEO",
+  "short_name": "EXPOASEO",
+  "lang": "es-EC",
+  "start_url": "/",
+  "display": "browser",
+  "theme_color": "#0f75bc",
+  "background_color": "#f7f9fc",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

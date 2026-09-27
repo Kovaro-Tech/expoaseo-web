@@ -151,3 +151,5 @@
     grid-column: auto;
   }
 }
+.footer__legal { display: flex; gap: 10px 20px; flex-wrap: wrap; }
+.footer__legal a { text-decoration: underline; text-underline-offset: 3px; }

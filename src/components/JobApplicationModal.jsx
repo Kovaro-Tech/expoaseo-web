@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { FileText, Upload, X } from 'lucide-react'
 import { lockScroll } from '../lib/scrollLock'
+import { privacyConfig } from '../config/privacy'
 import './JobApplicationModal.css'
 
 const MAX_FILE_SIZE = 4 * 1024 * 1024
@@ -174,6 +175,7 @@ export default function JobApplicationModal({ onClose, returnFocusRef }) {
     }
     if (data.get('email') && !form.elements.email.validity.valid) nextErrors.email = 'Introduce un correo electrónico válido.'
     if (!file) nextErrors.cv = 'Adjunta tu CV para continuar.'
+    if (data.get('privacyConsent') !== 'accepted') nextErrors.privacyConsent = 'Debes autorizar el tratamiento de tus datos para enviar tu postulación.'
     setErrors(nextErrors)
     if (Object.keys(nextErrors).length) {
       const first = Object.keys(nextErrors)[0]
@@ -190,6 +192,7 @@ export default function JobApplicationModal({ onClose, returnFocusRef }) {
     setMessage('')
     data.set('cv', file)
     data.set('turnstileToken', token.current)
+    data.set('privacyVersion', privacyConfig.version)
     try {
       const response = await fetch('/api/job-application', { method: 'POST', body: data, signal: AbortSignal.timeout(30000) })
       if (!response.ok) {
@@ -205,6 +208,8 @@ export default function JobApplicationModal({ onClose, returnFocusRef }) {
       const payload = await response.json()
       if (payload.ok !== true) throw new Error(UNAVAILABLE)
       if (mounted.current) {
+        setFile(null)
+        form.reset()
         setStatus('success')
         dialogRef.current.focus()
       }
@@ -257,13 +262,18 @@ export default function JobApplicationModal({ onClose, returnFocusRef }) {
                   {file && <div className="application-dropzone__file"><FileText size={22} aria-hidden="true" /><span><strong>{file.name}</strong><small>{(file.size / 1024).toFixed(1)} KB</small></span><button type="button" onClick={() => setFile(null)}>Eliminar</button></div>}
                 </div>
                 {errors.cv && <p className="application-form__error" id={`${id}-cv-error`} role="alert">{errors.cv}</p>}
+                <label className="application-form__consent" htmlFor={`${id}-consent`}>
+                  <input id={`${id}-consent`} type="checkbox" name="privacyConsent" value="accepted" required aria-invalid={Boolean(errors.privacyConsent)} aria-describedby={errors.privacyConsent ? `${id}-consent-error` : undefined} />
+                  <span>He leído la <a href="/privacidad" target="_blank" rel="noopener noreferrer">Política de Privacidad</a> y autorizo el tratamiento de mis datos personales y hoja de vida para fines de selección y contratación.</span>
+                </label>
+                {errors.privacyConsent && <p className="application-form__error" id={`${id}-consent-error`} role="alert">{errors.privacyConsent}</p>}
               </fieldset>
               <div ref={turnstileRef} className="application-form__turnstile" />
               <p role="status">{!siteKey || availability === 'unavailable' ? UNAVAILABLE : availability === 'checking' ? 'Comprobando disponibilidad…' : verification === 'loading' ? 'Cargando verificación de seguridad…' : verification === 'ready' ? 'Verificación completada.' : 'La verificación caducó o no se pudo completar.'}</p>
               {siteKey && availability === 'ready' && ['error', 'expired'].includes(verification) && <button type="button" className="btn btn--secondary" onClick={retryVerification}>Reintentar verificación</button>}
               {status === 'error' && <p className="application-form__error" role="alert">{message}</p>}
               <button className="btn btn--primary application-form__submit" type="submit" disabled={status === 'sending' || !siteKey || availability !== 'ready'}>{status === 'sending' ? 'Enviando…' : 'Enviar postulación'}</button>
-              <p className="application-form__privacy">Tus datos serán utilizados únicamente para procesos de selección.</p>
+              <p className="application-form__privacy">Tus datos serán utilizados únicamente para gestionar procesos de selección. <a href="/privacidad" target="_blank" rel="noopener noreferrer">Política de Privacidad</a>.</p>
             </form>
           </>
         )}

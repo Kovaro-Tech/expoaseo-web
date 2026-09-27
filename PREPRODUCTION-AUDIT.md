@@ -1,5 +1,9 @@
 # Auditoría de preproducción — EXPOASEO
 
+> Informe histórico del MVP. La capa posterior de privacidad, consentimiento,
+> dominio definitivo, SEO y headers está en [PREPRODUCTION-FINAL.md](PREPRODUCTION-FINAL.md).
+> Sus conclusiones sustituyen los pendientes equivalentes de este documento.
+
 ## Estado
 
 Interfaz revisada y corregida para el MVP. El CV admite un máximo de 4 MB

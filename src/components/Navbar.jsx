@@ -15,14 +15,14 @@ const navLinks = [
   { href: '#faq', label: 'Preguntas' },
 ]
 
-export default function Navbar() {
+export default function Navbar({ home = true }) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [applicationOpen, setApplicationOpen] = useState(false)
   const workButtonRef = useRef(null)
   const menuButtonRef = useRef(null)
   const headerRef = useRef(null)
-  const [theme, setTheme] = useState(() => document.documentElement.dataset.theme || 'light')
+  const [theme, setTheme] = useState(() => typeof document === 'undefined' ? 'light' : document.documentElement.dataset.theme || 'light')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -88,7 +88,7 @@ export default function Navbar() {
   /* Arriba del todo el navbar flota sobre el vídeo del hero: fondo
      transparente y logo sobre placa blanca, porque el azul del logo no
      contrasta con el velo oscuro. Al desplazarse vuelve a la versión clara. */
-  const overHero = !scrolled && !menuOpen
+  const overHero = home && !scrolled && !menuOpen
   const openApplication = (event) => {
     workButtonRef.current = menuOpen ? menuButtonRef.current : event.currentTarget
     setMenuOpen(false)
@@ -103,13 +103,13 @@ export default function Navbar() {
       }`}
     >
       <div className="container navbar__inner">
-        <a className="navbar__brand" href="#inicio" onClick={() => setMenuOpen(false)}>
+        <a className="navbar__brand" href="/#inicio" onClick={() => setMenuOpen(false)}>
           <Logo variant={overHero || theme === 'dark' ? 'light' : 'default'} />
         </a>
 
         <nav className="navbar__links" aria-label="Navegación principal">
           {navLinks.map((link) => (
-            <a key={link.href} className="navbar__link" href={link.href}>
+            <a key={link.href} className="navbar__link" href={`/${link.href}`}>
               {link.label}
             </a>
           ))}
@@ -165,7 +165,7 @@ export default function Navbar() {
             <a
               key={link.href}
               className="navbar__mobile-link"
-              href={link.href}
+              href={`/${link.href}`}
               onClick={() => setMenuOpen(false)}
             >
               {link.label}

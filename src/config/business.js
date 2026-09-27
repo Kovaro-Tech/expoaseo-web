@@ -7,10 +7,11 @@
  */
 export const businessConfig = {
   name: 'EXPOASEO',
-  legalName: 'EXPOASEO SERVICIOS GENERALES CIA LTDA',
+  legalName: 'EXPOASEO SERVICIOS GENERALES CIA. LTDA.',
   tagline: 'Servicios generales profesionales',
 
   whatsapp: '593989869808',
+  get telephone() { return `+${this.whatsapp}` },
   phone: '098 986 9808',
   email: 'expoaseoec@gmail.com',
 

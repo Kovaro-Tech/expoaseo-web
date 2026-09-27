@@ -19,7 +19,7 @@ export default function ServiceRow({ category, service }) {
         rel="noopener noreferrer"
       >
         <div className="row__identity">
-          {service.image && (
+          {category.id !== 'especializados' && service.image && (
             <img
               className="row__image"
               src={service.image}

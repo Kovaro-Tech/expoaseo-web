@@ -1,6 +1,9 @@
 import { createHash } from 'node:crypto'
+import { businessConfig } from '../src/config/business.js'
+import { privacyConfig } from '../src/config/privacy.js'
 
 const MAX_FILE_SIZE = 4 * 1024 * 1024
+const MAX_REQUEST_SIZE = MAX_FILE_SIZE + 16384
 const UNAVAILABLE = 'El envío de postulaciones no está disponible temporalmente. Puedes intentarlo nuevamente más tarde.'
 const configured = () => ['TURNSTILE_SECRET_KEY', 'TURNSTILE_HOSTNAME', 'RESEND_API_KEY', 'MAIL_FROM']
   .every((name) => Boolean(process.env[name]?.trim()))
@@ -18,7 +21,7 @@ const RATE_LIMIT_MS = 10 * 60 * 1000
 function json(status, body) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
+    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'X-Robots-Tag': 'noindex, nofollow' },
   })
 }
 
@@ -61,6 +64,27 @@ async function hasExpectedSignature(file, extension) {
   return [0x50, 0x4b, 0x03, 0x04].every((byte, index) => head[index] === byte)
 }
 
+// No confiar solo en Content-Length: también limitar solicitudes fragmentadas.
+async function readBoundedForm(request) {
+  const reader = request.body?.getReader()
+  if (!reader) throw new Error('Invalid request')
+  const chunks = []
+  let length = 0
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      length += value.byteLength
+      if (length > MAX_REQUEST_SIZE) {
+        await reader.cancel()
+        return null
+      }
+      chunks.push(value)
+    }
+  } finally { reader.releaseLock() }
+  return new Response(new Blob(chunks), { headers: { 'Content-Type': request.headers.get('content-type') } }).formData()
+}
+
 export async function handler(request) {
   // Solo exponemos disponibilidad; nunca nombres de variables ni secretos.
   if (request.method === 'GET') return json(200, { available: configured() })
@@ -71,17 +95,22 @@ export async function handler(request) {
       return json(503, { error: UNAVAILABLE })
     }
     if (!request.headers.get('content-type')?.startsWith('multipart/form-data;')) return json(400, { error: 'Solicitud inválida.' })
-    if (Number(request.headers.get('content-length')) > MAX_FILE_SIZE + 16384) return json(413, { error: 'Archivo demasiado grande.' })
+    if (Number(request.headers.get('content-length')) > MAX_REQUEST_SIZE) return json(413, { error: 'Archivo demasiado grande.' })
     const ip = clientIp(request)
     if (isRateLimited(ip)) return json(429, { error: 'Ya recibimos una postulación desde esta conexión. Inténtalo más tarde.' })
 
     let form
-    try { form = await request.formData() } catch { return json(400, { error: 'Solicitud inválida.' }) }
-    const allowed = new Set(['name', 'email', 'phone', 'city', 'area', 'website', 'cv', 'turnstileToken'])
+    try { form = await readBoundedForm(request) } catch { return json(400, { error: 'Solicitud inválida.' }) }
+    if (!form) return json(413, { error: 'Archivo demasiado grande.' })
+    const allowed = new Set(['name', 'email', 'phone', 'city', 'area', 'website', 'cv', 'turnstileToken', 'privacyConsent', 'privacyVersion'])
     for (const key of form.keys()) {
       if (!allowed.has(key) || form.getAll(key).length !== 1) return json(400, { error: 'Solicitud inválida.' })
     }
     if (clean(form.get('website'))) return json(400, { error: 'Solicitud inválida.' })
+    if (form.get('privacyConsent') !== 'accepted' || form.get('privacyVersion') !== privacyConfig.version) {
+      return json(400, { error: 'Revisa y acepta la Política de Privacidad vigente antes de enviar.' })
+    }
+    const consentReceivedAt = new Date().toISOString()
 
     const name = clean(form.get('name'))
     const email = clean(form.get('email'))
@@ -118,11 +147,11 @@ export async function handler(request) {
       signal: AbortSignal.timeout(15000),
       body: JSON.stringify({
         from: process.env.MAIL_FROM,
-        to: ['expoaseoec@gmail.com'],
+        to: [businessConfig.email],
         reply_to: email,
         subject: `Nueva postulación EXPOASEO - ${name}`,
-        text: `Nueva postulación EXPOASEO\n\nNombre: ${name}\nCorreo: ${email}\nTeléfono: ${phone}\nCiudad: ${city}\nÁrea o cargo de interés: ${area || 'No especificado'}`,
-        attachments: [{ filename: file.name.replace(/[^\w. -]/g, '_'), content: attachment }],
+        text: `Nueva postulación EXPOASEO\n\nNombre: ${name}\nCorreo: ${email}\nTeléfono: ${phone}\nCiudad: ${city}\nÁrea o cargo de interés: ${area || 'No especificado'}\n\nConsentimiento: ${privacyConfig.consentText}\nPolítica: ${privacyConfig.version}\nRecibido (UTC): ${consentReceivedAt}`,
+        attachments: [{ filename: `CV.${extension}`, content: attachment }],
       }),
     })
     if (!resendResponse.ok) {

@@ -35,7 +35,7 @@ export function usePosterOnlyForConnection() {
  * no arranca una animación que habría que cancelar.
  */
 export function useMediaQuery(query) {
-  const list = useMemo(() => window.matchMedia(query), [query])
+  const list = useMemo(() => typeof window === 'undefined' ? null : window.matchMedia(query), [query])
 
   return useSyncExternalStore(
     (onChange) => {
@@ -43,5 +43,6 @@ export function useMediaQuery(query) {
       return () => list.removeEventListener('change', onChange)
     },
     () => list.matches,
+    () => false,
   )
 }

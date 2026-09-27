@@ -33,7 +33,7 @@ export default function ExperienceGallery({ count, copy }) {
   const [hovered, setHovered] = useState(false)
   const [focused, setFocused] = useState(false)
   const [visible, setVisible] = useState(false)
-  const [pageVisible, setPageVisible] = useState(() => !document.hidden)
+  const [pageVisible, setPageVisible] = useState(() => typeof document === 'undefined' || !document.hidden)
 
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), {
