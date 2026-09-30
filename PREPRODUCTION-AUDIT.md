@@ -1,3 +1,8 @@
+# Informe histórico
+
+La configuración actual de Workers está en [CLOUDFLARE-PREPRODUCTION.md](CLOUDFLARE-PREPRODUCTION.md).
+Las instrucciones antiguas de Vercel se conservan solo como historial.
+
 # Auditoría de preproducción — EXPOASEO
 
 > Informe histórico del MVP. La capa posterior de privacidad, consentimiento,

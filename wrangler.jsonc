@@ -1,0 +1,36 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "expoaseo-staging",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-09-30",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "html_handling": "drop-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "vars": {
+    "SITE_ENVIRONMENT": "staging",
+    "SITE_URL": "https://expoaseo.kovarotech.com",
+    "TURNSTILE_HOSTNAME": "expoaseo.kovarotech.com"
+  },
+  "ratelimits": [{ "name": "APPLICATION_RATE_LIMITER", "namespace_id": "1001", "simple": { "limit": 20, "period": 60 } }],
+  "durable_objects": { "bindings": [{ "name": "ABUSE_GUARD", "class_name": "AbuseGuard" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["AbuseGuard"] }],
+  "env": {
+    "production": {
+      "name": "expoaseo-production",
+      "vars": {
+        "SITE_ENVIRONMENT": "production",
+        "SITE_URL": "https://expoaseo.com",
+        "TURNSTILE_HOSTNAME": "expoaseo.com"
+      },
+      "ratelimits": [{ "name": "APPLICATION_RATE_LIMITER", "namespace_id": "1002", "simple": { "limit": 20, "period": 60 } }],
+      "durable_objects": { "bindings": [{ "name": "ABUSE_GUARD", "class_name": "AbuseGuard" }] }
+    }
+  }
+}

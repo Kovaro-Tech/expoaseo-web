@@ -1,27 +1,27 @@
-import { createHash } from 'node:crypto'
+import { createHash, createHmac } from 'node:crypto'
+import { Buffer } from 'node:buffer'
+import { securityHeaders } from '../scripts/security.mjs'
 import { businessConfig } from '../src/config/business.js'
 import { privacyConfig } from '../src/config/privacy.js'
 
 const MAX_FILE_SIZE = 4 * 1024 * 1024
 const MAX_REQUEST_SIZE = MAX_FILE_SIZE + 16384
 const UNAVAILABLE = 'El envío de postulaciones no está disponible temporalmente. Puedes intentarlo nuevamente más tarde.'
-const configured = () => ['TURNSTILE_SECRET_KEY', 'TURNSTILE_HOSTNAME', 'RESEND_API_KEY', 'MAIL_FROM']
-  .every((name) => Boolean(process.env[name]?.trim()))
+const configured = (env) => ['TURNSTILE_SECRET_KEY', 'TURNSTILE_HOSTNAME', 'RESEND_API_KEY', 'MAIL_FROM']
+  .every((name) => Boolean(env[name]?.trim())) && Boolean(env.ABUSE_GUARD && env.APPLICATION_RATE_LIMITER)
+  && ['production', 'staging'].includes(env.SITE_ENVIRONMENT)
+  && env.SITE_URL === (env.SITE_ENVIRONMENT === 'production' ? 'https://expoaseo.com' : 'https://expoaseo.kovarotech.com')
+  && env.TURNSTILE_HOSTNAME === new URL(env.SITE_URL).hostname
 const ALLOWED_TYPES = new Map([
   ['pdf', ['application/pdf']],
   ['doc', ['application/msword', 'application/octet-stream']],
   ['docx', ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/zip', 'application/octet-stream']],
 ])
-// Mitigación inicial del MVP junto a Turnstile y honeypot.
-// No es un rate limit distribuido fuerte: vive por instancia.
-// Si aumenta el volumen, se puede migrar a un límite compartido.
-const requests = new Map()
-const RATE_LIMIT_MS = 10 * 60 * 1000
 
 function json(status, body) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'X-Robots-Tag': 'noindex, nofollow' },
+    headers: { ...securityHeaders, 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'X-Robots-Tag': 'noindex, nofollow' },
   })
 }
 
@@ -31,20 +31,13 @@ function clean(value, max = 160) {
 }
 
 function clientIp(request) {
-  return request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+  // This entrypoint is reachable only through Cloudflare ingress, never a Node origin.
+  // Cloudflare overwrites CF-Connecting-IP. Never use X-Forwarded-For.
+  return request.headers.get('cf-connecting-ip') || ''
 }
 
-function isRateLimited(ip) {
-  const now = Date.now()
-  for (const [key, timestamp] of requests) {
-    if (now - timestamp > RATE_LIMIT_MS) requests.delete(key)
-  }
-  const previous = requests.get(ip)
-  return Boolean(previous && now - previous < RATE_LIMIT_MS)
-}
-
-async function validTurnstile(token, ip) {
-  const secret = process.env.TURNSTILE_SECRET_KEY
+async function validTurnstile(token, ip, env) {
+  const secret = env.TURNSTILE_SECRET_KEY
   if (!secret || !token) return false
   const body = new URLSearchParams({ secret, response: token, remoteip: ip })
   const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
@@ -54,7 +47,7 @@ async function validTurnstile(token, ip) {
   })
   const result = await response.json()
   return response.ok && result.success === true && result.action === 'application'
-    && process.env.TURNSTILE_HOSTNAME === result.hostname
+    && env.TURNSTILE_HOSTNAME === result.hostname
 }
 
 async function hasExpectedSignature(file, extension) {
@@ -85,19 +78,21 @@ async function readBoundedForm(request) {
   return new Response(new Blob(chunks), { headers: { 'Content-Type': request.headers.get('content-type') } }).formData()
 }
 
-export async function handler(request) {
+export async function handler(request, env) {
   // Solo exponemos disponibilidad; nunca nombres de variables ni secretos.
-  if (request.method === 'GET') return json(200, { available: configured() })
+  if (request.method === 'GET') return json(200, { available: configured(env) })
   if (request.method !== 'POST') return json(405, { error: 'Método no permitido.' })
 
   try {
-    if (!configured()) {
+    if (!configured(env)) {
       return json(503, { error: UNAVAILABLE })
     }
     if (!request.headers.get('content-type')?.startsWith('multipart/form-data;')) return json(400, { error: 'Solicitud inválida.' })
     if (Number(request.headers.get('content-length')) > MAX_REQUEST_SIZE) return json(413, { error: 'Archivo demasiado grande.' })
     const ip = clientIp(request)
-    if (isRateLimited(ip)) return json(429, { error: 'Ya recibimos una postulación desde esta conexión. Inténtalo más tarde.' })
+    if (!ip) return json(503, { error: UNAVAILABLE })
+    const ipKey = createHmac('sha256', env.TURNSTILE_SECRET_KEY).update(ip).digest('hex')
+    if (!(await env.APPLICATION_RATE_LIMITER.limit({ key: ipKey })).success) return json(429, { error: 'Espera un momento antes de volver a intentarlo.' })
 
     let form
     try { form = await readBoundedForm(request) } catch { return json(400, { error: 'Solicitud inválida.' }) }
@@ -106,11 +101,10 @@ export async function handler(request) {
     for (const key of form.keys()) {
       if (!allowed.has(key) || form.getAll(key).length !== 1) return json(400, { error: 'Solicitud inválida.' })
     }
-    if (clean(form.get('website'))) return json(400, { error: 'Solicitud inválida.' })
+    if (form.get('website') !== null && form.get('website') !== '') return json(400, { error: 'Solicitud inválida.' })
     if (form.get('privacyConsent') !== 'accepted' || form.get('privacyVersion') !== privacyConfig.version) {
       return json(400, { error: 'Revisa y acepta la Política de Privacidad vigente antes de enviar.' })
     }
-    const consentReceivedAt = new Date().toISOString()
 
     const name = clean(form.get('name'))
     const email = clean(form.get('email'))
@@ -133,20 +127,22 @@ export async function handler(request) {
     if (!(await hasExpectedSignature(file, extension))) {
       return json(400, { error: 'No pudimos validar el archivo adjunto.' })
     }
-    if (!(await validTurnstile(token, ip))) return json(403, { error: 'No pudimos validar la solicitud. Inténtalo nuevamente.' })
-    // Recheck after asynchronous verification, then reserve synchronously.
-    if (isRateLimited(ip)) return json(429, { error: 'Espera antes de enviar otra postulación.' })
-    // Solo bloqueamos tras una solicitud humana validada: un error de formulario
-    // no impide al candidato corregir sus datos y volver a intentarlo.
-    requests.set(ip, Date.now())
+    if (!(await validTurnstile(token, ip, env))) return json(403, { error: 'No pudimos validar la solicitud. Inténtalo nuevamente.' })
+    const attempt = await env.ABUSE_GUARD.get(env.ABUSE_GUARD.idFromName('ip:' + ipKey)).fetch('https://guard/attempt', { method: 'POST' })
+    if (attempt.status === 429) return json(429, { error: 'Has alcanzado el límite de postulaciones desde esta conexión. Inténtalo en 15 minutos.' })
+    if (!attempt.ok) return json(503, { error: UNAVAILABLE })
     const attachment = Buffer.from(await file.arrayBuffer()).toString('base64')
-    const fingerprint = createHash('sha256').update(email.toLowerCase()).update(attachment).digest('hex')
+    const fingerprint = createHash('sha256').update(JSON.stringify([name, email, phone, city, area, extension, privacyConfig.version, privacyConfig.consentText, env.MAIL_FROM, businessConfig.email])).update(attachment).digest('hex')
+    const receipt = await env.ABUSE_GUARD.get(env.ABUSE_GUARD.idFromName('submission:' + fingerprint)).fetch('https://guard/receipt', { method: 'POST' })
+    if (!receipt.ok) return json(503, { error: UNAVAILABLE })
+    const { receivedAt } = await receipt.json()
+    const consentReceivedAt = new Date(receivedAt).toISOString()
     const resendResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
-      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': `application-${fingerprint}` },
+      headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': `application-${fingerprint}-${receivedAt}` },
       signal: AbortSignal.timeout(15000),
       body: JSON.stringify({
-        from: process.env.MAIL_FROM,
+        from: env.MAIL_FROM,
         to: [businessConfig.email],
         reply_to: email,
         subject: `Nueva postulación EXPOASEO - ${name}`,
@@ -164,5 +160,3 @@ export async function handler(request) {
     return json(500, { error: 'No pudimos procesar tu postulación. Inténtalo más tarde.' })
   }
 }
-
-export default { fetch: handler }

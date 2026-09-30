@@ -10,6 +10,12 @@ for (const page of ['index', 'privacidad', 'cookies']) {
   if (deployment.indexable) assert.ok(html.includes(`rel="canonical" href="https://expoaseo.com/${page === 'index' ? '' : page}"`))
   else assert.doesNotMatch(html, /rel="canonical"/)
   assert.equal(/(?:og|twitter):image"/.test(html), deployment.ogAvailable)
+  assert.ok(html.includes(`property="og:url" content="${deployment.siteUrl}/${page === 'index' ? '' : page}"`))
+  if (page === 'index') {
+    const schema = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1])
+    assert.equal(schema.url, `${deployment.siteUrl}/`)
+    assert.ok(html.includes('Cobertura nacional desde Loja.'))
+  }
 }
 assert.match(await read('404.html'), /noindex,nofollow/)
 assert.doesNotMatch(await read('404.html'), /rel="canonical"/)

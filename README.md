@@ -1,14 +1,15 @@
 # EXPOASEO — Sitio comercial (MVP)
 
-La última capa legal, de consentimiento, SEO y seguridad está documentada en
-[PREPRODUCTION-FINAL.md](PREPRODUCTION-FINAL.md). Ese informe sustituye los
-pendientes antiguos sobre dominio/canonical y contiene la configuración de
-staging/producción, proveedores, comprobaciones y pendientes reales del cliente.
+La preparación actual para **Cloudflare Workers + Static Assets**, variables,
+pruebas y pasos pendientes está en [CLOUDFLARE-PREPRODUCTION.md](CLOUDFLARE-PREPRODUCTION.md).
+Los informes PREPRODUCTION anteriores son históricos: sus instrucciones de Vercel
+ya no describen este código. No se ha desplegado ni modificado DNS.
 
 Landing comercial de **EXPOASEO SERVICIOS GENERALES CIA. LTDA.**.
 Objetivo: presentar los servicios y llevar al usuario a WhatsApp.
 
-Con una función de backend para postulaciones; sin base de datos, login ni panel administrativo.
+Con un Worker para postulaciones y Durable Objects para contadores y fechas temporales
+de idempotencia; sin almacenamiento de CV, login ni panel administrativo.
 La estructura queda preparada para crecer hacia una plataforma con reservas.
 
 ## Ejecutar
@@ -16,7 +17,7 @@ La estructura queda preparada para crecer hacia una plataforma con reservas.
 ```bash
 npm install
 npm run dev     # http://localhost:5173
-npm run build   # producción → dist/
+npm run build   # staging por defecto → dist/
 npm run lint
 ```
 

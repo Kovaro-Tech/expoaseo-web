@@ -27,7 +27,8 @@ export function resolveSiteEnvironment(env = {}) {
   if (environment === 'production' && siteUrl !== PRODUCTION_URL) {
     throw new Error('Producción requiere SITE_URL=https://expoaseo.com.')
   }
-  // Un preview de Vercel nunca hereda indexación de variables de producción.
-  const indexable = environment === 'production' && env.VERCEL_ENV !== 'preview'
-  return { environment: indexable ? 'production' : 'staging', siteUrl, indexable }
+  if (!siteUrl.startsWith('https://')) throw new Error('SITE_URL requiere HTTPS.')
+  if (environment === 'staging' && siteUrl === PRODUCTION_URL) throw new Error('Staging requiere su propia URL.')
+  const indexable = environment === 'production'
+  return { environment, siteUrl, indexable }
 }

@@ -49,7 +49,7 @@ export function renderSeo(path, environment, ogAvailable = false) {
   const page = pages[path] || pages['/404']
   const notFound = page === pages['/404']
   const indexable = environment.indexable && !notFound
-  const url = `${PRODUCTION_URL}${path}`
+  const url = `${environment.siteUrl}${path}`
   return [
     `<title>${escape(page.title)}</title>`,
     `<meta name="description" content="${escape(page.description)}" />`,
@@ -64,12 +64,12 @@ export function renderSeo(path, environment, ogAvailable = false) {
     '<meta name="twitter:card" content="summary_large_image" />',
     `<meta name="twitter:title" content="${escape(page.title)}" />`,
     `<meta name="twitter:description" content="${escape(page.description)}" />`,
-    ogAvailable ? `<meta property="og:image" content="${PRODUCTION_URL}${siteConfig.ogImage}" />
+    ogAvailable ? `<meta property="og:image" content="${environment.siteUrl}${siteConfig.ogImage}" />
     <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="EXPOASEO — Servicios generales en Ecuador" />
-    <meta name="twitter:image" content="${PRODUCTION_URL}${siteConfig.ogImage}" />
+    <meta name="twitter:image" content="${environment.siteUrl}${siteConfig.ogImage}" />
     <meta name="twitter:image:alt" content="EXPOASEO — Servicios generales en Ecuador" />` : '',
-    path === '/' ? `<script type="application/ld+json">${JSON.stringify(organization).replaceAll('<', '\\u003c')}</script>` : '',
+    path === '/' ? `<script type="application/ld+json">${JSON.stringify({ ...organization, url: `${environment.siteUrl}/` }).replaceAll('<', '\\u003c')}</script>` : '',
   ].filter(Boolean).join('\n    ')
 }
 

@@ -1,3 +1,8 @@
+# Informe histórico
+
+La migración posterior está documentada en [CLOUDFLARE-PREPRODUCTION.md](CLOUDFLARE-PREPRODUCTION.md).
+Las instrucciones de Vercel de este informe ya no aplican al código actual.
+
 # Última capa de preproducción — 27 de septiembre de 2026
 
 Implementación local terminada; no se ha desplegado ni enviado correo real. Se conserva el diseño y el orden de secciones aprobados. Los cambios previos del usuario en `ServiceRow.jsx` y `ServiceRow.css` se mantuvieron intactos. Este informe actualiza las conclusiones de SEO y privacidad del informe anterior `PREPRODUCTION-AUDIT.md`.

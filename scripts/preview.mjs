@@ -1,5 +1,5 @@
 // Servidor local para revisar los artefactos reales, CSP y estados HTTP.
-// No reemplaza a Vercel ni ejecuta la API: sin secretos devuelve indisponibilidad.
+// No reemplaza al runtime de Cloudflare ni ejecuta la API: sin secretos devuelve indisponibilidad.
 import { createServer } from 'node:http'
 import { readFile } from 'node:fs/promises'
 import { resolve, extname, sep } from 'node:path'

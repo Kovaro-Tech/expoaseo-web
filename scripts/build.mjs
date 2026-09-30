@@ -5,16 +5,15 @@ import { renderToString } from 'react-dom/server'
 import { resolveSiteEnvironment, pages } from '../src/config/site.js'
 import { replaceSeo, validOgImage } from './seo.mjs'
 import { securityHeaders } from './security.mjs'
-import { vercelConfig } from './configure-hosting.mjs'
 
-const environment = resolveSiteEnvironment({ ...loadEnv('production', process.cwd(), ''), ...process.env })
+const target = process.argv.includes('--production') ? 'production' : process.argv.includes('--staging') ? 'staging' : null
+const mode = target || 'production'
+const forced = target ? { SITE_ENVIRONMENT: target, SITE_URL: target === 'production' ? 'https://expoaseo.com' : 'https://expoaseo.kovarotech.com' } : {}
+const environment = resolveSiteEnvironment({ ...loadEnv(mode, process.cwd(), ''), ...process.env, ...forced })
 const ogAvailable = validOgImage()
-if (JSON.stringify(JSON.parse(await readFile('vercel.json', 'utf8'))) !== JSON.stringify(vercelConfig)) {
-  throw new Error('Sincroniza los headers con node scripts/configure-hosting.mjs --write antes de desplegar.')
-}
-await build()
+await build({ mode })
 const template = await readFile('dist/index.html', 'utf8')
-const server = await createServer({ server: { middlewareMode: true }, appType: 'custom' })
+const server = await createServer({ mode, server: { middlewareMode: true }, appType: 'custom' })
 try {
   const { default: App } = await server.ssrLoadModule('/src/App.jsx')
   for (const path of Object.keys(pages)) {
@@ -26,12 +25,6 @@ try {
 
 const headers = Object.entries(securityHeaders).map(([key, value]) => `  ${key}: ${value}`).join('\n')
 await writeFile('dist/_headers', `/*\n${headers}\n${environment.indexable ? '' : '  X-Robots-Tag: noindex, nofollow\n'}
-https://expoaseo.kovarotech.com/*
-  X-Robots-Tag: noindex, nofollow
-https://:project.pages.dev/*
-  X-Robots-Tag: noindex, nofollow
-https://:preview.:project.pages.dev/*
-  X-Robots-Tag: noindex, nofollow
 /404
   X-Robots-Tag: noindex, nofollow
 /404.html
