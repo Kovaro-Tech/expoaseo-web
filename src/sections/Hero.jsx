@@ -82,7 +82,7 @@ export default function Hero() {
         </h1>
 
         <p className="hero__lead">
-          Hogares, empresas e instituciones con {businessConfig.serviceArea.toLowerCase()}.
+          Hogares, empresas e instituciones con {businessConfig.serviceAreaInSentence}.
         </p>
 
         <a

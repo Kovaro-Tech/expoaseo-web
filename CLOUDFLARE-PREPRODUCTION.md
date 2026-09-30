@@ -5,10 +5,14 @@ Fecha: 30 de septiembre de 2026. Código preparado y probado localmente.
 
 ## Informe solicitado
 
-1. **Loja:** cero correcciones necesarias. La búsqueda global en contenido, configuración,
-   WhatsApp, metadatos, políticas, alt y páginas prerenderizadas no encontró el nombre
-   propio en minúscula. Ya figuraba «Loja». No hay CSS `lowercase`. Se conservaron
-   gentilicios, identificadores y rutas como `fiscalia-loja-01.jpg`, `iess-loja` y `cacpe-loja`.
+1. **Loja — auditoría rectificada:** la conclusión inicial de «cero correcciones» era
+   incorrecta: se revisó el literal central, pero se omitieron transformaciones en JSX.
+   Hero y Footer aplicaban `businessConfig.serviceArea.toLowerCase()` a
+   «Cobertura nacional desde Loja», generando «cobertura nacional desde loja».
+   Se reprodujo en `document.body.innerText` y en los HTML de `dist`: dos casos en
+   inicio y uno en privacidad, cookies y 404. La causa era código, no caché.
+   Ahora ambos usan `serviceAreaInSentence`, que cambia únicamente la inicial de
+   «Cobertura». Se conservan «lojana», identificadores, rutas y clases CSS.
 2. **Vercel auditado:** existían `api/job-application.js`, `vercel.json` y
    `scripts/configure-hosting.mjs`; se retiraron. El build dependía del generador de
    headers; SEO dependía de `VERCEL_ENV`; tests importaban el handler anterior.
@@ -87,6 +91,37 @@ Fecha: 30 de septiembre de 2026. Código preparado y probado localmente.
     recibir el archivo aprobado.
 
 ## Trabajo local reproducible
+
+### Comprobación posterior de «Loja» en navegador
+
+Corrección verificada en Chromium con los builds de staging y producción servidos
+localmente. `document.body.innerText` devuelve exactamente:
+
+- Hero: «Hogares, empresas e instituciones con cobertura nacional desde Loja.»
+- Footer: «Limpieza profesional con cobertura nacional desde Loja. 15 años de experiencia.»
+
+Se revisaron inicio, privacidad, cookies y 404, trayectoria, cada respuesta desplegada
+del FAQ, descripciones SEO/OG/Twitter y alt. Ninguna contiene el nombre en minúscula.
+El distintivo que usa CSS uppercase sigue mostrando «COBERTURA NACIONAL DESDE LOJA»;
+no se cambió su estilo. «Orgullosamente lojana» también permanece intacto.
+
+Ambos builds: cero coincidencias de `desde loja` o ` loja.` en los cuatro HTML
+prerenderizados y los bundles JS. Lint, las cuatro pruebas Node, ambos builds y
+`test:artifacts` aprobados. El navegador ejecutó el JS además de leer el HTML inicial.
+No se modificaron despliegues remotos ni cachés/CDN; estas confirmaciones corresponden
+a los builds locales de ambos entornos.
+
+La prueba de regresión `node tests/capitalization.browser.mjs` arranca el preview
+local y registra `document.body.innerText`, las secciones, metadata y resultados del
+escaneo de dist en `qa-artifacts/capitalization-staging.json` y
+`qa-artifacts/capitalization-production.json`. Requiere Chrome/Chromium como las demás
+pruebas de navegador. También se conservó evidencia del error previo en
+`qa-artifacts/capitalization-staging-before.json` (artefactos locales no versionados).
+
+Archivos de esta corrección: `src/config/business.js`, `src/sections/Hero.jsx`,
+`src/components/Footer.jsx`, `tests/capitalization.browser.mjs` y este informe.
+
+### Comandos de la migración
 
 Requiere Node compatible con las versiones de Vite y Wrangler del lockfile.
 `npm ci` instala las mismas versiones; Miniflare está alineado con la dependencia

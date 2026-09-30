@@ -23,6 +23,8 @@ export const businessConfig = {
   facebook: '', // ← sin cuenta confirmada; si se crea, pegar la URL aquí
 
   serviceArea: 'Cobertura nacional desde Loja',
+  // Solo cambia la inicial al insertar la frase; preserva nombres propios como Loja.
+  get serviceAreaInSentence() { return this.serviceArea.charAt(0).toLowerCase() + this.serviceArea.slice(1) },
 
   /**
    * Franjas de atención. Se muestran separadas por "·".
