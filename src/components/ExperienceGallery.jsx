@@ -1,137 +1,119 @@
 import { useEffect, useRef, useState } from 'react'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { trajectoryPhotos } from '../data/trajectoryPhotos'
 import { REDUCED_MOTION, useMediaQuery } from '../lib/useMediaQuery'
 
-const CHANGE_INTERVAL = 12000
-const SLOT_ORDER = [0, 2, 4, 1, 3]
-const initialPhotos = [0, 3, 2, 7, 1].map((index) => trajectoryPhotos[index])
-
-function Photo({ photo, previous = false, incoming = false }) {
-  return (
-    <img
-      className={`exp__image${incoming ? ' exp__image--incoming' : ''}`}
-      src={photo.src}
-      alt={previous ? '' : photo.alt}
-      aria-hidden={previous || undefined}
-      width={photo.width}
-      height={photo.height}
-      loading="lazy"
-      decoding="async"
-      style={{ objectPosition: photo.objectPosition }}
-      onLoad={incoming ? (event) => event.currentTarget.classList.add('is-ready') : undefined}
-    />
-  )
-}
-
 export default function ExperienceGallery({ count, copy }) {
-  const desktop = useMediaQuery('(min-width: 1024px)')
+  const railRef = useRef(null)
+  const drag = useRef(null)
   const reducedMotion = useMediaQuery(REDUCED_MOTION)
-  const archiveRef = useRef(null)
-  const turn = useRef(0)
-  const photoCursor = useRef(4)
-  const [archive, setArchive] = useState({ photos: initialPhotos, previous: null })
-  const [hovered, setHovered] = useState(false)
-  const [focused, setFocused] = useState(false)
-  const [visible, setVisible] = useState(false)
-  const [pageVisible, setPageVisible] = useState(() => typeof document === 'undefined' || !document.hidden)
+  const [dragging, setDragging] = useState(false)
+  const [edges, setEdges] = useState({ start: true, end: false })
 
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), {
-      threshold: 0.2,
+    const rail = railRef.current
+    const updateEdges = () => setEdges({
+      start: rail.scrollLeft <= 2,
+      end: rail.scrollLeft >= rail.scrollWidth - rail.clientWidth - 2,
     })
-    observer.observe(archiveRef.current)
-    const onVisibility = () => setPageVisible(!document.hidden)
-    document.addEventListener('visibilitychange', onVisibility)
+    const observer = new ResizeObserver(updateEdges)
+    observer.observe(rail)
+    rail.addEventListener('scroll', updateEdges, { passive: true })
+    updateEdges()
     return () => {
       observer.disconnect()
-      document.removeEventListener('visibilitychange', onVisibility)
+      rail.removeEventListener('scroll', updateEdges)
     }
   }, [])
 
-  useEffect(() => {
-    if (!desktop || reducedMotion || hovered || focused || !visible || !pageVisible) return
-    let cancelled = false
-    const timer = window.setTimeout(async () => {
-      const slot = SLOT_ORDER[turn.current % SLOT_ORDER.length]
-      const portrait = slot === 1 || slot === 2 || slot === 3
-      let nextPhoto
-      let nextCursor = photoCursor.current
-      // Una sola sustitución. Respetar el encuadre y evitar fotos ya visibles.
-      for (let i = 0; i < trajectoryPhotos.length; i += 1) {
-        const candidate = trajectoryPhotos[nextCursor % trajectoryPhotos.length]
-        nextCursor += 1
-        if (!archive.photos.includes(candidate) && (candidate.height > candidate.width) === portrait) {
-          nextPhoto = candidate
-          break
-        }
-      }
-      if (!nextPhoto) return
-      try {
-        const image = new Image()
-        image.src = nextPhoto.src
-        await image.decode()
-        if (cancelled) return
-        const photos = [...archive.photos]
-        photos[slot] = nextPhoto
-        photoCursor.current = nextCursor
-        turn.current += 1
-        setArchive({ photos, previous: { slot, photo: archive.photos[slot] } })
-      } catch {
-        // Si falla la descarga, la fotografía actual sigue visible.
-      }
-    }, CHANGE_INTERVAL)
-    return () => {
-      cancelled = true
-      window.clearTimeout(timer)
+  function move(direction) {
+    const rail = railRef.current
+    const step = rail.children[1].offsetLeft - rail.children[0].offsetLeft
+    rail.scrollBy({ left: direction * step, behavior: reducedMotion ? 'instant' : 'smooth' })
+  }
+
+  function finishDrag(event) {
+    if (drag.current?.id !== event.pointerId) return
+    drag.current = null
+    setDragging(false)
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId)
     }
-  }, [desktop, reducedMotion, hovered, focused, visible, pageVisible, archive])
+  }
 
   return (
-    <div
-      ref={archiveRef}
-      className={`exp__archive ${desktop ? 'exp__mosaic' : 'exp__stack'}`}
-      role="region"
-      aria-label="Archivo visual de trabajos de EXPOASEO"
-      tabIndex={desktop ? 0 : undefined}
-      onPointerEnter={(event) => { if (event.pointerType === 'mouse') setHovered(true) }}
-      onPointerLeave={() => setHovered(false)}
-      onFocusCapture={() => setFocused(true)}
-      onBlurCapture={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false)
-      }}
-    >
-      {desktop ? (
-        <>
-          <div className="exp__milestone">{count}</div>
-          <div className="exp__story">{copy}</div>
-          {archive.photos.map((photo, slot) => {
-            const previous = archive.previous?.slot === slot && !reducedMotion ? archive.previous.photo : null
-            return (
-              <figure className={`exp__photo exp__photo--${slot + 1}`} key={slot}>
-                {previous && <Photo key={`previous-${previous.id}`} photo={previous} previous />}
-                <Photo key={photo.id} photo={photo} incoming={Boolean(previous)} />
-              </figure>
-            )
-          })}
-        </>
-      ) : (
-        <>
-          <div className="exp__intro-card">
-            {count}
-            {copy}
-          </div>
-          <div className="exp__rail" role="region" aria-label="Fotografías de trabajos. Desliza para explorar." tabIndex={0}>
-            <figure className="exp__photo exp__intro-photo">
-              <Photo photo={trajectoryPhotos[2]} />
-            </figure>
-            {trajectoryPhotos.filter((_, index) => index !== 2).map((photo) => (
-              <figure className="exp__photo" key={photo.id}>
-                <Photo photo={photo} />
-              </figure>
-            ))}
-          </div>
-        </>
-      )}
+    <div className="exp__archive">
+      <div className="exp__intro">
+        {count}
+        {copy}
+      </div>
+      <p className="sr-only" id="trajectory-instructions">
+        Desliza o arrastra para explorar las fotografías. Con el teclado, usa las flechas izquierda y derecha, Inicio o Fin.
+      </p>
+      <div
+        ref={railRef}
+        id="trajectory-photos"
+        className={`exp__rail${dragging ? ' is-dragging' : ''}`}
+        role="region"
+        aria-label="Fotografías de trabajos de EXPOASEO"
+        aria-describedby="trajectory-instructions"
+        tabIndex={0}
+        onPointerDown={(event) => {
+          // El gesto táctil y el touchpad conservan el scroll nativo.
+          if (event.pointerType !== 'mouse' || event.button !== 0) return
+          const rail = event.currentTarget
+          rail.focus({ preventScroll: true })
+          rail.scrollTo({ left: rail.scrollLeft, behavior: 'instant' })
+          drag.current = { id: event.pointerId, x: event.clientX, left: rail.scrollLeft }
+          rail.setPointerCapture(event.pointerId)
+          setDragging(true)
+          event.preventDefault()
+        }}
+        onPointerMove={(event) => {
+          if (drag.current?.id !== event.pointerId) return
+          event.currentTarget.scrollLeft = drag.current.left + drag.current.x - event.clientX
+        }}
+        onPointerUp={finishDrag}
+        onPointerCancel={finishDrag}
+        onLostPointerCapture={finishDrag}
+        onKeyDown={(event) => {
+          if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
+          if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+            event.preventDefault()
+            move(event.key === 'ArrowLeft' ? -1 : 1)
+          } else if (event.key === 'Home' || event.key === 'End') {
+            event.preventDefault()
+            event.currentTarget.scrollTo({
+              left: event.key === 'Home' ? 0 : event.currentTarget.scrollWidth,
+              behavior: reducedMotion ? 'instant' : 'smooth',
+            })
+          }
+        }}
+      >
+        {trajectoryPhotos.map((photo) => (
+          <figure className="exp__photo" key={photo.id}>
+            <img
+              className="exp__image"
+              src={photo.src}
+              alt={photo.alt}
+              width={photo.width}
+              height={photo.height}
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+              style={{ objectPosition: photo.objectPosition || 'center' }}
+            />
+          </figure>
+        ))}
+      </div>
+      <div className="exp__controls" role="group" aria-label="Navegación de fotografías">
+        <button type="button" aria-label="Fotografía anterior" aria-controls="trajectory-photos" disabled={edges.start} onClick={() => move(-1)}>
+          <ArrowLeft size={18} aria-hidden="true" />
+        </button>
+        <button type="button" aria-label="Fotografía siguiente" aria-controls="trajectory-photos" disabled={edges.end} onClick={() => move(1)}>
+          <ArrowRight size={18} aria-hidden="true" />
+        </button>
+      </div>
     </div>
   )
 }

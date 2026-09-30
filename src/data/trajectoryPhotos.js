@@ -1,48 +1,53 @@
-// Selección exclusiva de Trayectoria. Los originales se conservan sin cambios.
+// Selección exclusiva de Trayectoria. WebP originales, sin reprocesar.
 export const trajectoryPhotos = [
   {
-    id: 'fiscalia-loja-02',
-    alt: 'Operaria de EXPOASEO limpiando el salón de la Fiscalía de Loja',
-    width: 1280, height: 720, objectPosition: '44% center',
+    id: 'equipo-institucional-01',
+    alt: 'Equipo operativo de EXPOASEO junto a personal institucional y banderas',
+    width: 1599, height: 1066,
   },
   {
-    id: 'limpieza-altura-01',
-    alt: 'Operario de EXPOASEO limpiando una cubierta desde un andamio',
-    width: 1600, height: 1010, objectPosition: 'center 40%',
+    id: 'limpieza-sanitaria-02',
+    alt: 'Personal de EXPOASEO limpiando el espejo de un área sanitaria',
+    width: 1600, height: 1066,
   },
   {
-    id: 'jardineria-02',
-    alt: 'Personal de EXPOASEO realizando mantenimiento de áreas verdes con un pulverizador',
-    width: 720, height: 1280, objectPosition: 'center 57%',
+    id: 'mantenimiento-areas-verdes-01',
+    alt: 'Operaria de EXPOASEO cuidando plantas de interior con un pulverizador',
+    width: 1599, height: 1066,
   },
   {
-    id: 'fumigacion-institucional-01',
-    alt: 'Personal con equipo de protección realizando fumigación en una oficina institucional',
-    width: 1200, height: 1600, objectPosition: 'center 48%',
+    id: 'equipo-operativo-01',
+    alt: 'Dos integrantes de EXPOASEO con uniformes y utensilios de limpieza',
+    width: 1600, height: 1066,
   },
   {
-    id: 'limpieza-institucional-01',
-    alt: 'Operaria de EXPOASEO limpiando las sillas de una sala de atención del Registro Civil',
-    width: 1600, height: 1204, objectPosition: '42% center',
+    id: 'limpieza-escaleras-01',
+    alt: 'Operaria de EXPOASEO limpiando el pasamanos de una escalera, vista de espaldas',
+    width: 1600, height: 1066,
   },
   {
-    id: 'limpieza-pisos-01',
-    alt: 'Operario de EXPOASEO lavando superficies interiores con una hidrolavadora',
-    width: 1200, height: 1600, objectPosition: 'center 45%',
+    id: 'limpieza-ventanas-01',
+    alt: 'Detalle de una mano con guante limpiando un ventanal con una herramienta de microfibra',
+    width: 1600, height: 1066,
   },
   {
-    id: 'petroecuador-exterior-01',
-    alt: 'Operario limpiando la cubierta exterior de una estación de Petroecuador',
-    width: 1280, height: 584, objectPosition: '56% center',
+    id: 'equipo-institucional-02',
+    alt: 'Equipo de EXPOASEO posando junto a personal institucional',
+    width: 1599, height: 1066,
   },
   {
-    id: 'limpieza-interior-01',
-    alt: 'Operaria de EXPOASEO limpiando los marcos superiores de un pasillo de oficinas',
-    width: 900, height: 1600, objectPosition: 'center 45%',
+    id: 'limpieza-escaleras-02',
+    alt: 'Operaria de EXPOASEO limpiando una baranda de acero con un paño',
+    width: 1600, height: 1066,
   },
   {
-    id: 'limpieza-recepcion-01',
-    alt: 'Operaria de EXPOASEO limpiando el escritorio de una recepción institucional',
-    width: 960, height: 1280, objectPosition: 'center 42%',
+    id: 'mantenimiento-areas-verdes-03',
+    alt: 'Personal de EXPOASEO aspirando la alfombra de una sala institucional',
+    width: 1600, height: 1066, objectPosition: '60% center',
   },
-].map((photo) => ({ ...photo, src: `/images/real-work/${photo.id}.jpg` }))
+  {
+    id: 'limpieza-ventanas-02',
+    alt: 'Operaria de EXPOASEO limpiando un ventanal junto a una cortina azul',
+    width: 1600, height: 1225, objectPosition: 'center 40%',
+  },
+].map((photo) => ({ ...photo, src: `/images/real-work/new/${photo.id}.webp` }))
