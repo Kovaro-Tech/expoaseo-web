@@ -164,6 +164,24 @@ de integración se hace con `dev:worker`.
 
 ## Pasos posteriores: no ejecutados
 
+### Workers Builds: Worker conectado `expoaseo-web`
+
+En Settings > Build del Worker `expoaseo-web`, usar:
+
+- Build command: `npm run build:production`.
+- Deploy command: `npx wrangler deploy --env production`.
+
+`env.production.name` coincide con el Worker conectado: `expoaseo-web`.
+El flag `--env production` selecciona las variables y bindings de producción;
+sin él se selecciona la configuración raíz de staging (`expoaseo-staging`).
+Se conservan `ABUSE_GUARD`, su migración `v1`, `APPLICATION_RATE_LIMITER`
+(namespace `1002`) y Static Assets (`ASSETS`). Los secretos de producción
+deben existir en el Worker conectado `expoaseo-web`; cambiar el nombre en el
+archivo no transfiere secretos ni estado desde otro Worker.
+La configuración remota de Workers Builds no se verifica con el dry-run local.
+
+### Publicación y configuración remota
+
 1. Comprar el dominio y conectarlo a la cuenta Cloudflare. Activar DNSSEC desde
    Registrar/DNS; no es una tarea del código.
 2. Configurar los tres secretos separadamente para staging y producción, y la clave

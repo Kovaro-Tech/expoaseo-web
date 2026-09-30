@@ -23,7 +23,7 @@
   "migrations": [{ "tag": "v1", "new_sqlite_classes": ["AbuseGuard"] }],
   "env": {
     "production": {
-      "name": "expoaseo-production",
+      "name": "expoaseo-web",
       "vars": {
         "SITE_ENVIRONMENT": "production",
         "SITE_URL": "https://expoaseo.com",
