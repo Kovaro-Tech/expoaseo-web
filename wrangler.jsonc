@@ -18,19 +18,64 @@
     "SITE_URL": "https://expoaseo.kovarotech.com",
     "TURNSTILE_HOSTNAME": "expoaseo.kovarotech.com"
   },
-  "ratelimits": [{ "name": "APPLICATION_RATE_LIMITER", "namespace_id": "1001", "simple": { "limit": 20, "period": 60 } }],
-  "durable_objects": { "bindings": [{ "name": "ABUSE_GUARD", "class_name": "AbuseGuard" }] },
-  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["AbuseGuard"] }],
+  "ratelimits": [
+    {
+      "name": "APPLICATION_RATE_LIMITER",
+      "namespace_id": "1001",
+      "simple": {
+        "limit": 20,
+        "period": 60
+      }
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "ABUSE_GUARD",
+        "class_name": "AbuseGuard"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["AbuseGuard"]
+    }
+  ],
   "env": {
     "production": {
       "name": "expoaseo-web",
+      "routes": [
+        {
+          "pattern": "expoaseo.com",
+          "custom_domain": true
+        }
+      ],
       "vars": {
         "SITE_ENVIRONMENT": "production",
         "SITE_URL": "https://expoaseo.com",
-        "TURNSTILE_HOSTNAME": "expoaseo.com"
+        "TURNSTILE_HOSTNAME": "expoaseo.com",
+        "MAIL_FROM": "EXPOASEO <postulaciones@expoaseo.com>",
+        "VITE_TURNSTILE_SITE_KEY": "0x4AAAAAAFKp24a9g-TD9GyvpFA5b9ymT38"
       },
-      "ratelimits": [{ "name": "APPLICATION_RATE_LIMITER", "namespace_id": "1002", "simple": { "limit": 20, "period": 60 } }],
-      "durable_objects": { "bindings": [{ "name": "ABUSE_GUARD", "class_name": "AbuseGuard" }] }
+      "ratelimits": [
+        {
+          "name": "APPLICATION_RATE_LIMITER",
+          "namespace_id": "1002",
+          "simple": {
+            "limit": 20,
+            "period": 60
+          }
+        }
+      ],
+      "durable_objects": {
+        "bindings": [
+          {
+            "name": "ABUSE_GUARD",
+            "class_name": "AbuseGuard"
+          }
+        ]
+      }
     }
   }
 }
