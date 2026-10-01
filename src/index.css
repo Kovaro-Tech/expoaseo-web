@@ -1,5 +1,14 @@
 @import './styles/tokens.css';
 
+/* Misma fuente variable y pesos; servida localmente para evitar CSS externo bloqueante. */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('./assets/fonts/plus-jakarta-sans-latin.woff2') format('woff2');
+}
+
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .skip-link { position: fixed; top: 8px; left: 8px; z-index: 200; padding: 12px; background: var(--surface); color: var(--ink-900); transform: translateY(-200%); }
 .skip-link:focus { transform: none; }

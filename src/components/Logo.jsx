@@ -11,13 +11,17 @@ export default function Logo({ variant = 'default' }) {
 
   const src = variant === 'light' ? businessMedia.logo.onDark : businessMedia.logo.onLight
   const showImage = Boolean(src) && !imageFailed
+  const compact = businessMedia.logoCompactWidth
+  const compactSrc = src?.replace(/\.png$/, `-${compact}.webp`)
 
   return (
     <span className={`logo logo--${variant}`}>
       {showImage ? (
         <img
           className="logo__img"
-          src={src}
+          src={compactSrc}
+          srcSet={`${compactSrc} ${compact}w, ${src} 2259w`}
+          sizes="(min-width: 768px) 145px, 107px"
           alt="EXPOASEO — Servicios Generales Cía. Ltda."
           width="2259"
           height="719"
@@ -25,7 +29,7 @@ export default function Logo({ variant = 'default' }) {
           onError={() => setImageFailed(true)}
         />
       ) : (
-        <span className="logo__wordmark" aria-label="EXPOASEO">
+        <span className="logo__wordmark" role="img" aria-label="EXPOASEO">
           <span className="logo__dot" aria-hidden="true" />
           <span aria-hidden="true">
             EXPO<span className="logo__accent">ASEO</span>

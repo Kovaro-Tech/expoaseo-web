@@ -23,7 +23,7 @@
   --brand-rgb: 15, 117, 188;
 
   /* Acento — verde de la escoba */
-  --accent-700: #4f9127;
+  --accent-700: #427a21; /* Texto verde: al menos 4.7:1 sobre las superficies claras. */
   --accent-600: #6ebe44; /* verde secundario del logo */
   --accent-500: #8cc63f; /* color exacto del logo */
   --accent-200: #d7edb4;

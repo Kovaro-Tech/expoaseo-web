@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
-import { trajectoryPhotos } from '../data/trajectoryPhotos'
+import { trajectoryPhotos, trajectorySizes } from '../data/trajectoryPhotos'
 import { REDUCED_MOTION, useMediaQuery } from '../lib/useMediaQuery'
 
 export default function ExperienceGallery({ count, copy }) {
@@ -95,6 +95,8 @@ export default function ExperienceGallery({ count, copy }) {
             <img
               className="exp__image"
               src={photo.src}
+              srcSet={photo.srcSet}
+              sizes={trajectorySizes}
               alt={photo.alt}
               width={photo.width}
               height={photo.height}

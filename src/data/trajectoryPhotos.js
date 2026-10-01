@@ -1,4 +1,11 @@
-// Selección exclusiva de Trayectoria. WebP originales, sin reprocesar.
+// Selección exclusiva de Trayectoria. WebP originales, sin reprocesar; las
+// variantes reducidas (scripts/create-responsive-images.mjs) solo se ofrecen
+// en srcset y el original sigue siendo el candidato de mayor resolución.
+export const trajectoryWidths = [640, 960]
+export const trajectoryVariant = (id, width) => `/images/real-work/new/${id}-${width}.webp`
+// Ancho mostrado según Experience.css: rail móvil, tablet y tres columnas en el contenedor de 1160px.
+export const trajectorySizes = '(min-width: 1024px) calc((min(100vw, 1160px) - 104px) / 3), (min-width: 768px) min(45vw, 480px), min(86vw, 440px)'
+
 export const trajectoryPhotos = [
   {
     id: 'equipo-institucional-01',
@@ -50,4 +57,8 @@ export const trajectoryPhotos = [
     alt: 'Operaria de EXPOASEO limpiando un ventanal junto a una cortina azul',
     width: 1600, height: 1225, objectPosition: 'center 40%',
   },
-].map((photo) => ({ ...photo, src: `/images/real-work/new/${photo.id}.webp` }))
+].map((photo) => ({
+  ...photo,
+  src: `/images/real-work/new/${photo.id}.webp`,
+  srcSet: [...trajectoryWidths.map((width) => `${trajectoryVariant(photo.id, width)} ${width}w`), `/images/real-work/new/${photo.id}.webp ${photo.width}w`].join(', '),
+}))

@@ -63,7 +63,8 @@ Fecha: 30 de septiembre de 2026. Código preparado y probado localmente.
     El Worker se ejecuta antes de assets para garantizar headers y verificar que
     el build corresponde al entorno (503 si no coincide). Esto implica invocaciones
     del Worker también para recursos estáticos; revisar su uso en la cuenta.
-    CSP conserva Turnstile, Google Fonts, imágenes y videos, sin añadir permisos.
+    CSP conserva Turnstile, imágenes y videos, sin añadir permisos; desde la
+    auditoría de rendimiento la tipografía es self-hosted y ya no se permite Google Fonts.
     `/`, `/privacidad`, `/cookies` sirven HTML propio. Desconocidas, `/404` y
     `/404.html` devuelven HTTP 404 con contenido, sin fallback SPA de HTTP 200.
 12. **Privacidad/cookies:** actualmente no contienen menciones a Vercel; no hubo nada

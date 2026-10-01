@@ -74,6 +74,8 @@ export const businessMedia = {
     onLight: '/images/logo.png',
     onDark: '/images/logo-light.png',
   },
+  /** Copias WebP sin pérdida de 480 px (scripts/create-responsive-images.mjs): el logo se ve a ≤145 px CSS. */
+  logoCompactWidth: 480,
 
   /**
    * Portada en vídeo. Se sirve UN solo archivo según el viewport: el hero

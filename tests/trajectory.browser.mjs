@@ -103,7 +103,8 @@ try {
   for (const img of await rail.locator('img').all()) {
     await img.scrollIntoViewIfNeeded()
     await img.evaluate((node) => node.decode())
-    const valid = await img.evaluate((node) => node.naturalWidth === Number(node.getAttribute('width')) && node.naturalHeight === Number(node.getAttribute('height')) && node.src.includes('/real-work/new/') && node.loading === 'lazy')
+    // srcset may pick a reduced variant; the original stays the largest candidate and the ratio must match.
+    const valid = await img.evaluate((node) => Math.abs(node.naturalWidth / node.naturalHeight - Number(node.getAttribute('width')) / Number(node.getAttribute('height'))) < 0.01 && node.currentSrc.includes('/real-work/new/') && node.srcset.includes(`${node.getAttribute('src')} ${node.getAttribute('width')}w`) && node.loading === 'lazy')
     assert.ok(valid)
   }
   await page.locator('#trayectoria').screenshot({ path: 'qa-artifacts/trajectory/dark-final-photos.png' })

@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { readFile } from 'node:fs/promises'
+import { readFile, readdir } from 'node:fs/promises'
 import { Miniflare, convertV4MiniflareOptions } from 'miniflare'
 import { privacyConfig } from '../src/config/privacy.js'
 import { securityHeaders } from '../scripts/security.mjs'
@@ -55,6 +55,7 @@ test('Cloudflare runtime: assets, headers, multipart, providers, distributed lim
       const html = await r.text()
       assert.match(html, /<h1[ >]/)
       assert.ok(html.includes(vars.SITE_URL))
+      assert.doesNotMatch(r.headers.get('cache-control') || '', /immutable|max-age=(?:86400|31536000)/)
       if (!deployment.indexable) assert.equal(r.headers.get('x-robots-tag'), 'noindex, nofollow')
     }
     for (const path of ['/unknown', '/nested/unknown', '/404', '/404.html', '/api/missing']) {
@@ -68,7 +69,17 @@ test('Cloudflare runtime: assets, headers, multipart, providers, distributed lim
     const video = await mf.dispatchFetch(vars.SITE_URL + '/videos/hero-mobile-web.mp4', { headers: { Range: 'bytes=0-31' } })
     assert.ok([200, 206].includes(video.status))
     assert.equal(video.headers.get('content-type'), 'video/mp4')
+    assert.equal(video.headers.get('cache-control'), 'public, max-age=86400')
     assert.ok((await video.arrayBuffer()).byteLength >= 32)
+    for (const file of (await readdir('dist/assets')).filter((name) => /\.(css|js|woff2)$/.test(name))) {
+      const asset = await status(mf.dispatchFetch(`${vars.SITE_URL}/assets/${file}`), 200)
+      assert.equal(asset.headers.get('cache-control'), 'public, max-age=31536000, immutable')
+    }
+    const og = await status(mf.dispatchFetch(`${vars.SITE_URL}/og-image.jpg`), 200)
+    assert.equal(og.headers.get('cache-control'), 'public, max-age=3600')
+    assert.equal(og.headers.get('content-type'), 'image/jpeg')
+    const photo = await status(mf.dispatchFetch(`${vars.SITE_URL}/images/real-work/new/limpieza-escaleras-01.webp`), 200)
+    assert.equal(photo.headers.get('cache-control'), 'public, max-age=86400')
     const availability = await status(mf.dispatchFetch(vars.SITE_URL + '/api/job-application'), 200)
     assert.deepEqual(await availability.json(), { available: true })
     assert.equal(availability.headers.get('cache-control'), 'no-store')

@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { existsSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import { siteConfig, pages } from '../src/config/site.js'
 import { validOgImage } from '../scripts/seo.mjs'
@@ -43,4 +44,12 @@ assert.equal((sitemap.match(/<loc>/g) || []).length, deployment.indexable ? 3 : 
 assert.equal((await read('robots.txt')).includes('Sitemap: https://expoaseo.com/sitemap.xml'), deployment.indexable)
 assert.ok((await read('_headers')).includes('https://challenges.cloudflare.com'))
 for (const name of ['favicon.ico', 'favicon-32.png', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png']) assert.ok((await readFile(`dist/${name}`)).length > 0)
+// Cada recurso local referenciado por el HTML prerenderizado (src, srcset, preloads) debe existir: un 404 rompe Best Practices.
+for (const page of ['index', 'privacidad', 'cookies', '404']) {
+  const html = await read(`${page}.html`)
+  const urls = [...html.matchAll(/\s(?:src|href|srcset|imagesrcset)="([^"]+)"/gi)]
+    .flatMap(([attribute, value]) => /srcset/i.test(attribute) ? value.split(',').map((entry) => entry.trim().split(/\s+/)[0]) : [value])
+    .filter((url) => /^\/(?!\/)[^?#]*\.[a-z0-9]+$/i.test(url))
+  for (const url of new Set(urls)) assert.ok(existsSync(`dist${url}`), `${page}: falta ${url}`)
+}
 console.log(`Artefactos ${deployment.environment}: HTML, metadatos sociales, JPEG OG, canonical, robots, sitemap, 404, headers e iconos correctos.`)

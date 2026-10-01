@@ -29,6 +29,18 @@ await writeFile('dist/_headers', `/*\n${headers}\n${environment.indexable ? '' :
   X-Robots-Tag: noindex, nofollow
 /404.html
   X-Robots-Tag: noindex, nofollow
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/images/*
+  Cache-Control: public, max-age=86400
+
+/videos/*
+  Cache-Control: public, max-age=86400
+
+/og-image.jpg
+  Cache-Control: public, max-age=3600
 `)
 if (!environment.indexable) {
   // Permitir rastreo para que los buscadores lean noindex en HTML y headers.
