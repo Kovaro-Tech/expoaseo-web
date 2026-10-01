@@ -1,8 +1,9 @@
 export const PRODUCTION_URL = 'https://expoaseo.com'
 export const siteConfig = {
-  title: 'EXPOASEO | Limpieza y servicios generales en Ecuador',
-  description: 'Servicios profesionales de limpieza, jardinería, fumigación y mantenimiento para empresas, instituciones y hogares. Cobertura nacional desde Loja.',
-  ogImage: '/og-image.jpg', // TODO: aportar diseño aprobado de 1200 × 630; se omite si no existe.
+  title: 'EXPOASEO | Servicios generales con cobertura nacional',
+  description: 'Limpieza, desinfección y mantenimiento institucional para hogares, empresas e instituciones en todo el Ecuador.',
+  ogImage: '/og-image.jpg',
+  ogImageAlt: 'EXPOASEO: servicios generales con cobertura nacional. Personal realizando limpieza de escaleras.',
   themeColor: '#0f75bc',
   backgroundColor: '#f7f9fc',
 }

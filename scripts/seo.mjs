@@ -65,10 +65,11 @@ export function renderSeo(path, environment, ogAvailable = false) {
     `<meta name="twitter:title" content="${escape(page.title)}" />`,
     `<meta name="twitter:description" content="${escape(page.description)}" />`,
     ogAvailable ? `<meta property="og:image" content="${environment.siteUrl}${siteConfig.ogImage}" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="EXPOASEO — Servicios generales en Ecuador" />
+    <meta property="og:image:alt" content="${escape(siteConfig.ogImageAlt)}" />
     <meta name="twitter:image" content="${environment.siteUrl}${siteConfig.ogImage}" />
-    <meta name="twitter:image:alt" content="EXPOASEO — Servicios generales en Ecuador" />` : '',
+    <meta name="twitter:image:alt" content="${escape(siteConfig.ogImageAlt)}" />` : '',
     path === '/' ? `<script type="application/ld+json">${JSON.stringify({ ...organization, url: `${environment.siteUrl}/` }).replaceAll('<', '\\u003c')}</script>` : '',
   ].filter(Boolean).join('\n    ')
 }
